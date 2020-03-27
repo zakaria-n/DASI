@@ -1,0 +1,60 @@
+@startuml
+class Utilisateur << abstract >>{
+nom: String
+prenom: String
+mail: String
+mdp: String
+tel: String
+genre: String
+}
+class Client << Entity >>{
+dateNaissance: Date
+adresse: String
+}
+class Employe << Entity >>{
+dispo: boolean
+nbConsultations: Integer
+}
+
+class ProfilAstral << Entity >> {
+signeZodiaque: String
+astroChinois: String
+couleurBonheur: String
+animakTotem: String
+}
+
+class Medium << abstract >>{
+denomination: String
+genre: String
+presentation: String
+}
+class Cartomancien << Entity >>
+{
+}
+class Astrologue << Entity>>
+{
+formation: String
+Promotion: Integer
+}
+class Spirite << Entity >>
+{
+support: String
+}
+
+class Consultation << Entity >>
+{
+date: Date
+heureDebut: String
+heureFin: String
+commentaire: String
+}
+Utilisateur <|-- Client
+Utilisateur <|-- Employe
+Client "1" *-- "1" ProfilAstral: possède
+Medium <|-- Cartomancien
+Medium <|-- Astrologue
+Medium <|-- Spirite
+Client "1" <--> "*"  Consultation : demande
+Employe "1" <--> "*" Consultation: réalise
+Medium "1" <--> "*" Consultation: estIncarnéDans
+@enduml
