@@ -5,7 +5,6 @@
  */
 package fr.insalyon.dasi.metier.modele;
 
-import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
@@ -14,52 +13,9 @@ import javax.persistence.Id;
  *
  * @author zakaria
  */
-@Entity
+
 public abstract class Medium {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-    private String denomination;
-    private String genre;
-    private String presentation;
-
-    public Medium(String denomination, String genre, String presentation) {
-        this.denomination = denomination;
-        this.genre = genre;
-        this.presentation = presentation;
-    }
-
-    public Long getId() {
-        return id;
-    }
-
-    public String getDenomination() {
-        return denomination;
-    }
-
-    public void setDenomination(String denomination) {
-        this.denomination = denomination;
-    }
-
-    public String getGenre() {
-        return genre;
-    }
-
-    public void setGenre(String genre) {
-        this.genre = genre;
-    }
-
-    public String getPresentation() {
-        return presentation;
-    }
-
-    public void setPresentation(String presentation) {
-        this.presentation = presentation;
-    }
-
-    @Override
-    public String toString() {
-        return "Medium{" + "id=" + id + ", denomination=" + denomination + ", genre=" + genre + ", presentation=" + presentation + '}';
-    }
-    
 }
