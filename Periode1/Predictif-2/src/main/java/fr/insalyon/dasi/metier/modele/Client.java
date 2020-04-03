@@ -47,6 +47,7 @@ public class Client implements Serializable {
         this.genre=genre;
         this.dateNaissance=dateNaissance;
         this.adresse=adresse;
+        profil=new ProfilAstral(nom,dateNaissance);
     }
 
     public Long getId() {
@@ -99,6 +100,10 @@ public class Client implements Serializable {
 
     public String getAdresse() {
         return adresse;
+    }
+
+    public ProfilAstral getProfil() {
+        return profil;
     }
     
     @Override
