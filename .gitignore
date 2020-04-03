@@ -1,2 +1,6 @@
 /Periode1/Backend/target/
 /Periode1/Predictif-2/target/
+/Periode1/BD
+.DS_Store
+*.DS_Store
+/Periode1/Predictif-1/target/
