@@ -5,6 +5,7 @@
  */
 package fr.insalyon.dasi.metier.modele;
 
+import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
@@ -13,6 +14,8 @@ import javax.persistence.Id;
  *
  * @author sophiecrowley
  */
+
+@Entity
 public abstract class Medium {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -20,6 +23,9 @@ public abstract class Medium {
     private String denomination;
     private String genre;
     private String presentation;
+
+    public Medium() {
+    }
 
     public Medium(String denomination, String genre, String presentation) {
         this.denomination = denomination;
