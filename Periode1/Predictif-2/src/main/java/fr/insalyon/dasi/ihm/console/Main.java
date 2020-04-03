@@ -103,10 +103,10 @@ public class Main {
         System.out.println();
         
         Service service = new Service();
-        SimpleDateFormat dateFormat = new SimpleDateFormat("dd-MMM-yyyy");
+        SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
         Date date=null;
         try {
-            date = dateFormat.parse("10-10-1996");
+            date = dateFormat.parse("1996-10-10");
         } catch (ParseException e) {
             // TODO Auto-generated catch block
             e.printStackTrace();
@@ -262,7 +262,7 @@ public class Main {
         String genre=Saisie.lireChaine("Genre ? ");
         String date=Saisie.lireChaine("Date de naissance ? ");
         String adresse=Saisie.lireChaine("Adresse ? ");
-        SimpleDateFormat dateFormat = new SimpleDateFormat("dd-MM-yyyy");
+        SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
         Date date2=null;
         try {
             date2 = dateFormat.parse(date);
