@@ -1,6 +1,12 @@
 package fr.insalyon.dasi.metier.modele;
-
+import fr.insalyon.dasi.technique.service.AstroTest;
+import java.io.IOException;
 import java.io.Serializable;
+import java.util.Date;
+import java.util.List;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+import javax.persistence.Embeddable;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
@@ -10,12 +16,9 @@ import javax.persistence.Id;
  *
  * @author DASI Team
  */
-@Entity
+@Embeddable
 public class ProfilAstral implements Serializable {
 
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
     private String signeZodiaque;
     private String astroChinois;
     private String couleurBonheur;
@@ -24,15 +27,18 @@ public class ProfilAstral implements Serializable {
     protected ProfilAstral() {
     }
 
-    public ProfilAstral(String signeZodiaque, String astroChinois, String couleurBonheur, String animalTotem) {
-        this.signeZodiaque = signeZodiaque;
-        this.astroChinois = astroChinois;
-        this.couleurBonheur = couleurBonheur;
-        this.animalTotem = animalTotem;
-    }
-
-    public Long getId() {
-        return id;
+    public ProfilAstral(String nom, Date date) {
+        AstroTest astro = new AstroTest();
+        List<String> result;
+        try {
+            result = astro.getProfil(nom, date);
+            this.signeZodiaque = result.get(0);
+            this.astroChinois = result.get(1);
+            this.couleurBonheur = result.get(2);
+            this.animalTotem = result.get(3);
+        } catch (IOException ex) {
+            Logger.getLogger(ProfilAstral.class.getName()).log(Level.SEVERE, null, ex);
+        } 
     }
 
     public String getSigneZodiaque() {
@@ -71,7 +77,7 @@ public class ProfilAstral implements Serializable {
 
     @Override
     public String toString() {
-        return "ProfilAstral : id=" + id + ", nom=" + signeZodiaque + 
+        return "ProfilAstral : " + "nom=" + signeZodiaque + 
                 ", astroChinois=" + astroChinois + ", "+ "couleurBonheur=" + 
                 couleurBonheur + "animalTotem=" + animalTotem;
     }

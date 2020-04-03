@@ -29,8 +29,8 @@ public class Main {
         testerRechercheClient();         // Question 6
         testerListeClients();            // Question 7
         testerAuthentificationClient();  // Question 8
-        saisirInscriptionClient();       // Question 9
-        saisirRechercheClient();
+       // saisirInscriptionClient();       // Question 9
+       // saisirRechercheClient();
 
         JpaUtil.destroy();
     }
