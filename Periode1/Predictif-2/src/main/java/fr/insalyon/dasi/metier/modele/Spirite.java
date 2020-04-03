@@ -19,7 +19,10 @@ public class Spirite extends Medium {
         super(denomination, genre, presentation);
         this.support = support;
     }
-
+    
+    public Spirite(){
+        
+    }
     public String getSupport() {
         return support;
     }

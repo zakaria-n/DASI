@@ -22,7 +22,10 @@ public class Astrologue extends Medium {
         this.formation = formation;
         this.promotion = promotion;
     }
-
+    
+    public Astrologue(){
+        
+    }
     public String getFormation() {
         return formation;
     }

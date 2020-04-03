@@ -10,11 +10,13 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.Inheritance;
 
 /**
  *
  * @author zakaria
  */
+@Inheritance
 @Entity
 public abstract class Medium implements Serializable{
     @Id
@@ -29,7 +31,10 @@ public abstract class Medium implements Serializable{
         this.genre = genre;
         this.presentation = presentation;
     }
-
+    
+    public Medium() {
+    }
+    
     public Long getId() {
         return id;
     }
