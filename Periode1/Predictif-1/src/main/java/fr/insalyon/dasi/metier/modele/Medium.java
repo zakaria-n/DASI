@@ -10,12 +10,14 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.MappedSuperclass;
 
 /**
  *
  * @author sophiecrowley
  */
 
+@MappedSuperclass
 @Entity
 public abstract class Medium implements Serializable {
     @Id
@@ -28,7 +30,7 @@ public abstract class Medium implements Serializable {
     public Medium() {
     }
 
-    public Medium(String denomination, String genre, String presentation) {
+    protected Medium(String denomination, String genre, String presentation) {
         this.denomination = denomination;
         this.genre = genre;
         this.presentation = presentation;

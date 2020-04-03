@@ -5,14 +5,21 @@
  */
 package fr.insalyon.dasi.metier.modele;
 
+import javax.persistence.Entity;
+
 /**
  *
  * @author sophiecrowley
  */
+
+@Entity(name = "Astrologue")
 public class Astrologue extends Medium {
     private String formation;
     private int promotion;
 
+    public Astrologue() {
+    }
+    
     public Astrologue(String denomination, String genre, String presentation, 
             String formation, int promotion) {
         super(denomination, genre, presentation);
