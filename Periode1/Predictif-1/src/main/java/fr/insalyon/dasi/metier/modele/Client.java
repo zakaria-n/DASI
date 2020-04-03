@@ -22,15 +22,20 @@ public class Client implements Serializable {
     @Column(unique = true)
     private String mail;
     private String motDePasse;
+    private String telephone;
+    private String genre;
 
     protected Client() {
     }
 
-    public Client(String nom, String prenom, String mail, String motDePasse) {
+    public Client(String nom, String prenom, String mail, String motDePasse, 
+            String telephone, String genre) {
         this.nom = nom;
         this.prenom = prenom;
         this.mail = mail;
         this.motDePasse = motDePasse;
+        this.telephone = telephone;
+        this.genre = genre;
     }
 
     public Long getId() {
@@ -68,10 +73,28 @@ public class Client implements Serializable {
     public void setMotDePasse(String motDePasse) {
         this.motDePasse = motDePasse;
     }
+    
+    public String getTelephone() {
+        return telephone;
+    }
+
+    public void setTelephone(String telephone) {
+        this.telephone = telephone;
+    }
+
+    public String getGenre() {
+        return genre;
+    }
+
+    public void setGenre(String genre) {
+        this.genre = genre;
+    }
 
     @Override
     public String toString() {
-        return "Client : id=" + id + ", nom=" + nom + ", prenom=" + prenom + ", mail=" + mail + ", motDePasse=" + motDePasse;
+        return "Client : id=" + id + ", nom=" + nom + ", prenom=" + prenom + ", "
+                + "mail=" + mail + ", motDePasse=" + motDePasse + ", téléphone=" 
+                + telephone + ", genre=" + genre;
     }
     
 

@@ -45,9 +45,9 @@ public class Main {
         EntityManagerFactory emf = Persistence.createEntityManagerFactory("PU-TP");
         EntityManager em = emf.createEntityManager();
 
-        Client ada = new Client("Lovelace", "Ada", "ada.lovelace@insa-lyon.fr", "Ada1012");
-        Client blaise = new Client("Pascal", "Blaise", "blaise.pascal@insa-lyon.fr", "Blaise1906");
-        Client fred = new Client("Fotiadu", "Frédéric", "frederic.fotiadu@insa-lyon.fr", "INSA-Forever");
+        Client ada = new Client("Lovelace", "Ada", "ada.lovelace@insa-lyon.fr", "Ada1012", "123456", "male");
+        Client blaise = new Client("Pascal", "Blaise", "blaise.pascal@insa-lyon.fr", "Blaise1906", "987654", "female");
+        Client fred = new Client("Fotiadu", "Frédéric", "frederic.fotiadu@insa-lyon.fr", "INSA-Forever", "65738", "nb");
         
         System.out.println();
         System.out.println("** Clients avant persistance: ");
@@ -89,7 +89,7 @@ public class Main {
         System.out.println();
         
         Service service = new Service();
-        Client claude = new Client("Chappe", "Claude", "claude.chappe@insa-lyon.fr", "HaCKeR");
+        Client claude = new Client("Chappe", "Claude", "claude.chappe@insa-lyon.fr", "HaCKeR", "123", "male");
         Long idClaude = service.inscrireClient(claude);
         if (idClaude != null) {
             System.out.println("> Succès inscription");
@@ -98,7 +98,7 @@ public class Main {
         }
         afficherClient(claude);
 
-        Client hedy = new Client("Lamarr", "Hedy", "hlamarr@insa-lyon.fr", "WiFi");
+        Client hedy = new Client("Lamarr", "Hedy", "hlamarr@insa-lyon.fr", "WiFi", "321", "female");
         Long idHedy = service.inscrireClient(hedy);
         if (idHedy != null) {
             System.out.println("> Succès inscription");
@@ -107,7 +107,7 @@ public class Main {
         }
         afficherClient(hedy);
 
-        Client hedwig = new Client("Lamarr", "Hedwig Eva Maria", "hlamarr@insa-lyon.fr", "WiFi");
+        Client hedwig = new Client("Lamarr", "Hedwig Eva Maria", "hlamarr@insa-lyon.fr", "WiFi", "333" ,"female");
         Long idHedwig = service.inscrireClient(hedwig);
         if (idHedwig != null) {
             System.out.println("> Succès inscription");
@@ -233,8 +233,10 @@ public class Main {
         String prenom = Saisie.lireChaine("Prénom ? ");
         String mail = Saisie.lireChaine("Mail ? ");
         String motDePasse = Saisie.lireChaine("Mot de passe ? ");
+        String telephone = Saisie.lireChaine("Telephone ? ");
+        String genre = Saisie.lireChaine("Genre ? ");
 
-        Client client = new Client(nom, prenom, mail, motDePasse);
+        Client client = new Client(nom, prenom, mail, motDePasse, telephone, genre);
         Long idClient = service.inscrireClient(client);
 
         if (idClient != null) {
