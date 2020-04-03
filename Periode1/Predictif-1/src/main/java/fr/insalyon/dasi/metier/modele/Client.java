@@ -117,6 +117,14 @@ public class Client implements Serializable {
     public void setAdresse(String adresse) {
         this.adresse = adresse;
     }
+
+    public ProfilAstral getProfil() {
+        return profil;
+    }
+
+    public void setProfil(ProfilAstral profil) {
+        this.profil = profil;
+    }
     
     
 

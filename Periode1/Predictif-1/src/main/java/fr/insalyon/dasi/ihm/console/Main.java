@@ -31,12 +31,17 @@ public class Main {
         testerAuthentificationClient();  // Question 8
        // saisirInscriptionClient();       // Question 9
        // saisirRechercheClient();
+        testerProfilAstral();
 
         JpaUtil.destroy();
     }
 
     public static void afficherClient(Client client) {
         System.out.println("-> " + client);
+    }
+    
+    public static void afficherClientProfil(Client client) {
+        System.out.println("-> " + client.getProfil().toString());
     }
 
     public static void initialiserClients() {
@@ -161,6 +166,44 @@ public class Main {
             afficherClient(client);
         } else {
             System.out.println("=> Client #" + id + " non-trouvé");
+        }
+    }
+    
+        public static void testerProfilAstral() {
+        
+        System.out.println();
+        System.out.println("**** testerProfilAstral() ****");
+        System.out.println();
+        
+        Service service = new Service();
+        long id;
+        Client client;
+
+        id = 1;
+        System.out.println("** Profil Astral du Client #" + id);
+        client = service.rechercherClientParId(id);
+        if (client != null && client.getProfil() != null) {
+            afficherClient(client);
+        } else {
+            System.out.println("=> Profil Astral non-trouvé");
+        }
+
+        id = 3;
+        System.out.println("** Profil Astral du Client #" + id);
+        client = service.rechercherClientParId(id);
+        if (client != null && client.getProfil() != null) {
+            afficherClient(client);
+        } else {
+            System.out.println("=> Profil Astral non-trouvé");
+        }
+
+        id = 17;
+        System.out.println("** Profil Astral du Client #" + id);
+        client = service.rechercherClientParId(id);
+        if (client != null && client.getProfil() != null) {
+            afficherClient(client);
+        } else {
+            System.out.println("=> Profil Astral #" + id + " non-trouvé");
         }
     }
 
