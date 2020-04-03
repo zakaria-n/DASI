@@ -13,6 +13,10 @@ public class Astrologue extends Medium {
     private String formation;
     private int promotion;
 
+    public Astrologue() {
+    }
+
+    
     public Astrologue(String denomination, String genre, String presentation, 
             String formation, int promotion) {
         super(denomination, genre, presentation);
