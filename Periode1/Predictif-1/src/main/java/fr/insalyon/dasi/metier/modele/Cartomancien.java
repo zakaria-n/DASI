@@ -17,7 +17,7 @@ public class Cartomancien extends Medium {
 
     @Override
     public String toString() {
-        return "Cartomancien{" + super.toString() '}';
+        return "Cartomancien{" + super.toString() + '}';
     }
     
 }
