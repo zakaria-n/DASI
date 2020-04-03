@@ -1,21 +1,15 @@
 package fr.insalyon.dasi.metier.modele;
 
 import java.io.Serializable;
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
+import javax.persistence.Embeddable;
 
 /**
  *
  * @author DASI Team
  */
-@Entity
-public class ProfilAstral implements Serializable {
 
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
+@Embeddable
+public class ProfilAstral implements Serializable {
     private String signeZodiaque;
     private String astroChinois;
     private String couleurBonheur;
@@ -31,9 +25,7 @@ public class ProfilAstral implements Serializable {
         this.animalTotem = animalTotem;
     }
 
-    public Long getId() {
-        return id;
-    }
+  
 
     public String getSigneZodiaque() {
         return signeZodiaque;
@@ -71,7 +63,7 @@ public class ProfilAstral implements Serializable {
 
     @Override
     public String toString() {
-        return "ProfilAstral : id=" + id + ", nom=" + signeZodiaque + 
+        return "ProfilAstral : "  + ", nom=" + signeZodiaque + 
                 ", astroChinois=" + astroChinois + ", "+ "couleurBonheur=" + 
                 couleurBonheur + "animalTotem=" + animalTotem;
     }
