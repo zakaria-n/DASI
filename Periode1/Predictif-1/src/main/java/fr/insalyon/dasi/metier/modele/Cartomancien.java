@@ -10,6 +10,9 @@ package fr.insalyon.dasi.metier.modele;
  * @author sophiecrowley
  */
 public class Cartomancien extends Medium {
+
+    public Cartomancien() {
+    }
     
     public Cartomancien(String denomination, String genre, String presentation) {
         super(denomination, genre, presentation);
