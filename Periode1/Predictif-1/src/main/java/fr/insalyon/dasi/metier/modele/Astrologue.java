@@ -19,4 +19,26 @@ public class Astrologue extends Medium {
         this.formation = formation;
         this.promotion = promotion;
     }
+
+    public String getFormation() {
+        return formation;
+    }
+
+    public void setFormation(String formation) {
+        this.formation = formation;
+    }
+
+    public int getPromotion() {
+        return promotion;
+    }
+
+    public void setPromotion(int promotion) {
+        this.promotion = promotion;
+    }
+
+    @Override
+    public String toString() {
+        return "Astrologue{" + super.toString() + "formation=" + formation + ", promotion=" + promotion + '}';
+    }
+    
 }

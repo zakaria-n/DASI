@@ -16,5 +16,18 @@ public class Spirite extends Medium {
         super(denomination, genre, presentation);
         this.support = support;
     }
+
+    public String getSupport() {
+        return support;
+    }
+
+    public void setSupport(String support) {
+        this.support = support;
+    }
+
+    @Override
+    public String toString() {
+        return "Spirite{" + super.toString() + "support=" + support + '}';
+    }
     
 }
