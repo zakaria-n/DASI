@@ -3,6 +3,8 @@ package fr.insalyon.dasi.ihm.console;
 import fr.insalyon.dasi.dao.JpaUtil;
 import fr.insalyon.dasi.metier.modele.Client;
 import fr.insalyon.dasi.metier.service.Service;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.List;
 import java.util.logging.Level;
@@ -236,6 +238,9 @@ public class Main {
         System.out.println("**************************");
         System.out.println();
 
+        SimpleDateFormat dateFormat = new SimpleDateFormat("dd-MM-yyyy");
+        Date date2=null;
+        
         String nom = Saisie.lireChaine("Nom ? ");
         String prenom = Saisie.lireChaine("Prénom ? ");
         String mail = Saisie.lireChaine("Mail ? ");
@@ -243,10 +248,14 @@ public class Main {
         String telephone = Saisie.lireChaine("Telephone ? ");
         String genre = Saisie.lireChaine("Genre ? ");
         String dateInput = Saisie.lireChaine("Date ? ");
-        Date date = new Date(dateInput);
+        try {
+            date2 = dateFormat.parse(dateInput);
+        } catch (ParseException e) {
+            
+        }
         String adresse = Saisie.lireChaine("Adresse ? ");
 
-        Client client = new Client(nom, prenom, mail, motDePasse, telephone, genre, date, adresse);
+        Client client = new Client(nom, prenom, mail, motDePasse, telephone, genre, date2, adresse);
         Long idClient = service.inscrireClient(client);
 
         if (idClient != null) {
