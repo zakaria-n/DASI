@@ -11,7 +11,6 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Inheritance;
-import javax.persistence.MappedSuperclass;
 
 /**
  *
@@ -31,7 +30,7 @@ public abstract class Medium implements Serializable {
     public Medium() {
     }
 
-    protected Medium(String denomination, String genre, String presentation) {
+    public Medium(String denomination, String genre, String presentation) {
         this.denomination = denomination;
         this.genre = genre;
         this.presentation = presentation;

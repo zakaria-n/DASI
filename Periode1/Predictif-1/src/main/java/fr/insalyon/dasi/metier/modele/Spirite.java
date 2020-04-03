@@ -5,19 +5,12 @@
  */
 package fr.insalyon.dasi.metier.modele;
 
-import javax.persistence.Entity;
-
 /**
  *
  * @author sophiecrowley
  */
-
-@Entity(name = "Spirite")
 public class Spirite extends Medium {
     private String support;
-
-    public Spirite() {
-    }
 
     public Spirite(String denomination, String genre, String presentation, String support) {
         super(denomination, genre, presentation);

@@ -1,7 +1,24 @@
-Fri Apr 03 16:59:06 IST 2020 : Apache Derby Network Server - 10.14.2.0 - (1828579) started and ready to accept connections on port 1527
+Fri Apr 03 17:29:14 IST 2020 : Apache Derby Network Server - 10.14.2.0 - (1828579) started and ready to accept connections on port 1527
 ----------------------------------------------------------------
-Fri Apr 03 16:59:28 IST 2020:
-Booting Derby version The Apache Software Foundation - Apache Derby - 10.14.2.0 - (1828579): instance a816c00e-0171-40c4-076c-000048436a71 
+Fri Apr 03 17:29:14 IST 2020:
+Booting Derby version The Apache Software Foundation - Apache Derby - 10.14.2.0 - (1828579): instance a816c00e-0171-40df-9e29-000048436a71 
+on database directory /Users/sophiecrowley/Documents/GitHub/DASI/Periode1/BD/Predictif with class loader jdk.internal.loader.ClassLoaders$AppClassLoader@55054057 
+Loaded from file:/Users/sophiecrowley/Downloads/db-derby-10.14.2.0-lib/lib/derby.jar
+java.vendor=Oracle Corporation
+java.runtime.version=12.0.2+10
+user.dir=/Users/sophiecrowley/Downloads/db-derby-10.14.2.0-lib
+os.name=Mac OS X
+os.arch=x86_64
+os.version=10.15.4
+derby.system.home=/Users/sophiecrowley/Documents/GitHub/DASI/Periode1/BD
+Database Class Loader started - derby.database.classpath=''
+----------------------------------------------------------------
+Fri Apr 03 17:29:15 IST 2020:
+Shutting down instance a816c00e-0171-40df-9e29-000048436a71 on database directory /Users/sophiecrowley/Documents/GitHub/DASI/Periode1/BD/Predictif with class loader jdk.internal.loader.ClassLoaders$AppClassLoader@55054057 
+Fri Apr 03 17:29:15 IST 2020 Thread[DRDAConnThread_3,5,main] (DATABASE = Predictif), (DRDAID = {2}), Database 'Predictif' shutdown.
+----------------------------------------------------------------
+Fri Apr 03 17:29:20 IST 2020:
+Booting Derby version The Apache Software Foundation - Apache Derby - 10.14.2.0 - (1828579): instance 6ede40af-0171-40df-9e29-000048436a71 
 on database directory /Users/sophiecrowley/Documents/GitHub/DASI/Periode1/BD/Predictif with class loader jdk.internal.loader.ClassLoaders$AppClassLoader@55054057 
 Loaded from file:/Users/sophiecrowley/Downloads/db-derby-10.14.2.0-lib/lib/derby.jar
 java.vendor=Oracle Corporation
