@@ -5,10 +5,13 @@
  */
 package fr.insalyon.dasi.metier.modele;
 
+import javax.persistence.Entity;
+
 /**
  *
  * @author zakaria
  */
+@Entity
 public class Astrologue extends Medium {
     private String formation;
     private int promotion;

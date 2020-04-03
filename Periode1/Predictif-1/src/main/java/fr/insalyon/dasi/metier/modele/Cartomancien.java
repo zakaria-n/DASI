@@ -5,10 +5,13 @@
  */
 package fr.insalyon.dasi.metier.modele;
 
+import javax.persistence.Entity;
+
 /**
  *
  * @author sophiecrowley
  */
+@Entity
 public class Cartomancien extends Medium {
 
     public Cartomancien() {
