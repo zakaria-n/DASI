@@ -7,6 +7,8 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.Temporal;
+import javax.persistence.TemporalType;
 
 /**
  *
@@ -25,6 +27,7 @@ public class Client implements Serializable {
     private String motDePasse;
     private String tel;
     private String genre;
+    @Temporal(TemporalType.DATE)
     private Date dateNaissance;
     private String adresse;
 
@@ -98,9 +101,9 @@ public class Client implements Serializable {
     @Override
     public String toString() {
         return "Client : id=" + id + ", nom=" + nom + ", prenom=" + prenom + ", "
-                + "mail=" + mail + ", motDePasse=" + motDePasse + "téléphone=" 
-                + tel + "genre=" + genre + "date de naissance=" + dateNaissance 
-                + "adresse="+ adresse;
+                + "mail=" + mail + ", motDePasse=" + motDePasse + ", téléphone=" 
+                + tel + ", genre=" + genre + ", date de naissance=" + dateNaissance 
+                + ", adresse="+ adresse;
     }
     
 

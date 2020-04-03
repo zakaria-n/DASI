@@ -262,7 +262,7 @@ public class Main {
         String genre=Saisie.lireChaine("Genre ? ");
         String date=Saisie.lireChaine("Date de naissance ? ");
         String adresse=Saisie.lireChaine("Adresse ? ");
-        SimpleDateFormat dateFormat = new SimpleDateFormat("dd-MMM-yyyy");
+        SimpleDateFormat dateFormat = new SimpleDateFormat("dd-MM-yyyy");
         Date date2=null;
         try {
             date2 = dateFormat.parse(date);
