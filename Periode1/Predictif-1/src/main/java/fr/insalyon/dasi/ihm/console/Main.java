@@ -3,6 +3,7 @@ package fr.insalyon.dasi.ihm.console;
 import fr.insalyon.dasi.dao.JpaUtil;
 import fr.insalyon.dasi.metier.modele.Client;
 import fr.insalyon.dasi.metier.service.Service;
+import java.util.Date;
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -26,8 +27,8 @@ public class Main {
         testerRechercheClient();         // Question 6
         testerListeClients();            // Question 7
         testerAuthentificationClient();  // Question 8
-        //saisirInscriptionClient();       // Question 9
-        //saisirRechercheClient();
+        saisirInscriptionClient();       // Question 9
+        saisirRechercheClient();
 
         JpaUtil.destroy();
     }
@@ -44,10 +45,11 @@ public class Main {
         
         EntityManagerFactory emf = Persistence.createEntityManagerFactory("PU-TP");
         EntityManager em = emf.createEntityManager();
-
-        Client ada = new Client("Lovelace", "Ada", "ada.lovelace@insa-lyon.fr", "Ada1012", "123456", "male");
-        Client blaise = new Client("Pascal", "Blaise", "blaise.pascal@insa-lyon.fr", "Blaise1906", "987654", "female");
-        Client fred = new Client("Fotiadu", "Frédéric", "frederic.fotiadu@insa-lyon.fr", "INSA-Forever", "65738", "nb");
+        
+        Date date = new Date(1998, 3, 2);
+        Client ada = new Client("Lovelace", "Ada", "ada.lovelace@insa-lyon.fr", "Ada1012", "123456", "male", date, "1");
+        Client blaise = new Client("Pascal", "Blaise", "blaise.pascal@insa-lyon.fr", "Blaise1906", "987654", "female", date, "2");
+        Client fred = new Client("Fotiadu", "Frédéric", "frederic.fotiadu@insa-lyon.fr", "INSA-Forever", "65738", "nb", date, "3");
         
         System.out.println();
         System.out.println("** Clients avant persistance: ");
@@ -89,7 +91,8 @@ public class Main {
         System.out.println();
         
         Service service = new Service();
-        Client claude = new Client("Chappe", "Claude", "claude.chappe@insa-lyon.fr", "HaCKeR", "123", "male");
+        Date date = new Date(1998, 3, 2);
+        Client claude = new Client("Chappe", "Claude", "claude.chappe@insa-lyon.fr", "HaCKeR", "123", "male", date, "Drance 3");
         Long idClaude = service.inscrireClient(claude);
         if (idClaude != null) {
             System.out.println("> Succès inscription");
@@ -98,7 +101,9 @@ public class Main {
         }
         afficherClient(claude);
 
-        Client hedy = new Client("Lamarr", "Hedy", "hlamarr@insa-lyon.fr", "WiFi", "321", "female");
+         date = new Date(1998, 3, 2);
+        Client hedy = new Client("Lamarr", "Hedy", "hlamarr@insa-lyon.fr", 
+                "WiFi", "321", "female", date, "france 1");
         Long idHedy = service.inscrireClient(hedy);
         if (idHedy != null) {
             System.out.println("> Succès inscription");
@@ -107,7 +112,9 @@ public class Main {
         }
         afficherClient(hedy);
 
-        Client hedwig = new Client("Lamarr", "Hedwig Eva Maria", "hlamarr@insa-lyon.fr", "WiFi", "333" ,"female");
+        date = new Date(1998, 3, 2);
+        Client hedwig = new Client("Lamarr", "Hedwig Eva Maria", 
+                "hlamarr@insa-lyon.fr", "WiFi", "333" ,"female",date , "france 2");
         Long idHedwig = service.inscrireClient(hedwig);
         if (idHedwig != null) {
             System.out.println("> Succès inscription");
@@ -235,14 +242,44 @@ public class Main {
         String motDePasse = Saisie.lireChaine("Mot de passe ? ");
         String telephone = Saisie.lireChaine("Telephone ? ");
         String genre = Saisie.lireChaine("Genre ? ");
+        String dateInput = Saisie.lireChaine("Date ? ");
+        Date date = new Date(dateInput);
+        String adresse = Saisie.lireChaine("Adresse ? ");
 
-        Client client = new Client(nom, prenom, mail, motDePasse, telephone, genre);
+        Client client = new Client(nom, prenom, mail, motDePasse, telephone, genre, date, adresse);
         Long idClient = service.inscrireClient(client);
 
         if (idClient != null) {
             System.out.println("> Succès inscription");
         } else {
             System.out.println("> Échec inscription");
+        }
+        afficherClient(client);
+
+    }
+    
+    public static void saisirConnexionClient() {
+        Service service = new Service();
+
+        System.out.println();
+        System.out.println("Appuyer sur Entrée pour passer la pause...");
+        Saisie.pause();
+
+        System.out.println();
+        System.out.println("**************************");
+        System.out.println("** NOUVELLE CONNEXION **");
+        System.out.println("**************************");
+        System.out.println();
+
+        String mail = Saisie.lireChaine("Mail ? ");
+        String motDePasse = Saisie.lireChaine("Mot de passe ? ");
+
+        Client client = service.authentifierClient(mail, motDePasse);
+
+        if (client != null) {
+            System.out.println("> Succès connexion");
+        } else {
+            System.out.println("> Échec connexion");
         }
         afficherClient(client);
 

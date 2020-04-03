@@ -1,11 +1,14 @@
 package fr.insalyon.dasi.metier.modele;
 
 import java.io.Serializable;
+import java.util.Date;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.Temporal;
+import javax.persistence.TemporalType;
 
 /**
  *
@@ -24,18 +27,23 @@ public class Client implements Serializable {
     private String motDePasse;
     private String telephone;
     private String genre;
+    @Temporal(TemporalType.DATE)
+    private Date date;
+    private String adresse;
 
     protected Client() {
     }
 
     public Client(String nom, String prenom, String mail, String motDePasse, 
-            String telephone, String genre) {
+            String telephone, String genre, Date date, String adresse) {
         this.nom = nom;
         this.prenom = prenom;
         this.mail = mail;
         this.motDePasse = motDePasse;
         this.telephone = telephone;
         this.genre = genre;
+        this.date = date;
+        this.adresse = adresse;
     }
 
     public Long getId() {
@@ -90,11 +98,30 @@ public class Client implements Serializable {
         this.genre = genre;
     }
 
+    public Date getDate() {
+        return date;
+    }
+
+    public void setDate(Date date) {
+        this.date = date;
+    }
+
+    public String getAdresse() {
+        return adresse;
+    }
+
+    public void setAdresse(String adresse) {
+        this.adresse = adresse;
+    }
+    
+    
+
     @Override
     public String toString() {
         return "Client : id=" + id + ", nom=" + nom + ", prenom=" + prenom + ", "
                 + "mail=" + mail + ", motDePasse=" + motDePasse + ", téléphone=" 
-                + telephone + ", genre=" + genre;
+                + telephone + ", genre=" + genre + ", date=" + date + 
+                ", adresse=" + adresse;
     }
     
 
