@@ -5,9 +5,11 @@ import fr.insalyon.dasi.dao.ClientDao;
 import fr.insalyon.dasi.dao.ConsultationDao;
 import fr.insalyon.dasi.dao.EmployeDao;
 import fr.insalyon.dasi.dao.JpaUtil;
+import fr.insalyon.dasi.dao.MediumDao;
 import fr.insalyon.dasi.metier.modele.Client;
 import fr.insalyon.dasi.metier.modele.Consultation;
 import fr.insalyon.dasi.metier.modele.Employe;
+import fr.insalyon.dasi.metier.modele.Medium;
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -36,24 +38,6 @@ public class Service {
             JpaUtil.annulerTransaction();
             resultat = null;
             Message.envoyerMail("Predictif", client.getMail(), "Inscription refusée", "rip");
-        } finally {
-            JpaUtil.fermerContextePersistance();
-        }
-        return resultat;
-    }
-    
-    public Long creerConsultation(Consultation c) {
-        Long resultat = null;
-        JpaUtil.creerContextePersistance();
-        try {
-            JpaUtil.ouvrirTransaction();
-            consultationDao.creer(c);
-            JpaUtil.validerTransaction();
-            resultat = c.getId();
-        } catch (Exception ex) {
-            Logger.getAnonymousLogger().log(Level.WARNING, "Exception lors de l'appel au Service creerConsultation(c)");
-            JpaUtil.annulerTransaction();
-            resultat = null;
         } finally {
             JpaUtil.fermerContextePersistance();
         }
@@ -122,5 +106,84 @@ public class Service {
         }
         return resultat;
     }
-
+    
+    public List<Medium> filterMediums(String type) {
+        JpaUtil.creerContextePersistance();
+        MediumDao dao = new MediumDao();
+        List<Medium> resultat=null;
+        try {
+            switch(type){
+                case "Cartomancien":
+                    resultat  = dao.listerCartomanciens();
+                    break;
+                case "Astrologue" :
+                    resultat  = dao.listerAstrologues();
+                    break;
+                case "Spirite" :
+                    resultat  = dao.listerSpirites();
+                    break;
+            }
+        } catch (Exception ex) {
+            Logger.getAnonymousLogger().log(Level.WARNING, "Exception lors de l'appel au Service listerMediums()", ex);
+            resultat = null;
+        } finally {
+            JpaUtil.fermerContextePersistance();
+        }
+        return resultat;
+    }
+    
+    public Employe authentifierEmploye(String mail, String motDePasse) {
+        Employe resultat = null;
+        JpaUtil.creerContextePersistance();
+        try {
+            // Recherche du client
+            Employe employe = employeDao.chercherParMail(mail);
+            if (employe != null) {
+                // Vérification du mot de passe
+                if (employe.getMotDePasse().equals(motDePasse)) {
+                    resultat = employe;
+                }
+            }
+        } catch (Exception ex) {
+            Logger.getAnonymousLogger().log(Level.WARNING, "Exception lors de l'appel au Service authentifierEmploye(mail,motDePasse)", ex);
+            resultat = null;
+        } finally {
+            JpaUtil.fermerContextePersistance();
+        }
+        return resultat;
+    }
+    
+  /* 
+    ***    services à mettre en œuvre *** 
+  */   
+    public void showMedium() {
+        
+    }
+     
+    public void deconnexion() {
+        
+    }
+    
+    public void chercherMedium() {
+        
+    }
+    public void demanderConsultation() {
+        
+    }  
+    
+    public void statistics() {
+        
+    } 
+    
+    public void showConsultation() {
+        
+    } 
+    
+    public void generatePrediction() {
+        
+    } 
+    
+    public void ajouterCommentaire() {
+        
+    } 
 }

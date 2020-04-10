@@ -210,7 +210,6 @@ public class Main {
         Date date = new Date(2010, 4, 5);        
         Consultation a = new Consultation(date, "8", "9", "great-ish");
         Service service = new Service();
-        service.creerConsultation(a);
         one.getConsultations().add(a);
         one.setNbConsultations(one.getNbConsultations()+1);
         a = new Consultation(date, "4", "5", "ok-ish");
@@ -449,11 +448,9 @@ public class Main {
             
         }
         Consultation c = new Consultation(date2, "1", "3", "great");
-        long consultationId = service.creerConsultation(c);
         client.getConsultations().add(c);
         System.out.println(client.getConsultations().get(0).getCommentaire());
         c = new Consultation(date2, "3", "4:30", "not amazing");
-        consultationId = service.creerConsultation(c);
         employe.getConsultations().add(c);
         System.out.println(employe.getConsultations().get(0).getCommentaire());
         int input = Saisie.lireInteger("[0 pour quitter] ");

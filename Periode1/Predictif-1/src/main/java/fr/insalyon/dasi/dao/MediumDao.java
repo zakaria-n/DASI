@@ -5,7 +5,10 @@
  */
 package fr.insalyon.dasi.dao;
 
+import fr.insalyon.dasi.metier.modele.Astrologue;
+import fr.insalyon.dasi.metier.modele.Cartomancien;
 import fr.insalyon.dasi.metier.modele.Medium;
+import fr.insalyon.dasi.metier.modele.Spirite;
 import java.util.List;
 import javax.persistence.EntityManager;
 import javax.persistence.TypedQuery;
@@ -33,8 +36,8 @@ public class MediumDao {
     
     public Medium chercherParDenomination(String denomination) {
         EntityManager em = JpaUtil.obtenirContextePersistance();
-        TypedQuery<Medium> query = em.createQuery("SELECT m FROM Medium m WHERE m.denomination = :denomination", Medium.class);
-        query.setParameter("denomination", denomination); // correspond au paramètre ":denomination" dans la requête
+        TypedQuery<Medium> query = em.createQuery("SELECT c FROM Medium c WHERE c.mail = :mail", Medium.class);
+        query.setParameter("denomination", denomination); // correspond au paramètre ":mail" dans la requête
         List<Medium> mediums = query.getResultList();
         Medium result = null;
         if (!mediums.isEmpty()) {
@@ -47,6 +50,49 @@ public class MediumDao {
         EntityManager em = JpaUtil.obtenirContextePersistance();
         TypedQuery<Medium> query = em.createQuery("SELECT m FROM medium m", Medium.class);
         return query.getResultList();
+    }
+    
+    public List<Medium> listerAstrologues() {
+        MediumDao dao=new MediumDao();
+        List<Medium> mediums = dao.listerMediums();
+        List<Medium> astros = null;
+        for(int i=0; i < mediums.size(); i++) {
+            if(mediums.get(i) instanceof Astrologue) {
+                astros.add((Astrologue) mediums.get(i));
+            }
+        }
+        return astros;
+    }
+
+    public List<Medium> listerCartomanciens() {
+        MediumDao dao=new MediumDao();
+        List<Medium> mediums = dao.listerMediums();
+        List<Medium> cartos = null;
+        for(int i=0; i < mediums.size(); i++) {
+            if(mediums.get(i) instanceof Cartomancien) {
+                cartos.add((Cartomancien) mediums.get(i));
+            }
+        }
+        return cartos;
+    }
+
+    public List<Medium> listerSpirites() {
+        MediumDao dao=new MediumDao();
+        List<Medium> mediums = dao.listerMediums();
+        List<Medium> spirites = null;
+        for(int i=0; i < mediums.size(); i++) {
+            if(mediums.get(i) instanceof Spirite) {
+                spirites.add((Spirite) mediums.get(i));
+            }
+        }
+        return spirites;
+    }
+    
+    public List<Medium> listerTop5() {
+        EntityManager em = JpaUtil.obtenirContextePersistance();
+        TypedQuery<Medium> query = em.createQuery("SELECT m FROM medium m ORDER BY nbConsultations DESC"
+                + "FETCH FIRST 5 ROWS ONLY", Medium.class);
+        return query.getResultList();              
     }
     
     // modifier / supprimer  ... 
