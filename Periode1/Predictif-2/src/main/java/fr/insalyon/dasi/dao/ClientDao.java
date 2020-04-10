@@ -16,6 +16,10 @@ public class ClientDao {
         em.persist(client);
     }
     
+    public void supprimer(Client client) {
+        EntityManager em = JpaUtil.obtenirContextePersistance();
+        em.remove(client);
+    }
     public Client chercherParId(Long clientId) {
         EntityManager em = JpaUtil.obtenirContextePersistance();
         return em.find(Client.class, clientId); // renvoie null si l'identifiant n'existe pas

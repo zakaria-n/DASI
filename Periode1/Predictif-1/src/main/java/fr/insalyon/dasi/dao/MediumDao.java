@@ -21,6 +21,11 @@ public class MediumDao {
         em.persist(medium);
     }
     
+    public void supprimer(Medium medium) {
+        EntityManager em = JpaUtil.obtenirContextePersistance();
+        em.remove(medium);
+    }
+    
     public Medium chercherParId(Long mediumId) {
         EntityManager em = JpaUtil.obtenirContextePersistance();
         return em.find(Medium.class, mediumId); // renvoie null si l'identifiant n'existe pas
@@ -40,7 +45,7 @@ public class MediumDao {
     
     public List<Medium> listerMediums() {
         EntityManager em = JpaUtil.obtenirContextePersistance();
-        TypedQuery<Medium> query = em.createQuery("SELECT c FROM medium c ORDER BY c.nom ASC, c.prenom ASC", Medium.class);
+        TypedQuery<Medium> query = em.createQuery("SELECT m FROM medium m", Medium.class);
         return query.getResultList();
     }
     
