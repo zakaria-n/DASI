@@ -1,15 +1,8 @@
 package fr.insalyon.dasi.metier.service;
 
-import fr.insalyon.dasi.technique.service.Message;
-import fr.insalyon.dasi.dao.ClientDao;
-import fr.insalyon.dasi.dao.EmployeDao;
-import fr.insalyon.dasi.dao.JpaUtil;
-import fr.insalyon.dasi.dao.MediumDao;
-import fr.insalyon.dasi.metier.modele.Astrologue;
-import fr.insalyon.dasi.metier.modele.Cartomancien;
-import fr.insalyon.dasi.metier.modele.Client;
-import fr.insalyon.dasi.metier.modele.Medium;
-import fr.insalyon.dasi.metier.modele.Employe;
+import fr.insalyon.dasi.dao.*;
+import fr.insalyon.dasi.metier.modele.*;
+import fr.insalyon.dasi.techniques.service.Message;
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -21,8 +14,8 @@ import java.util.logging.Logger;
 public class Service {
 
     protected ClientDao clientDao = new ClientDao();
-    protected EmployeDao employeDao = new EmployeDao();
-
+    protected MediumDao mediumDao = new MediumDao();
+    
     public Long inscrireClient(Client client) {
         Long resultat = null;
         JpaUtil.creerContextePersistance();
@@ -33,7 +26,7 @@ public class Service {
             resultat = client.getId();
             Message.envoyerMail("Predictif", client.getMail(), "Inscription réussie", "yay");
         } catch (Exception ex) {
-            Logger.getAnonymousLogger().log(Level.WARNING, "Exception lors de l'appel au Service inscrireClient(client)");
+            Logger.getAnonymousLogger().log(Level.WARNING, "Exception lors de l'appel au Service inscrireClient(client)", ex);
             JpaUtil.annulerTransaction();
             resultat = null;
             Message.envoyerMail("Predictif", client.getMail(), "Inscription refusée", "rip");
@@ -50,20 +43,6 @@ public class Service {
             resultat = clientDao.chercherParId(id);
         } catch (Exception ex) {
             Logger.getAnonymousLogger().log(Level.WARNING, "Exception lors de l'appel au Service rechercherClientParId(id)", ex);
-            resultat = null;
-        } finally {
-            JpaUtil.fermerContextePersistance();
-        }
-        return resultat;
-    }
-    
-    public Employe rechercherEmployeParId(Long id) {
-        Employe resultat = null;
-        JpaUtil.creerContextePersistance();
-        try {
-            resultat = employeDao.chercherParId(id);
-        } catch (Exception ex) {
-            Logger.getAnonymousLogger().log(Level.WARNING, "Exception lors de l'appel au Service rechercherEmployeParId(id)", ex);
             resultat = null;
         } finally {
             JpaUtil.fermerContextePersistance();
@@ -105,5 +84,43 @@ public class Service {
         }
         return resultat;
     }
-
+    
+    public List<Medium> listerMediums() {
+        List<Medium> resultat = null;
+        JpaUtil.creerContextePersistance();
+        try {
+            resultat = mediumDao.listerMediums();
+        } catch (Exception ex) {
+            Logger.getAnonymousLogger().log(Level.WARNING, "Exception lors de l'appel au Service listerMediums()", ex);
+            resultat = null;
+        } finally {
+            JpaUtil.fermerContextePersistance();
+        }
+        return resultat;
+    }
+    
+    public List<Medium> FilterMediums(String type) {
+        List<Medium> resultat = null;
+        JpaUtil.creerContextePersistance();
+        try {
+            switch(type){
+                case "Cartomancien":
+                    resultat = mediumDao.listerCartomanciens();
+                    break;
+                case "Astrologue" :
+                    resultat = mediumDao.listerAstrologues();
+                    break;
+                case "Spirite" :
+                    resultat = mediumDao.listerSpirites();
+                    break;
+            }
+        } catch (Exception ex) {
+            Logger.getAnonymousLogger().log(Level.WARNING, "Exception lors de l'appel au Service listerMediums()", ex);
+            resultat = null;
+        } finally {
+            JpaUtil.fermerContextePersistance();
+        }
+        return resultat;
+    }
+    
 }

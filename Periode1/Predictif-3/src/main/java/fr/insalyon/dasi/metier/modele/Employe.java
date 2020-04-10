@@ -1,22 +1,22 @@
+/*
+ * To change this license header, choose License Headers in Project Properties.
+ * To change this template file, choose Tools | Templates
+ * and open the template in the editor.
+ */
 package fr.insalyon.dasi.metier.modele;
 
 import java.io.Serializable;
-import java.util.ArrayList;
-import java.util.List;
-import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
-import javax.persistence.JoinColumn;
-import javax.persistence.OneToMany;
 
 /**
  *
- * @author DASI Team
+ * @author zakaria
  */
-@Entity(name="Employe")
+@Entity
 public class Employe implements Serializable {
 
     @Id
@@ -31,10 +31,7 @@ public class Employe implements Serializable {
     private String genre;
     private boolean disponible;
     private String nbConsultations;
-    @OneToMany(cascade = CascadeType.ALL, orphanRemoval = true)
-    @JoinColumn(name = "employe_id")
-    private List<Consultation> consultations; 
-    
+
     protected Employe() {
     }
 
@@ -46,9 +43,8 @@ public class Employe implements Serializable {
         this.motDePasse = motDePasse;
         this.telephone = telephone;
         this.genre = genre;
-        this.disponible = disponible;
-        this.nbConsultations = nbConsultations;
-        this.consultations = new ArrayList<>();
+        this.disponible=disponible;
+        this.nbConsultations=nbConsultations;
     }
 
     public Long getId() {
@@ -118,14 +114,6 @@ public class Employe implements Serializable {
     public void setNbConsultations(String nbConsultations) {
         this.nbConsultations = nbConsultations;
     }
-
-    public List<Consultation> getConsultations() {
-        return consultations;
-    }
-
-    public void setConsultations(List<Consultation> consultations) {
-        this.consultations = consultations;
-    }
     
 
     @Override
@@ -138,3 +126,4 @@ public class Employe implements Serializable {
     
 
 }
+

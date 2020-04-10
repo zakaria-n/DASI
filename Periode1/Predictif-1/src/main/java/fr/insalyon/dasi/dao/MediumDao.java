@@ -6,9 +6,6 @@
 package fr.insalyon.dasi.dao;
 
 import fr.insalyon.dasi.metier.modele.Medium;
-import fr.insalyon.dasi.metier.modele.Astrologue;
-import fr.insalyon.dasi.metier.modele.Cartomancien;
-import fr.insalyon.dasi.metier.modele.Spirite;
 import java.util.List;
 import javax.persistence.EntityManager;
 import javax.persistence.TypedQuery;
@@ -36,7 +33,7 @@ public class MediumDao {
     
     public Medium chercherParDenomination(String denomination) {
         EntityManager em = JpaUtil.obtenirContextePersistance();
-        TypedQuery<Medium> query = em.createQuery("SELECT c FROM Medium c WHERE c.mail = :mail", Medium.class);
+        TypedQuery<Medium> query = em.createQuery("SELECT m FROM Medium m WHERE m.denomination = :denomination", Medium.class);
         query.setParameter("denomination", denomination); // correspond au paramètre ":mail" dans la requête
         List<Medium> mediums = query.getResultList();
         Medium result = null;
@@ -51,42 +48,6 @@ public class MediumDao {
         TypedQuery<Medium> query = em.createQuery("SELECT m FROM medium m", Medium.class);
         return query.getResultList();
     }
-    
-    public List<Astrologue> listerAstrologues() {
-        MediumDao dao=new MediumDao();
-        List<Medium> mediums = dao.listerMediums();
-        List<Astrologue> astros = null;
-        for(int i=0; i < mediums.size(); i++) {
-            if(mediums.get(i) instanceof Astrologue) {
-                astros.add((Astrologue) mediums.get(i));
-            }
-        }
-        return astros;
-    }
-
-    public List<Cartomancien> listerCartomanciens() {
-        MediumDao dao=new MediumDao();
-        List<Medium> mediums = dao.listerMediums();
-        List<Cartomancien> cartos = null;
-        for(int i=0; i < mediums.size(); i++) {
-            if(mediums.get(i) instanceof Cartomancien) {
-                cartos.add((Cartomancien) mediums.get(i));
-            }
-        }
-        return cartos;
-    }
-
-    public List<Spirite> listerSpirites() {
-        MediumDao dao=new MediumDao();
-        List<Medium> mediums = dao.listerMediums();
-        List<Spirite> spirites = null;
-        for(int i=0; i < mediums.size(); i++) {
-            if(mediums.get(i) instanceof Spirite) {
-                spirites.add((Spirite) mediums.get(i));
-            }
-        }
-        return spirites;
-    }    
     
     // modifier / supprimer  ... 
 }
