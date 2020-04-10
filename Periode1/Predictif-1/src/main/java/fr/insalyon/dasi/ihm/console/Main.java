@@ -340,12 +340,18 @@ public class Main {
             
         }
         Consultation c = new Consultation(date2, "1", "3", "great");
+        long consultationId = service.creerConsultation(c);
         client.getConsultations().add(c);
         System.out.println(client.getConsultations().get(0).getCommentaire());
         c = new Consultation(date2, "3", "4:30", "not amazing");
+        consultationId = service.creerConsultation(c);
         employe.getConsultations().add(c);
         System.out.println(employe.getConsultations().get(0).getCommentaire());
+        int input = Saisie.lireInteger("[0 pour quitter] ");
+        if(input!=0) {
+            System.out.println("Quitting anyway sorry...");
         }
+    }
 
     public static void saisirInscriptionClient() {
         Service service = new Service();

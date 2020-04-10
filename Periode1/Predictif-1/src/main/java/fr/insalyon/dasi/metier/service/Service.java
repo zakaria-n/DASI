@@ -2,9 +2,11 @@ package fr.insalyon.dasi.metier.service;
 
 import fr.insalyon.dasi.technique.service.Message;
 import fr.insalyon.dasi.dao.ClientDao;
+import fr.insalyon.dasi.dao.ConsultationDao;
 import fr.insalyon.dasi.dao.EmployeDao;
 import fr.insalyon.dasi.dao.JpaUtil;
 import fr.insalyon.dasi.metier.modele.Client;
+import fr.insalyon.dasi.metier.modele.Consultation;
 import fr.insalyon.dasi.metier.modele.Employe;
 import java.util.List;
 import java.util.logging.Level;
@@ -18,7 +20,8 @@ public class Service {
 
     protected ClientDao clientDao = new ClientDao();
     protected EmployeDao employeDao = new EmployeDao();
-
+    protected ConsultationDao consultationDao = new ConsultationDao();
+    
     public Long inscrireClient(Client client) {
         Long resultat = null;
         JpaUtil.creerContextePersistance();
@@ -33,6 +36,24 @@ public class Service {
             JpaUtil.annulerTransaction();
             resultat = null;
             Message.envoyerMail("Predictif", client.getMail(), "Inscription refusée", "rip");
+        } finally {
+            JpaUtil.fermerContextePersistance();
+        }
+        return resultat;
+    }
+    
+    public Long creerConsultation(Consultation c) {
+        Long resultat = null;
+        JpaUtil.creerContextePersistance();
+        try {
+            JpaUtil.ouvrirTransaction();
+            consultationDao.creer(c);
+            JpaUtil.validerTransaction();
+            resultat = c.getId();
+        } catch (Exception ex) {
+            Logger.getAnonymousLogger().log(Level.WARNING, "Exception lors de l'appel au Service creerConsultation(c)");
+            JpaUtil.annulerTransaction();
+            resultat = null;
         } finally {
             JpaUtil.fermerContextePersistance();
         }
