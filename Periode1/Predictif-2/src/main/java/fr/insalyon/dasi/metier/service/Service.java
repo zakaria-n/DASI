@@ -23,6 +23,7 @@ public class Service {
     protected ClientDao clientDao = new ClientDao();
     protected EmployeDao employeDao = new EmployeDao();
     protected ConsultationDao consultationDao = new ConsultationDao();
+    protected MediumDao mediumDao = new MediumDao();
 
     public Long inscrireClient(Client client) {
         Long resultat = null;
@@ -110,7 +111,28 @@ public class Service {
         }
         return resultat;
     }
-
+    
+    public Employe authentifierEmploye(String mail, String motDePasse) {
+        Employe resultat = null;
+        JpaUtil.creerContextePersistance();
+        try {
+            // Recherche du client
+            Employe employe = employeDao.chercherParMail(mail);
+            if (employe != null) {
+                // Vérification du mot de passe
+                if (employe.getMotDePasse().equals(motDePasse)) {
+                    resultat = employe;
+                }
+            }
+        } catch (Exception ex) {
+            Logger.getAnonymousLogger().log(Level.WARNING, "Exception lors de l'appel au Service authentifierClient(mail,motDePasse)", ex);
+            resultat = null;
+        } finally {
+            JpaUtil.fermerContextePersistance();
+        }
+        return resultat;
+    }
+    
     public List<Client> listerClients() {
         List<Client> resultat = null;
         JpaUtil.creerContextePersistance();
@@ -127,18 +149,17 @@ public class Service {
     
     public List<Medium> filterMediums(String type) {
         JpaUtil.creerContextePersistance();
-        MediumDao dao = new MediumDao();
         List<Medium> resultat=null;
         try {
             switch(type){
                 case "Cartomancien":
-                    resultat  = dao.listerCartomanciens();
+                    resultat  = mediumDao.listerCartomanciens();
                     break;
                 case "Astrologue" :
-                    resultat  = dao.listerAstrologues();
+                    resultat  = mediumDao.listerAstrologues();
                     break;
                 case "Spirite" :
-                    resultat  = dao.listerSpirites();
+                    resultat  = mediumDao.listerSpirites();
                     break;
             }
         } catch (Exception ex) {
@@ -149,4 +170,38 @@ public class Service {
         }
         return resultat;
     }
+    
+    
+    public List<Medium> listerMediums() {
+        List<Medium> resultat = null;
+        JpaUtil.creerContextePersistance();
+        try {
+            resultat = mediumDao.listerMediums();
+        } catch (Exception ex) {
+            Logger.getAnonymousLogger().log(Level.WARNING, "Exception lors de l'appel au Service listerClients()", ex);
+            resultat = null;
+        } finally {
+            JpaUtil.fermerContextePersistance();
+        }
+        return resultat;
+    }
+    
+    public Medium chercherMedium(String denomination) {
+        JpaUtil.creerContextePersistance();
+        Medium resultat = null;
+        try {
+            // Recherche du médium
+            Medium medium = mediumDao.chercherParDenomination(denomination);
+            if (medium != null) {
+                resultat = medium;
+            }
+        } catch (Exception ex) {
+            Logger.getAnonymousLogger().log(Level.WARNING, "Exception lors de l'appel au Service chercherMedium(String denomination)", ex);
+            resultat = null;
+        } finally {
+            JpaUtil.fermerContextePersistance();
+        }
+        return resultat;
+    }
+ 
 }
