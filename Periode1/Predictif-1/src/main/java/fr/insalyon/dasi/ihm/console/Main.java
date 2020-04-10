@@ -1,9 +1,13 @@
 package fr.insalyon.dasi.ihm.console;
 
 import fr.insalyon.dasi.dao.JpaUtil;
+import fr.insalyon.dasi.metier.modele.Astrologue;
+import fr.insalyon.dasi.metier.modele.Cartomancien;
 import fr.insalyon.dasi.metier.modele.Client;
 import fr.insalyon.dasi.metier.modele.Consultation;
 import fr.insalyon.dasi.metier.modele.Employe;
+import fr.insalyon.dasi.metier.modele.Medium;
+import fr.insalyon.dasi.metier.modele.Spirite;
 import fr.insalyon.dasi.metier.service.Service;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
@@ -28,6 +32,7 @@ public class Main {
 
         initialiserClients();            // Question 3
         initialiserEmployes();
+        initialiserMediums();
         testerInscriptionClient();       // Question 4 & 5
         testerRechercheClient();         // Question 6
         testerListeClients();            // Question 7
@@ -50,6 +55,11 @@ public class Main {
     public static void afficherEmploye(Employe employe) {
         System.out.println("-> " + employe);
     }
+    
+    public static void afficherMedium(Medium medium) {
+        System.out.println("-> " + medium.toString());
+    }
+    
     public static void initialiserClients() {
         
         System.out.println();
@@ -112,7 +122,7 @@ public class Main {
         Employe three = new Employe("C", "Sophie", "csop@insa-lyon.fr", "333", "123458", "???", true, "0");
       
         System.out.println();
-        System.out.println("** Clients avant persistance: ");
+        System.out.println("** Employes avant persistance: ");
         afficherEmploye(one);
         afficherEmploye(two);
         afficherEmploye(three);
@@ -141,6 +151,71 @@ public class Main {
         afficherEmploye(one);
         afficherEmploye(two);
         afficherEmploye(three);
+        System.out.println();
+    }
+    
+    public static void initialiserMediums() {
+        
+        System.out.println();
+        System.out.println("**** initialiserMediums() ****");
+        System.out.println();
+        
+        EntityManagerFactory emf = Persistence.createEntityManagerFactory("PU-TP");
+        EntityManager em = emf.createEntityManager();
+        
+        Medium one = new Spirite("Professeur Tran", "H", "Votre avenir est devant vous : regardons-le ensemble !", 
+                "Marc de café, boule de cristal, oreilles de lapin");
+        Medium two = new Astrologue("Serena", "F", 
+                "Basée à Champigny-sur-Marne, Serena vous révèlera votre avenir pour éclairer votre passé.", 
+                "École Normale Supérieure d’Astrologie (ENS-Astro)", 2006);
+        Medium three = new Cartomancien("Mme Irna", "F", "Comprenez votre entourage grâce à mes cartes ! Résultats rapides.");
+        
+        Medium four = new Spirite("Gwenaëlle", "F", "Spécialiste des grandes conversations au-delà de TOUTES les frontières.", 
+                "Boule de cristal");
+        Medium five = new Astrologue("Mr M", "H", 
+                "Avenir, avenir, que nous réserves-tu ? N'attendez plus, demandez à me consulter!", 
+                " Institut des Nouveaux Savoirs Astrologiques", 2010);
+        Medium six = new Cartomancien("Mme Elle", "F", "Résultats excellentes !");
+      
+        System.out.println();
+        System.out.println("** Mediums avant persistance: ");
+        afficherMedium(one);
+        afficherMedium(two);
+        afficherMedium(three);
+        afficherMedium(four);
+        afficherMedium(five);
+        afficherMedium(six);
+        System.out.println();
+
+        try {
+            em.getTransaction().begin();
+            em.persist(one);
+            em.persist(two);
+            em.persist(three);
+            em.persist(four);
+            em.persist(five);
+            em.persist(six);
+            em.getTransaction().commit();
+        } catch (Exception ex) {
+            Logger.getAnonymousLogger().log(Level.WARNING, "Exception lors de l'appel au Service", ex);
+            try {
+                em.getTransaction().rollback();
+            }
+            catch (IllegalStateException ex2) {
+                // Ignorer cette exception...
+            }
+        } finally {
+            em.close();
+        }
+
+        System.out.println();
+        System.out.println("** Mediums après persistance: ");
+        afficherMedium(one);
+        afficherMedium(two);
+        afficherMedium(three);
+        afficherMedium(four);
+        afficherMedium(five);
+        afficherMedium(six);
         System.out.println();
     }
 
