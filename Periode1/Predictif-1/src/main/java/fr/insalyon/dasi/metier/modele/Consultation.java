@@ -18,7 +18,7 @@ import javax.persistence.TemporalType;
  *
  * @author sophiecrowley
  */
-@Entity
+@Entity(name="Consultation")
 public class Consultation implements Serializable {
 
     @Id
@@ -29,6 +29,16 @@ public class Consultation implements Serializable {
     private String heureDebut;
     private String heureFin;
     private String commentaire;
+
+    protected Consultation() {
+    }
+
+    public Consultation(Date date, String heureDebut, String heureFin, String commentaire) {
+        this.date = date;
+        this.heureDebut = heureDebut;
+        this.heureFin = heureFin;
+        this.commentaire = commentaire;
+    }
 
     public Long getId() {
         return id;

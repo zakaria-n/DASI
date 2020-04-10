@@ -1,17 +1,22 @@
 package fr.insalyon.dasi.metier.modele;
 
 import java.io.Serializable;
+import java.util.ArrayList;
+import java.util.List;
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.OneToMany;
 
 /**
  *
  * @author DASI Team
  */
-@Entity
+@Entity(name="Employe")
 public class Employe implements Serializable {
 
     @Id
@@ -26,18 +31,24 @@ public class Employe implements Serializable {
     private String genre;
     private boolean disponible;
     private String nbConsultations;
-
+    @OneToMany(cascade = CascadeType.ALL, orphanRemoval = true)
+    @JoinColumn(name = "employe_id")
+    private List<Consultation> consultations; 
+    
     protected Employe() {
     }
 
     public Employe(String nom, String prenom, String mail, String motDePasse, 
-            String telephone, String genre) {
+            String telephone, String genre, boolean disponible, String nbConsultations) {
         this.nom = nom;
         this.prenom = prenom;
         this.mail = mail;
         this.motDePasse = motDePasse;
         this.telephone = telephone;
         this.genre = genre;
+        this.disponible = disponible;
+        this.nbConsultations = nbConsultations;
+        this.consultations = new ArrayList<>();
     }
 
     public Long getId() {
