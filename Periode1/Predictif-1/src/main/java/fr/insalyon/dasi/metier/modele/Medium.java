@@ -6,11 +6,16 @@
 package fr.insalyon.dasi.metier.modele;
 
 import java.io.Serializable;
+import java.util.ArrayList;
+import java.util.List;
+import javax.persistence.CascadeType;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Inheritance;
+import javax.persistence.JoinColumn;
+import javax.persistence.OneToMany;
 
 /**
  *
@@ -26,6 +31,9 @@ public abstract class Medium implements Serializable {
     private String denomination;
     private String genre;
     private String presentation;
+    @OneToMany(cascade = CascadeType.ALL, orphanRemoval = true)
+    @JoinColumn(name = "medium_id")
+    private List<Consultation> consultations; 
 
     public Medium() {
     }
@@ -34,6 +42,7 @@ public abstract class Medium implements Serializable {
         this.denomination = denomination;
         this.genre = genre;
         this.presentation = presentation;
+        this.consultations = new ArrayList<>();
     }
 
     public Long getId() {
@@ -64,6 +73,14 @@ public abstract class Medium implements Serializable {
         this.presentation = presentation;
     }
 
+    public List<Consultation> getConsultations() {
+        return consultations;
+    }
+
+    public void setConsultations(List<Consultation> consultations) {
+        this.consultations = consultations;
+    }
+    
     @Override
     public String toString() {
         return "Medium{" + "id=" + id + ", denomination=" + denomination + ", genre=" + genre + ", presentation=" + presentation + '}';

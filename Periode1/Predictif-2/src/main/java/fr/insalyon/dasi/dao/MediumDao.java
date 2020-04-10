@@ -86,7 +86,14 @@ public class MediumDao {
             }
         }
         return spirites;
-    }    
+    }
+    
+    public List<Medium> listerTop5() {
+        EntityManager em = JpaUtil.obtenirContextePersistance();
+        TypedQuery<Medium> query = em.createQuery("SELECT m FROM medium m ORDER BY nbConsultations DESC"
+                + "FETCH FIRST 5 ROWS ONLY", Medium.class);
+        return query.getResultList();              
+    }
     
     // modifier / supprimer  ... 
 }

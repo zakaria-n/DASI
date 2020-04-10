@@ -87,7 +87,7 @@ public class Service {
         return resultat;
     }
     
-     public List<Medium> filterMediums(String type) {
+    public List<Medium> filterMediums(String type) {
         JpaUtil.creerContextePersistance();
         MediumDao dao = new MediumDao();
         List<Medium> resultat=null;
@@ -100,7 +100,7 @@ public class Service {
                     resultat  = dao.listerAstrologues();
                     break;
                 case "Spirite" :
-                    resultat = dao.listerSpirites();
+                    resultat  = dao.listerSpirites();
                     break;
             }
         } catch (Exception ex) {
