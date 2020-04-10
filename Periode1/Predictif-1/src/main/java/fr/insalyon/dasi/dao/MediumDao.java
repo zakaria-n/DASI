@@ -24,6 +24,11 @@ public class MediumDao {
         em.persist(medium);
     }
     
+    public void supprimer(Medium medium) {
+        EntityManager em = JpaUtil.obtenirContextePersistance();
+        em.remove(medium);
+    }
+    
     public Medium chercherParId(Long mediumId) {
         EntityManager em = JpaUtil.obtenirContextePersistance();
         return em.find(Medium.class, mediumId); // renvoie null si l'identifiant n'existe pas
@@ -43,17 +48,16 @@ public class MediumDao {
     
     public List<Medium> listerMediums() {
         EntityManager em = JpaUtil.obtenirContextePersistance();
-        TypedQuery<Medium> query = em.createQuery("SELECT c FROM medium c ORDER BY c.nom ASC, c.prenom ASC", Medium.class);
+        TypedQuery<Medium> query = em.createQuery("SELECT m FROM medium m", Medium.class);
         return query.getResultList();
     }
     
     public List<Astrologue> listerAstrologues() {
-        EntityManager em = JpaUtil.obtenirContextePersistance();
-        TypedQuery<Medium> query = em.createQuery("SELECT c FROM medium c ORDER BY c.nom ASC, c.prenom ASC", Medium.class);
-        List<Medium> mediums = query.getResultList();
+        MediumDao dao=new MediumDao();
+        List<Medium> mediums = dao.listerMediums();
         List<Astrologue> astros = null;
         for(int i=0; i < mediums.size(); i++) {
-            if(mediums.get(i).getClass() == Astrologue.class) {
+            if(mediums.get(i) instanceof Astrologue) {
                 astros.add((Astrologue) mediums.get(i));
             }
         }
@@ -61,12 +65,11 @@ public class MediumDao {
     }
 
     public List<Cartomancien> listerCartomanciens() {
-        EntityManager em = JpaUtil.obtenirContextePersistance();
-        TypedQuery<Medium> query = em.createQuery("SELECT c FROM medium c ORDER BY c.nom ASC, c.prenom ASC", Medium.class);
-        List<Medium> mediums = query.getResultList();
+        MediumDao dao=new MediumDao();
+        List<Medium> mediums = dao.listerMediums();
         List<Cartomancien> cartos = null;
         for(int i=0; i < mediums.size(); i++) {
-            if(mediums.get(i).getClass() == Cartomancien.class) {
+            if(mediums.get(i) instanceof Cartomancien) {
                 cartos.add((Cartomancien) mediums.get(i));
             }
         }
@@ -74,12 +77,11 @@ public class MediumDao {
     }
 
     public List<Spirite> listerSpirites() {
-        EntityManager em = JpaUtil.obtenirContextePersistance();
-        TypedQuery<Medium> query = em.createQuery("SELECT c FROM medium c ORDER BY c.nom ASC, c.prenom ASC", Medium.class);
-        List<Medium> mediums = query.getResultList();
+        MediumDao dao=new MediumDao();
+        List<Medium> mediums = dao.listerMediums();
         List<Spirite> spirites = null;
         for(int i=0; i < mediums.size(); i++) {
-            if(mediums.get(i).getClass() == Spirite.class) {
+            if(mediums.get(i) instanceof Spirite) {
                 spirites.add((Spirite) mediums.get(i));
             }
         }
