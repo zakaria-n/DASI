@@ -15,6 +15,7 @@ public class Service {
 
     protected ClientDao clientDao = new ClientDao();
     protected MediumDao mediumDao = new MediumDao();
+    protected EmployeDao employeDao = new EmployeDao();
     
     public Long inscrireClient(Client client) {
         Long resultat = null;
@@ -99,7 +100,7 @@ public class Service {
         return resultat;
     }
     
-    public List<Medium> FilterMediums(String type) {
+    public List<Medium> filterMediums(String type) {
         List<Medium> resultat = null;
         JpaUtil.creerContextePersistance();
         try {
@@ -115,7 +116,7 @@ public class Service {
                     break;
             }
         } catch (Exception ex) {
-            Logger.getAnonymousLogger().log(Level.WARNING, "Exception lors de l'appel au Service listerMediums()", ex);
+            Logger.getAnonymousLogger().log(Level.WARNING, "Exception lors de l'appel au Service FilterMediums()", ex);
             resultat = null;
         } finally {
             JpaUtil.fermerContextePersistance();
@@ -123,13 +124,50 @@ public class Service {
         return resultat;
     }
     
-    public List<Medium> ChercherMediums(String nom) { //nom de medium
+    public List<Medium> chercherMediums(String nom) { //nom de medium
         List<Medium> resultat = null;
         JpaUtil.creerContextePersistance();
         try {
             resultat = mediumDao.chercherParNom(nom);
         } catch (Exception ex) {
-            Logger.getAnonymousLogger().log(Level.WARNING, "Exception lors de l'appel au Service listerMediums()", ex);
+            Logger.getAnonymousLogger().log(Level.WARNING, "Exception lors de l'appel au Service ChercherMediums()", ex);
+            resultat = null;
+        } finally {
+            JpaUtil.fermerContextePersistance();
+        }
+        return resultat;
+    }
+    
+    public Employe choisirEmploye(String genre){
+        List<Employe> resultatDeRequete = null;
+        Employe resultat = null;
+        JpaUtil.creerContextePersistance();
+        try {
+            resultatDeRequete = employeDao.chercherParGenre(genre);
+            int nbConsult = Integer.parseInt(resultatDeRequete.get(0).getNbConsultations());
+            for(Employe emp : resultatDeRequete){
+                if(nbConsult>Integer.parseInt(emp.getNbConsultations())){
+                    nbConsult = Integer.parseInt(emp.getNbConsultations());
+                    resultat = emp;
+                }
+            }
+        } catch (Exception ex) {
+            Logger.getAnonymousLogger().log(Level.WARNING, "Exception lors de l'appel au Service choisirEmploye()", ex);
+            resultat = null;
+        } finally {
+            JpaUtil.fermerContextePersistance();
+        }
+        return resultat;
+    }
+    
+    public List<Medium> demanderConsultation(Long mediumId) { //identifiant du medium choisi
+        Medium resultat = null;
+        JpaUtil.creerContextePersistance();
+        try {
+            resultat = mediumDao.chercherParId(mediumId);
+            Employe e = choisirEmploye(resultat.getGenre());
+        } catch (Exception ex) {
+            Logger.getAnonymousLogger().log(Level.WARNING, "Exception lors de l'appel au Service chercherParId()", ex);
             resultat = null;
         } finally {
             JpaUtil.fermerContextePersistance();

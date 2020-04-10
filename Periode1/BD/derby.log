@@ -1111,3 +1111,6 @@ Fri Apr 10 15:21:26 CEST 2020 Thread[DRDAConnThread_3,5,main] (DATABASE = Predic
 Fri Apr 10 15:52:57 CEST 2020:
 正在使用?加?程序 sun.misc.Launcher$AppClassLoader@1d44bcfa ??数据?目? C:\Users\lenovo\Desktop\3IF\Digital-master\DASI\Periode1\BD\asd 上的?例 e93ac16e-0171-643e-568f-fffffe65c511
 Fri Apr 10 15:52:57 CEST 2020 Thread[DRDAConnThread_3,5,main] (DATABASE = asd), (DRDAID = {15}), 数据?“asd”已??。
+----------------------------------------------------------------
+Fri Apr 10 18:05:09 CEST 2020：正在?? Derby 引擎
+----------------------------------------------------------------
