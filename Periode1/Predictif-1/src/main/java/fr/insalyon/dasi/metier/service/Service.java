@@ -2,8 +2,10 @@ package fr.insalyon.dasi.metier.service;
 
 import fr.insalyon.dasi.technique.service.Message;
 import fr.insalyon.dasi.dao.ClientDao;
+import fr.insalyon.dasi.dao.EmployeDao;
 import fr.insalyon.dasi.dao.JpaUtil;
 import fr.insalyon.dasi.metier.modele.Client;
+import fr.insalyon.dasi.metier.modele.Employe;
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -15,6 +17,7 @@ import java.util.logging.Logger;
 public class Service {
 
     protected ClientDao clientDao = new ClientDao();
+    protected EmployeDao employeDao = new EmployeDao();
 
     public Long inscrireClient(Client client) {
         Long resultat = null;
@@ -26,7 +29,7 @@ public class Service {
             resultat = client.getId();
             Message.envoyerMail("Predictif", client.getMail(), "Inscription réussie", "yay");
         } catch (Exception ex) {
-            Logger.getAnonymousLogger().log(Level.WARNING, "Exception lors de l'appel au Service inscrireClient(client)", ex);
+            Logger.getAnonymousLogger().log(Level.WARNING, "Exception lors de l'appel au Service inscrireClient(client)");
             JpaUtil.annulerTransaction();
             resultat = null;
             Message.envoyerMail("Predictif", client.getMail(), "Inscription refusée", "rip");
@@ -43,6 +46,20 @@ public class Service {
             resultat = clientDao.chercherParId(id);
         } catch (Exception ex) {
             Logger.getAnonymousLogger().log(Level.WARNING, "Exception lors de l'appel au Service rechercherClientParId(id)", ex);
+            resultat = null;
+        } finally {
+            JpaUtil.fermerContextePersistance();
+        }
+        return resultat;
+    }
+    
+    public Employe rechercherEmployeParId(Long id) {
+        Employe resultat = null;
+        JpaUtil.creerContextePersistance();
+        try {
+            resultat = employeDao.chercherParId(id);
+        } catch (Exception ex) {
+            Logger.getAnonymousLogger().log(Level.WARNING, "Exception lors de l'appel au Service rechercherEmployeParId(id)", ex);
             resultat = null;
         } finally {
             JpaUtil.fermerContextePersistance();

@@ -118,6 +118,14 @@ public class Employe implements Serializable {
     public void setNbConsultations(String nbConsultations) {
         this.nbConsultations = nbConsultations;
     }
+
+    public List<Consultation> getConsultations() {
+        return consultations;
+    }
+
+    public void setConsultations(List<Consultation> consultations) {
+        this.consultations = consultations;
+    }
     
 
     @Override
