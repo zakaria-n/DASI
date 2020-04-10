@@ -2,6 +2,7 @@ package fr.insalyon.dasi.ihm.console;
 
 import fr.insalyon.dasi.dao.JpaUtil;
 import fr.insalyon.dasi.metier.modele.Client;
+import fr.insalyon.dasi.metier.modele.Consultation;
 import fr.insalyon.dasi.metier.service.Service;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
@@ -29,10 +30,10 @@ public class Main {
         testerRechercheClient();         // Question 6
         testerListeClients();            // Question 7
         testerAuthentificationClient();  // Question 8
-        saisirInscriptionClient();       // Question 9
+       // saisirInscriptionClient();       // Question 9
         saisirRechercheClient();
         testerProfilAstral();
-
+        testerConsultation();
         JpaUtil.destroy();
     }
 
@@ -267,6 +268,27 @@ public class Main {
             System.out.println("Authentification échouée avec le mail '" + mail + "' et le mot de passe '" + motDePasse + "'");
         }
     }
+    
+        public static void testerConsultation() {
+        System.out.println();
+        System.out.println("**** testerConsultation() ****");
+        System.out.println();
+        
+        Service service = new Service();
+        long id = 1;
+        Client client;
+        client = service.rechercherClientParId(id);
+        SimpleDateFormat dateFormat = new SimpleDateFormat("dd-MM-yyyy");
+        Date date2=null;
+        try {
+            date2 = dateFormat.parse("01-10-2010");
+        } catch (ParseException e) {
+            
+        }
+        Consultation c = new Consultation(date2, "1", "3", "great");
+        client.getConsultations().add(c);
+        System.out.print(client.getConsultations().get(0).getCommentaire());
+        }
 
     public static void saisirInscriptionClient() {
         Service service = new Service();
