@@ -29,7 +29,13 @@ public class Consultation implements Serializable {
     private String heureDebut;
     private String heureFin;
     private String commentaire;
-
+    
+    public Consultation(Date date, String heureDebut, String heureFin, String commentaire) {
+        this.date = date;
+        this.heureDebut = heureDebut;
+        this.heureFin = heureFin;
+        this.commentaire = commentaire;
+    }
     public Long getId() {
         return id;
     }
