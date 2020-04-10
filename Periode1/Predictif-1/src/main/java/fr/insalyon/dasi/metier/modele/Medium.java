@@ -19,7 +19,7 @@ import javax.persistence.OneToMany;
 
 /**
  *
- * @author sophiecrowley
+ * @author zakaria
  */
 
 @Inheritance
@@ -33,7 +33,8 @@ public abstract class Medium implements Serializable {
     private String presentation;
     @OneToMany(cascade = CascadeType.ALL, orphanRemoval = true)
     @JoinColumn(name = "medium_id")
-    private List<Consultation> consultations; 
+    private List<Consultation> consultations;
+    private Integer nbConsultations;
 
     public Medium() {
     }
@@ -43,6 +44,7 @@ public abstract class Medium implements Serializable {
         this.genre = genre;
         this.presentation = presentation;
         this.consultations = new ArrayList<>();
+        this.nbConsultations=this.consultations.size();
     }
 
     public Long getId() {
@@ -81,6 +83,13 @@ public abstract class Medium implements Serializable {
         this.consultations = consultations;
     }
     
+    public int getNbConsultations() {
+        return nbConsultations;
+    }
+    
+    public void setNbConsultations(int nbConsultations) {
+        this.nbConsultations = nbConsultations;
+    }
     @Override
     public String toString() {
         return "Medium{" + "id=" + id + ", denomination=" + denomination + ", genre=" + genre + ", presentation=" + presentation + '}';

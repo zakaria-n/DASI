@@ -80,7 +80,15 @@ public class Main {
         afficherClient(blaise);
         afficherClient(fred);
         System.out.println();
-
+        
+        Consultation a = new Consultation(date, "1", "3", "hmmm");
+        Service service = new Service();
+        ada.getConsultations().add(a);
+        a = new Consultation(date, "4", "5", "pas de problème");
+        blaise.getConsultations().add(a);    
+        a = new Consultation(date, "1", "1:30", "n/a");
+        fred.getConsultations().add(a);
+        
         try {
             em.getTransaction().begin();
             em.persist(ada);
@@ -120,7 +128,19 @@ public class Main {
         Employe one = new Employe("A", "Zakaria", "azak@insa-lyon.fr", "111", "123456", "?", true, "0");
         Employe two = new Employe("B", "Zihao", "bzih@insa-lyon.fr", "222", "123457", "??", true, "0");
         Employe three = new Employe("C", "Sophie", "csop@insa-lyon.fr", "333", "123458", "???", true, "0");
-      
+        
+        Consultation a = new Consultation(date, "1", "3", "great");
+        Service service = new Service();
+        one.getConsultations().add(a);
+        one.setNbConsultations(one.getNbConsultations()+1);
+        a = new Consultation(date, "4", "4:50", "ok");
+        one.getConsultations().add(a);
+        one.setNbConsultations(one.getNbConsultations()+1);
+        
+        a = new Consultation(date, "1", "1:30", "difficile");
+        two.getConsultations().add(a);
+        two.setNbConsultations(two.getNbConsultations()+1);
+        
         System.out.println();
         System.out.println("** Employes avant persistance: ");
         afficherEmploye(one);
@@ -186,6 +206,20 @@ public class Main {
         afficherMedium(five);
         afficherMedium(six);
         System.out.println();
+        
+        Date date = new Date(2010, 4, 5);        
+        Consultation a = new Consultation(date, "8", "9", "great-ish");
+        Service service = new Service();
+        service.creerConsultation(a);
+        one.getConsultations().add(a);
+        one.setNbConsultations(one.getNbConsultations()+1);
+        a = new Consultation(date, "4", "5", "ok-ish");
+        one.getConsultations().add(a);
+        one.setNbConsultations(one.getNbConsultations()+1);
+        
+        a = new Consultation(date, "1", "1:20", "difficile...");
+        two.getConsultations().add(a);
+        two.setNbConsultations(two.getNbConsultations()+1);
 
         try {
             em.getTransaction().begin();
@@ -443,7 +477,7 @@ public class Main {
 
         SimpleDateFormat dateFormat = new SimpleDateFormat("dd-MM-yyyy");
         Date date2=null;
-        
+      
         String nom = Saisie.lireChaine("Nom ? ");
         String prenom = Saisie.lireChaine("Prénom ? ");
         String mail = Saisie.lireChaine("Mail ? ");
