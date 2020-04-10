@@ -131,4 +131,59 @@ public class Service {
         }
         return resultat;
     }
+    
+    public Employe authentifierEmploye(String mail, String motDePasse) {
+        Employe resultat = null;
+        JpaUtil.creerContextePersistance();
+        try {
+            // Recherche du client
+            Employe employe = employeDao.chercherParMail(mail);
+            if (employe != null) {
+                // Vérification du mot de passe
+                if (employe.getMotDePasse().equals(motDePasse)) {
+                    resultat = employe;
+                }
+            }
+        } catch (Exception ex) {
+            Logger.getAnonymousLogger().log(Level.WARNING, "Exception lors de l'appel au Service authentifierEmploye(mail,motDePasse)", ex);
+            resultat = null;
+        } finally {
+            JpaUtil.fermerContextePersistance();
+        }
+        return resultat;
+    }
+    
+  /* 
+    ***    services à mettre en œuvre *** 
+  */   
+    public void showMedium() {
+        
+    }
+     
+    public void deconnexion() {
+        
+    }
+    
+    public void chercherMedium() {
+        
+    }
+    public void demanderConsultation() {
+        
+    }  
+    
+    public void statistics() {
+        
+    } 
+    
+    public void showConsultation() {
+        
+    } 
+    
+    public void generatePrediction() {
+        
+    } 
+    
+    public void ajouterCommentaire() {
+        
+    } 
 }
