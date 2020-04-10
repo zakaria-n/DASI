@@ -341,7 +341,7 @@ public class Main {
         }
         Consultation c = new Consultation(date2, "1", "3", "great");
         client.getConsultations().add(c);
-        System.out.print(client.getConsultations().get(0).getCommentaire());
+        System.out.println(client.getConsultations().get(0).getCommentaire());
         c = new Consultation(date2, "3", "4:30", "not amazing");
         employe.getConsultations().add(c);
         System.out.println(employe.getConsultations().get(0).getCommentaire());
