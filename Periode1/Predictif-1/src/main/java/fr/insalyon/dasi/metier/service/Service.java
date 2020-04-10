@@ -43,24 +43,6 @@ public class Service {
         }
         return resultat;
     }
-    
-    public Long creerConsultation(Consultation c) {
-        Long resultat = null;
-        JpaUtil.creerContextePersistance();
-        try {
-            JpaUtil.ouvrirTransaction();
-            consultationDao.creer(c);
-            JpaUtil.validerTransaction();
-            resultat = c.getId();
-        } catch (Exception ex) {
-            Logger.getAnonymousLogger().log(Level.WARNING, "Exception lors de l'appel au Service creerConsultation(c)");
-            JpaUtil.annulerTransaction();
-            resultat = null;
-        } finally {
-            JpaUtil.fermerContextePersistance();
-        }
-        return resultat;
-    }
 
     public Client rechercherClientParId(Long id) {
         Client resultat = null;
