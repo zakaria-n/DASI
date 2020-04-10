@@ -8,6 +8,7 @@
     <class>fr.insalyon.dasi.metier.modele.Cartomancien</class>
     <class>fr.insalyon.dasi.metier.modele.Spirite</class>
     <class>fr.insalyon.dasi.metier.modele.Employe</class>
+    <class>fr.insalyon.dasi.metier.modele.Consultation</class>
     <properties>
       <property name="javax.persistence.jdbc.url" value="jdbc:derby://localhost:1527/Predictif"/>
       <property name="javax.persistence.jdbc.user" value="Predictif"/>
