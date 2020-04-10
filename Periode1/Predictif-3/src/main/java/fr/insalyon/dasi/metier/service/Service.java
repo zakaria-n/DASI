@@ -123,4 +123,17 @@ public class Service {
         return resultat;
     }
     
+    public List<Medium> ChercherMediums(String nom) { //nom de medium
+        List<Medium> resultat = null;
+        JpaUtil.creerContextePersistance();
+        try {
+            resultat = mediumDao.chercherParNom(nom);
+        } catch (Exception ex) {
+            Logger.getAnonymousLogger().log(Level.WARNING, "Exception lors de l'appel au Service listerMediums()", ex);
+            resultat = null;
+        } finally {
+            JpaUtil.fermerContextePersistance();
+        }
+        return resultat;
+    }
 }

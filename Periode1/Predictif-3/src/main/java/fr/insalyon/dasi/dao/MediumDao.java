@@ -38,40 +38,50 @@ public class MediumDao {
         return result;
     }
     
-    public List<Astrologue> listerAstrologues() {
+    public List<Medium> chercherParNom(String nom) {
+        EntityManager em = JpaUtil.obtenirContextePersistance();
+        TypedQuery<Medium> query = em.createQuery("SELECT c FROM Medium c WHERE c.nom = :nom", Medium.class);
+        query.setParameter("nom", nom); // correspond au paramètre ":mail" dans la requête
+        List<Medium> mediums = query.getResultList();
+        
+        return mediums;
+    }
+    
+    
+    public List<Medium> listerAstrologues() {
         EntityManager em = JpaUtil.obtenirContextePersistance();
         TypedQuery<Medium> query = em.createQuery("SELECT c FROM medium c ORDER BY c.nom ASC, c.prenom ASC", Medium.class);
         List<Medium> mediums = query.getResultList();
-        List<Astrologue> astros = null;
+        List<Medium> astros = null;
         for(int i=0; i < mediums.size(); i++) {
             if(mediums.get(i).getClass() == Astrologue.class) {
-                astros.add((Astrologue) mediums.get(i));
+                astros.add(mediums.get(i));
             }
         }
         return astros;
     }
 
-    public List<Cartomancien> listerCartomanciens() {
+    public List<Medium> listerCartomanciens() {
         EntityManager em = JpaUtil.obtenirContextePersistance();
         TypedQuery<Medium> query = em.createQuery("SELECT c FROM medium c ORDER BY c.nom ASC, c.prenom ASC", Medium.class);
         List<Medium> mediums = query.getResultList();
-        List<Cartomancien> cartos = null;
+        List<Medium> cartos = null;
         for(int i=0; i < mediums.size(); i++) {
             if(mediums.get(i).getClass() == Cartomancien.class) {
-                cartos.add((Cartomancien) mediums.get(i));
+                cartos.add(mediums.get(i));
             }
         }
         return cartos;
     }
 
-    public List<Spirite> listerSpirites() {
+    public List<Medium> listerSpirites() {
         EntityManager em = JpaUtil.obtenirContextePersistance();
         TypedQuery<Medium> query = em.createQuery("SELECT c FROM medium c ORDER BY c.nom ASC, c.prenom ASC", Medium.class);
         List<Medium> mediums = query.getResultList();
-        List<Spirite> spirites = null;
+        List<Medium> spirites = null;
         for(int i=0; i < mediums.size(); i++) {
             if(mediums.get(i).getClass() == Spirite.class) {
-                spirites.add((Spirite) mediums.get(i));
+                spirites.add(mediums.get(i));
             }
         }
         return spirites;
