@@ -5,9 +5,11 @@ import fr.insalyon.dasi.dao.ClientDao;
 import fr.insalyon.dasi.dao.ConsultationDao;
 import fr.insalyon.dasi.dao.EmployeDao;
 import fr.insalyon.dasi.dao.JpaUtil;
+import fr.insalyon.dasi.dao.MediumDao;
 import fr.insalyon.dasi.metier.modele.Client;
 import fr.insalyon.dasi.metier.modele.Consultation;
 import fr.insalyon.dasi.metier.modele.Employe;
+import fr.insalyon.dasi.metier.modele.Medium;
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -122,5 +124,29 @@ public class Service {
         }
         return resultat;
     }
-
+    
+    public List<Medium> filterMediums(String type) {
+        JpaUtil.creerContextePersistance();
+        MediumDao dao = new MediumDao();
+        List<Medium> resultat=null;
+        try {
+            switch(type){
+                case "Cartomancien":
+                    resultat  = dao.listerCartomanciens();
+                    break;
+                case "Astrologue" :
+                    resultat  = dao.listerAstrologues();
+                    break;
+                case "Spirite" :
+                    resultat  = dao.listerSpirites();
+                    break;
+            }
+        } catch (Exception ex) {
+            Logger.getAnonymousLogger().log(Level.WARNING, "Exception lors de l'appel au Service listerMediums()", ex);
+            resultat = null;
+        } finally {
+            JpaUtil.fermerContextePersistance();
+        }
+        return resultat;
+    }
 }
