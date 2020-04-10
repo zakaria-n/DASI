@@ -33,13 +33,16 @@ public class EmployeDao {
         return result;
     }
     
-    public List<Employe> chercherParGenre(String genre) {
+    public Employe chercherParGenre(String genre) {
         EntityManager em = JpaUtil.obtenirContextePersistance();
-        TypedQuery<Employe> query = em.createQuery("SELECT e FROM Employe e WHERE e.genre = :genre", Employe.class);
+        TypedQuery<Employe> query = em.createQuery("SELECT e FROM Employe e WHERE e.genre = :genre ORDER BY e.nbConsultations DESC", Employe.class);
         query.setParameter("genre", genre); // correspond au paramètre ":mail" dans la requête
         List<Employe> Employes = query.getResultList();
-        
-        return Employes;
+        Employe result = null;
+        if (!Employes.isEmpty()) {
+            result = Employes.get(0); // premier de la liste
+        }
+        return result;
     }
     
     

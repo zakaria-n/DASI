@@ -139,18 +139,10 @@ public class Service {
     }
     
     public Employe choisirEmploye(String genre){
-        List<Employe> resultatDeRequete = null;
         Employe resultat = null;
         JpaUtil.creerContextePersistance();
         try {
-            resultatDeRequete = employeDao.chercherParGenre(genre);
-            int nbConsult = Integer.parseInt(resultatDeRequete.get(0).getNbConsultations());
-            for(Employe emp : resultatDeRequete){
-                if(nbConsult>Integer.parseInt(emp.getNbConsultations())){
-                    nbConsult = Integer.parseInt(emp.getNbConsultations());
-                    resultat = emp;
-                }
-            }
+            resultat = employeDao.chercherParGenre(genre);
         } catch (Exception ex) {
             Logger.getAnonymousLogger().log(Level.WARNING, "Exception lors de l'appel au Service choisirEmploye()", ex);
             resultat = null;
