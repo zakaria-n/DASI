@@ -41,6 +41,7 @@ public class Employe implements Serializable {
     private List<Consultation> consultations;
 
     protected Employe() {
+        this.nbConsultations = 0;
     }
 
     public Employe(String nom, String prenom, String mail, String motDePasse, 
@@ -120,12 +121,17 @@ public class Employe implements Serializable {
         return nbConsultations;
     }
 
+    public void setNbConsultations(Integer nbConsultations) {
+        this.nbConsultations = nbConsultations;
+    }
+    
+    
     public List<Consultation> getConsultations() {
         return consultations;
     }
 
-    public void setConsultations(List<Consultation> consultations) {
-        this.consultations = consultations;
+    public void addConsultations(Consultation consultation) {
+        this.consultations.add(consultation);
     }
     
 

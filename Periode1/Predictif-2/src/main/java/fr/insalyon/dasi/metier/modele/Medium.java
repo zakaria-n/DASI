@@ -37,6 +37,7 @@ public abstract class Medium implements Serializable {
     private Integer nbConsultations;
 
     public Medium() {
+        this.nbConsultations = 0;
     }
 
     public Medium(String denomination, String genre, String presentation) {
@@ -79,13 +80,18 @@ public abstract class Medium implements Serializable {
         return consultations;
     }
 
-    public void setConsultations(List<Consultation> consultations) {
-        this.consultations = consultations;
+    public void addConsultations(Consultation consultation) {
+        this.consultations.add(consultation);
     }
     
     public int getNbConsultations() {
         return nbConsultations;
     }
+
+    public void setNbConsultations(Integer nbConsultations) {
+        this.nbConsultations = nbConsultations;
+    }
+    
     
     @Override
     public String toString() {

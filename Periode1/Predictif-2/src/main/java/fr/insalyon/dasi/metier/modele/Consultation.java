@@ -6,6 +6,7 @@
 package fr.insalyon.dasi.metier.modele;
 
 import java.io.Serializable;
+import java.util.Calendar;
 import java.util.Date;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -29,7 +30,7 @@ public class Consultation implements Serializable {
     private String heureDebut;
     private String heureFin;
     private String commentaire;
-    
+    Calendar cal = Calendar.getInstance();
     public Consultation(Date date, String heureDebut, String heureFin, String commentaire) {
         this.date = date;
         this.heureDebut = heureDebut;
