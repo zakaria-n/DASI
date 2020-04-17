@@ -665,6 +665,12 @@ public class Main {
         List<Medium> ls4 = service.filterMediums("Astrologue");
         for(Medium a : ls4)
         System.out.println(a);
+        
+        System.out.println();
+        System.out.println("**Filtrer par nom**");
+        System.out.println();
+        Medium m = service.chercherMedium("Mr M");
+        System.out.println(m.toString());
        
     }
 }
