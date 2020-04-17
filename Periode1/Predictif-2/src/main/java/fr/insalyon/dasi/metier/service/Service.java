@@ -260,14 +260,12 @@ public class Service {
     
     public Employe demanderConsultation(Medium choice, Client client) { //identifiant du medium choisi
         Employe result=null;
-        JpaUtil.creerContextePersistance();
         try {
             result = choisirEmploye(choice.getGenre());
         } catch (Exception ex) {
             Logger.getAnonymousLogger().log(Level.WARNING, "Exception lors de l'appel au Service chercherParId()", ex);
             result = null;
         } finally {
-            JpaUtil.fermerContextePersistance();
         }
         if(result!=null)
         {
@@ -276,11 +274,11 @@ public class Service {
             choice.setNbConsultations(choice.getNbConsultations()+1);
             Calendar calendar = Calendar.getInstance(TimeZone.getDefault());
             Date date = calendar.getTime();
-            Consultation consultation = new Consultation(date,null, null, null );
+            Consultation consultation = new Consultation(date,null, null, null, client, choice, result);
             creerConsultation(consultation);
-            choice.addConsultations(consultation);
-            result.addConsultations(consultation);
-            client.addConsultations(consultation);
+            choice.getConsultations().add(consultation);
+            result.getConsultations().add(consultation);
+            client.getConsultations().add(consultation);
             JpaUtil.creerContextePersistance();
             try {
                 JpaUtil.ouvrirTransaction();
@@ -296,13 +294,13 @@ public class Service {
             }
             Message.envoyerMail("Predictif", result.getMail() , "Nouvelle consultation",
                    "Vous avez une nouvelle consultation où vous devez incarner:"
-            + choice.getDenomination() + "Votre client est joignable au" +
+            + choice.getDenomination() + "\nVotre client est joignable au" +
                            client.getTel());
             
         }else
         {
             Message.envoyerMail("Predictif", client.getMail(), "Demande de consultation rejetée",
-                    "Bonjour,"+"/n" + choice.getDenomination() + "n'est pas disponible"
+                    "Bonjour,"+"\n" + choice.getDenomination() + "n'est pas disponible"
                             + "en ce moment."+ "/n" +"Veuillez réessayer plus tard");
         }
         return result;

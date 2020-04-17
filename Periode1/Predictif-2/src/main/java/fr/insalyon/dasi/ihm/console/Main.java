@@ -46,6 +46,7 @@ public class Main {
         //testerEmployeServices();
         testerMediumServices();
         TestingPrediction();
+        testerDemanderConsultation();
         JpaUtil.destroy();
         
     }
@@ -690,5 +691,18 @@ public class Main {
         {
             System.out.println(c);
         }
+    }
+    
+    public static void testerDemanderConsultation(){
+        Service service = new Service();
+        long id = 1;
+        Client c = service.rechercherClientParId(id);
+        Medium m = service.chercherMedium("Mme Irma");
+        Employe e = service.demanderConsultation(m,c);
+        if (e!=null) {
+                    System.out.println(e.toString());
+        }
+        System.out.println(m.toString());
+        System.out.println(c.toString());
     }
 }
