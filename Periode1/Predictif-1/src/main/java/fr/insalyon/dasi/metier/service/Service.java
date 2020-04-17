@@ -13,6 +13,8 @@ import fr.insalyon.dasi.technique.service.AstroTest;
 import fr.insalyon.dasi.technique.service.Message;
 import fr.insalyon.dasi.technique.service.Statistics;
 import java.io.IOException;
+import java.sql.Timestamp;
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.SortedMap;
@@ -237,6 +239,16 @@ public class Service {
             JpaUtil.fermerContextePersistance();
         }
         return resultat;
+    }
+    
+    public void confirmConsultation(Consultation c) {
+        // send text to client, need client and medium for this
+        c.setHeureDebut(Timestamp.valueOf(LocalDateTime.MIN).toString());
+    }
+    
+    public void terminerConsultation(Consultation c) {
+        // send text to client, need client and medium for this
+        c.setHeureFin(Timestamp.valueOf(LocalDateTime.MIN).toString());
     }
     
     public List<String> generatePrediction(Client c, int amour, int sante, int travail) 
