@@ -6,19 +6,21 @@
 package fr.insalyon.dasi.metier.modele;
 
 import java.io.Serializable;
+import java.util.Calendar;
 import java.util.Date;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.ManyToOne;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 
 /**
  *
- * @author sophiecrowley
+ * @author zakaria
  */
-@Entity(name="Consultation")
+@Entity
 public class Consultation implements Serializable {
 
     @Id
@@ -29,17 +31,22 @@ public class Consultation implements Serializable {
     private String heureDebut;
     private String heureFin;
     private String commentaire;
+    @ManyToOne
+    private Client client;
+    @ManyToOne
+    private Medium medium;
+    @ManyToOne
+    private Employe employe;
 
-    protected Consultation() {
+    public Consultation() {
     }
-
+    
     public Consultation(Date date, String heureDebut, String heureFin, String commentaire) {
         this.date = date;
         this.heureDebut = heureDebut;
         this.heureFin = heureFin;
         this.commentaire = commentaire;
     }
-
     public Long getId() {
         return id;
     }
@@ -75,6 +82,20 @@ public class Consultation implements Serializable {
     public void setCommentaire(String commentaire) {
         this.commentaire = commentaire;
     }
+
+    public Client getClient() {
+        return client;
+    }
+
+    public Medium getMedium() {
+        return medium;
+    }
+
+    public Employe getEmploye() {
+        return employe;
+    }
+    
+    
 
     @Override
     public String toString() {

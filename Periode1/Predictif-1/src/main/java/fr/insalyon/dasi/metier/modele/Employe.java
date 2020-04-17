@@ -1,3 +1,8 @@
+/*
+ * To change this license header, choose License Headers in Project Properties.
+ * To change this template file, choose Tools | Templates
+ * and open the template in the editor.
+ */
 package fr.insalyon.dasi.metier.modele;
 
 import java.io.Serializable;
@@ -14,9 +19,9 @@ import javax.persistence.OneToMany;
 
 /**
  *
- * @author DASI Team
+ * @author zakaria
  */
-@Entity(name="Employe")
+@Entity
 public class Employe implements Serializable {
 
     @Id
@@ -30,25 +35,26 @@ public class Employe implements Serializable {
     private String telephone;
     private String genre;
     private boolean disponible;
-    private int nbConsultations;
+    private Integer nbConsultations;
     @OneToMany(cascade = CascadeType.ALL, orphanRemoval = true)
     @JoinColumn(name = "employe_id")
-    private List<Consultation> consultations; 
-    
+    private List<Consultation> consultations;
+
     protected Employe() {
+        this.nbConsultations = 0;
     }
 
     public Employe(String nom, String prenom, String mail, String motDePasse, 
-            String telephone, String genre, boolean disponible, int nbConsultations) {
+            String telephone, String genre, boolean disponible, Integer nbConsultations) {
         this.nom = nom;
         this.prenom = prenom;
         this.mail = mail;
         this.motDePasse = motDePasse;
         this.telephone = telephone;
         this.genre = genre;
-        this.disponible = disponible;
-        this.nbConsultations = nbConsultations;
-        this.consultations = new ArrayList<>();
+        this.disponible=disponible;
+        this.nbConsultations=nbConsultations;
+        this.consultations= new ArrayList<>();
     }
 
     public Long getId() {
@@ -111,20 +117,21 @@ public class Employe implements Serializable {
         this.disponible = disponible;
     }
 
-    public int getNbConsultations() {
+    public Integer getNbConsultations() {
         return nbConsultations;
     }
 
-    public void setNbConsultations(int nbConsultations) {
+    public void setNbConsultations(Integer nbConsultations) {
         this.nbConsultations = nbConsultations;
     }
-
+    
+    
     public List<Consultation> getConsultations() {
         return consultations;
     }
 
-    public void setConsultations(List<Consultation> consultations) {
-        this.consultations = consultations;
+    public void addConsultations(Consultation consultation) {
+        this.consultations.add(consultation);
     }
     
 
@@ -138,3 +145,4 @@ public class Employe implements Serializable {
     
 
 }
+

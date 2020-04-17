@@ -80,17 +80,19 @@ public abstract class Medium implements Serializable {
         return consultations;
     }
 
-    public void setConsultations(List<Consultation> consultations) {
-        this.consultations = consultations;
+    public void addConsultations(Consultation consultation) {
+        this.consultations.add(consultation);
     }
     
     public int getNbConsultations() {
         return nbConsultations;
     }
-    
-    public void setNbConsultations(int nbConsultations) {
+
+    public void setNbConsultations(Integer nbConsultations) {
         this.nbConsultations = nbConsultations;
     }
+    
+    
     @Override
     public String toString() {
         return "Medium{" + "id=" + id + ", denomination=" + denomination + ", genre=" + genre + ", presentation=" + presentation + '}';

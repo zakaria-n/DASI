@@ -15,8 +15,11 @@ import fr.insalyon.dasi.technique.service.Statistics;
 import java.io.IOException;
 import java.sql.Timestamp;
 import java.time.LocalDateTime;
+import java.util.Calendar;
+import java.util.Date;
 import java.util.List;
 import java.util.SortedMap;
+import java.util.TimeZone;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -225,29 +228,54 @@ public class Service {
         return resultat;
     }
     
-    public Medium demanderConsultation(Long mediumId) { //identifiant du medium choisi
-        Medium resultat = null;
+    public Employe demanderConsultation(Medium choice, Client client) { //identifiant du medium choisi
+        Employe result=null;
         JpaUtil.creerContextePersistance();
         try {
-            resultat = mediumDao.chercherParId(mediumId);
-            Employe e = choisirEmploye(resultat.getGenre());
+            result = choisirEmploye(choice.getGenre());
         } catch (Exception ex) {
             Logger.getAnonymousLogger().log(Level.WARNING, "Exception lors de l'appel au Service chercherParId()", ex);
-            resultat = null;
+            result = null;
         } finally {
             JpaUtil.fermerContextePersistance();
         }
-        return resultat;
-    }
-    
-    public void confirmConsultation(Consultation c) {
-        // send text to client, need client and medium for this
-        c.setHeureDebut(Timestamp.valueOf(LocalDateTime.MIN).toString());
-    }
-    
-    public void terminerConsultation(Consultation c) {
-        // send text to client, need client and medium for this
-        c.setHeureFin(Timestamp.valueOf(LocalDateTime.MIN).toString());
+        if(result!=null)
+        {
+            result.setNbConsultations(result.getNbConsultations()+1);
+            result.setDisponible(false);
+            choice.setNbConsultations(choice.getNbConsultations()+1);
+            Calendar calendar = Calendar.getInstance(TimeZone.getDefault());
+            Date date = calendar.getTime();
+            Consultation consultation = new Consultation(date,null, null, null );
+            creerConsultation(consultation);
+            choice.addConsultations(consultation);
+            result.addConsultations(consultation);
+            client.addConsultations(consultation);
+            JpaUtil.creerContextePersistance();
+            try {
+                JpaUtil.ouvrirTransaction();
+                mediumDao.update(choice);
+                employeDao.update(result);
+                clientDao.update(client);
+                JpaUtil.validerTransaction();
+            } catch (Exception ex) {
+                Logger.getAnonymousLogger().log(Level.WARNING, "Exception lors de l'appel au Service demanderConsultation(c)");
+                JpaUtil.annulerTransaction();
+            } finally {
+                JpaUtil.fermerContextePersistance();
+            }
+            Message.envoyerMail("Predictif", result.getMail() , "Nouvelle consultation",
+                   "Vous avez une nouvelle consultation où vous devez incarner:"
+            + choice.getDenomination() + "Votre client est joignable au" +
+                           client.getTel());
+            
+        }else
+        {
+            Message.envoyerMail("Predictif", client.getMail(), "Demande de consultation rejetée",
+                    "Bonjour,"+"/n" + choice.getDenomination() + "n'est pas disponible"
+                            + "en ce moment."+ "/n" +"Veuillez réessayer plus tard");
+        }
+        return result;
     }
     
     public List<String> generatePrediction(Client c, int amour, int sante, int travail) 
@@ -268,28 +296,13 @@ public class Service {
         c.setCommentaire(comment);
     }
     
-    public void showConsultation(Consultation c) { 
+    public void afficherCommentaire(Consultation c)
+    {
+        System.out.println(c.getCommentaire());
+    }
+    
+    public void showConsultation(Consultation c) { //this might be front-end stuff? idk
         System.out.println(c.toString());
-    }
-    
-    // methods like this can be changed in future to just return a list 
-    // and then in the IHM can process them
-    
-    public void showClientConsultations(Client c) { 
-        List<Consultation> consultations = c.getConsultations();
-        for(int i=0; i < c.getConsultations().size(); i++) {
-            System.out.println(consultations.get(i).toString());
-        }
-    }
-    
-    public void showMediums(List<Medium> mediums) {
-        for(int i=0; i < mediums.size(); i++) {
-            System.out.println(mediums.get(i).toString());
-        }
-    }
-  
-    public void showProfilAstral(Client c) {
-        System.out.println(c.getProfil().toString());
     }
     
     public void statistics() 
@@ -312,4 +325,66 @@ public class Service {
         }
         stats.setClientsParEmploye(clientsParEmploye);
     } 
+    
+    public void confirmConsultation(Consultation c) {
+        // send text to client, need client and medium for this
+        Client client = c.getClient();
+        Medium medium = c.getMedium();
+        Message.envoyerMail("Predictif", client.getMail(), "Consultation confirmée",
+                "Votre consultation est confirmée. Vous allez bientôt  rceevoir un appel"
+                        + "de la part de" + medium.getDenomination());
+        c.setHeureDebut(Timestamp.valueOf(LocalDateTime.MIN).toString());
+        JpaUtil.creerContextePersistance();
+        try {
+            JpaUtil.ouvrirTransaction();
+            consultationDao.update(c);
+            JpaUtil.validerTransaction();
+        } catch (Exception ex) {
+            Logger.getAnonymousLogger().log(Level.WARNING, "Exception lors de l'appel au Service confrimConsultation(c)");
+            JpaUtil.annulerTransaction();
+        } finally {
+            JpaUtil.fermerContextePersistance();
+        }
+    }
+   
+    public void terminerConsultation(Consultation c) {
+        // send text to client, need client and medium for this
+        Client client = c.getClient();
+        Employe employe = c.getEmploye();
+        Message.envoyerMail("Predictif", client.getMail(), "Consultation terminée",
+                "Votre consultation est terminée. Merci de votre confiance.");
+        Message.envoyerMail("Predictif", employe.getMail(), "Consultation terminée",
+                "Vous venez de terminer votre consultation. Veuillez laisser un commentaire"
+                        + "pour assister vos collègues dans le futur.");
+        c.setHeureFin(Timestamp.valueOf(LocalDateTime.MIN).toString());
+        JpaUtil.creerContextePersistance();
+        try {
+            JpaUtil.ouvrirTransaction();
+            consultationDao.update(c);
+            JpaUtil.validerTransaction();
+        } catch (Exception ex) {
+            Logger.getAnonymousLogger().log(Level.WARNING, "Exception lors de l'appel au Service confrimConsultation(c)");
+            JpaUtil.annulerTransaction();
+        } finally {
+            JpaUtil.fermerContextePersistance();
+        }
+    }
+    
+    public void showClientConsultations(Client c) { 
+        List<Consultation> consultations = c.getConsultations();
+        for(int i=0; i < c.getConsultations().size(); i++) {
+            System.out.println(consultations.get(i).toString());
+        }
+    }
+    
+    public void showMediums(List<Medium> mediums) {
+        for(int i=0; i < mediums.size(); i++) {
+            System.out.println(mediums.get(i).toString());
+        }
+    }
+  
+     public void showProfilAstral(Client c) {
+        System.out.println(c.getProfil().toString());
+    }
+
 }
