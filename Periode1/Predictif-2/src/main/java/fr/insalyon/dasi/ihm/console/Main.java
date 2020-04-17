@@ -715,9 +715,8 @@ public class Main {
         Service service = new Service();
         long id = 1;
         Client c = service.rechercherClientParId(id);
-        Medium m = service.chercherMedium("Mme Irma");
-        id = 5;
-        Employe e = service.rechercherEmployeParId(id);
+        Medium m = service.chercherMedium("Serena");
+        Employe e = service.rechercherEmployeParMail("csop@insa-lyon.fr");
         Consultation consul = e.getConsultations().get(0);
         service.confirmConsultation(consul);
         service.showConsultation(consul);
@@ -730,9 +729,8 @@ public class Main {
         Service service = new Service();
         long id = 1;
         Client c = service.rechercherClientParId(id);
-        Medium m = service.chercherMedium("Mme Irna");
-        id = 5;
-        Employe e = service.rechercherEmployeParId(id);
+        Medium m = service.chercherMedium("Serena");
+        Employe e = service.rechercherEmployeParMail("csop@insa-lyon.fr");
         Consultation consul = e.getConsultations().get(0);
         service.terminerConsultation(consul);
         service.showConsultation(consul);
