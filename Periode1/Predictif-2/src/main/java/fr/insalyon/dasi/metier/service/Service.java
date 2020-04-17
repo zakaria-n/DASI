@@ -264,7 +264,7 @@ public class Service {
                 clientDao.update(client);
                 JpaUtil.validerTransaction();
             } catch (Exception ex) {
-                Logger.getAnonymousLogger().log(Level.WARNING, "Exception lors de l'appel au Service creerConsultation(c)");
+                Logger.getAnonymousLogger().log(Level.WARNING, "Exception lors de l'appel au Service demanderConsultation(c)");
                 JpaUtil.annulerTransaction();
             } finally {
                 JpaUtil.fermerContextePersistance();
@@ -339,6 +339,17 @@ public class Service {
                 "Votre consultation est confirmée. Vous allez bientôt  rceevoir un appel"
                         + "de la part de" + medium.getDenomination());
         c.setHeureDebut(Timestamp.valueOf(LocalDateTime.MIN).toString());
+        JpaUtil.creerContextePersistance();
+        try {
+            JpaUtil.ouvrirTransaction();
+            consultationDao.update(c);
+            JpaUtil.validerTransaction();
+        } catch (Exception ex) {
+            Logger.getAnonymousLogger().log(Level.WARNING, "Exception lors de l'appel au Service confrimConsultation(c)");
+            JpaUtil.annulerTransaction();
+        } finally {
+            JpaUtil.fermerContextePersistance();
+        }
     }
    
     public void terminerConsultation(Consultation c) {
@@ -351,6 +362,17 @@ public class Service {
                 "Vous venez de terminer votre consultation. Veuillez laisser un commentaire"
                         + "pour assister vos collègues dans le futur.");
         c.setHeureFin(Timestamp.valueOf(LocalDateTime.MIN).toString());
+        JpaUtil.creerContextePersistance();
+        try {
+            JpaUtil.ouvrirTransaction();
+            consultationDao.update(c);
+            JpaUtil.validerTransaction();
+        } catch (Exception ex) {
+            Logger.getAnonymousLogger().log(Level.WARNING, "Exception lors de l'appel au Service confrimConsultation(c)");
+            JpaUtil.annulerTransaction();
+        } finally {
+            JpaUtil.fermerContextePersistance();
+        }
     }
     
     public void showClientConsultations(Client c) { 
