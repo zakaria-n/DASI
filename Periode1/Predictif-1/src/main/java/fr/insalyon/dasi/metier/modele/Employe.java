@@ -137,7 +137,7 @@ public class Employe implements Serializable {
 
     @Override
     public String toString() {
-        return "Client : id=" + id + ", nom=" + nom + ", prenom=" + prenom + ", "
+        return "Employe : id=" + id + ", nom=" + nom + ", prenom=" + prenom + ", "
                 + "mail=" + mail + ", motDePasse=" + motDePasse + ", téléphone=" 
                 + telephone + ", genre=" + genre + ", disponible=" + disponible + 
                 ", nbConsultations=" + nbConsultations;

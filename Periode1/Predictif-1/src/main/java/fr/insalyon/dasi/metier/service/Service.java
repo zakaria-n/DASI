@@ -244,11 +244,11 @@ public class Service {
             choice.setNbConsultations(choice.getNbConsultations()+1);
             Calendar calendar = Calendar.getInstance(TimeZone.getDefault());
             Date date = calendar.getTime();
-            Consultation consultation = new Consultation(date,null, null, null );
+            Consultation consultation = new Consultation(date,null, null, null, client, choice, result);
             creerConsultation(consultation);
-            choice.addConsultations(consultation);
-            result.addConsultations(consultation);
-            client.addConsultations(consultation);
+            choice.getConsultations().add(consultation);
+            result.getConsultations().add(consultation);
+            client.getConsultations().add(consultation);
             JpaUtil.creerContextePersistance();
             try {
                 JpaUtil.ouvrirTransaction();
@@ -349,6 +349,7 @@ public class Service {
         // send text to client, need client and medium for this
         Client client = c.getClient();
         Employe employe = c.getEmploye();
+        employe.setDisponible(true);
         Message.envoyerMail("Predictif", client.getMail(), "Consultation terminée",
                 "Votre consultation est terminée. Merci de votre confiance.");
         Message.envoyerMail("Predictif", employe.getMail(), "Consultation terminée",
@@ -359,6 +360,7 @@ public class Service {
         try {
             JpaUtil.ouvrirTransaction();
             consultationDao.update(c);
+            employeDao.update(employe);
             JpaUtil.validerTransaction();
         } catch (Exception ex) {
             Logger.getAnonymousLogger().log(Level.WARNING, "Exception lors de l'appel au Service confrimConsultation(c)");

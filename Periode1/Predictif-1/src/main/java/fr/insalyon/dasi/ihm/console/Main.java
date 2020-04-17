@@ -43,6 +43,8 @@ public class Main {
         testerEmployeServices();
         testerMediumServices();
         testerDemanderConsultation();
+        testerConfirmerConsultation();
+        testerTerminerConsultation();
         testerConsultation();
         JpaUtil.destroy();
     }
@@ -654,5 +656,30 @@ public class Main {
         }
         System.out.println(m.toString());
         System.out.println(c.toString());
+    }
+    
+    public static void testerConfirmerConsultation(){
+        Service service = new Service();
+        long id = 1;
+        Client c = service.rechercherClientParId(id);
+        Medium m = service.chercherMedium("Mme Irna");
+        id = 3;
+        Employe e = service.rechercherEmployeParId(id);
+        Consultation consul = e.getConsultations().get(0);
+        service.confirmConsultation(consul);
+        System.out.println(consul.toString());
+    }
+    
+    public static void testerTerminerConsultation(){
+        Service service = new Service();
+        long id = 1;
+        Client c = service.rechercherClientParId(id);
+        Medium m = service.chercherMedium("Mme Irna");
+        id = 3;
+        Employe e = service.rechercherEmployeParId(id);
+        Consultation consul = e.getConsultations().get(0);
+        service.terminerConsultation(consul);
+        System.out.println(consul.toString());
+        System.out.println(e.toString());
     }
 }

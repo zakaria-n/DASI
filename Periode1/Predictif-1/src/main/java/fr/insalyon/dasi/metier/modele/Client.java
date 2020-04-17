@@ -39,7 +39,7 @@ public class Client implements Serializable {
     @Embedded
     private ProfilAstral profil;
     @OneToMany(cascade = CascadeType.ALL, orphanRemoval = true)
-    @JoinColumn(name = "employe_id")
+    @JoinColumn(name = "client_id")
     private List<Consultation> consultations;
 
     protected Client() {

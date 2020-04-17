@@ -41,12 +41,25 @@ public class Consultation implements Serializable {
     public Consultation() {
     }
     
-    public Consultation(Date date, String heureDebut, String heureFin, String commentaire) {
+    public Consultation(Date date, String heureDebut, String heureFin, 
+            String commentaire) {
         this.date = date;
         this.heureDebut = heureDebut;
         this.heureFin = heureFin;
         this.commentaire = commentaire;
     }
+    
+    public Consultation(Date date, String heureDebut, String heureFin, 
+            String commentaire, Client client, Medium medium, Employe employe) {
+        this.date = date;
+        this.heureDebut = heureDebut;
+        this.heureFin = heureFin;
+        this.commentaire = commentaire;
+        this.client = client;
+        this.medium = medium;
+        this.employe = employe;
+    }
+        
     public Long getId() {
         return id;
     }
@@ -94,13 +107,13 @@ public class Consultation implements Serializable {
     public Employe getEmploye() {
         return employe;
     }
-    
-    
 
     @Override
     public String toString() {
-        return "Consultation{" + "id=" + id + ", date=" + date + ", heureDebut=" + heureDebut + ", heureFin=" + heureFin + ", commentaire=" + commentaire + '}';
+        return "Consultation{" + "id=" + id + ", date=" + date + ", heureDebut=" + heureDebut + ", heureFin=" + heureFin + ", commentaire=" + commentaire + ", client=" + client + ", medium=" + medium + ", employe=" + employe + '}';
     }
+    
+    
     
     
 }
