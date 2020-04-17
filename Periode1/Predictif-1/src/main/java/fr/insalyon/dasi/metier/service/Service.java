@@ -257,8 +257,31 @@ public class Service {
         c.setCommentaire(comment);
     }
     
-    public void showConsultation(Consultation c) { //this might be front-end stuff? idk
+    public void showConsultation(Consultation c) { 
         System.out.println(c.toString());
+    }
+    
+    // methods like this can be changed in future to just return a list 
+    // and then in the IHM can process them
+    
+    public void showClientConsultations(Client c) { 
+        List<Consultation> consultations = c.getConsultations();
+        for(int i=0; i < c.getConsultations().size(); i++) {
+            System.out.println(consultations.get(i).toString());
+        }
+    }
+    
+    public void showMediums(List<Medium> mediums) {
+        for(int i=0; i < mediums.size(); i++) {
+            System.out.println(mediums.get(i).toString());
+        }
+    }
+  
+     public void showProfilAstral(Client c) {
+        List<Consultation> consultations = c.getConsultations();
+        for(int i=0; i < c.getConsultations().size(); i++) {
+            System.out.println(consultations.get(i).toString());
+        }
     }
     
     public void statistics() 
