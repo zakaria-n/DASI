@@ -1,6 +1,7 @@
 package fr.insalyon.dasi.ihm.console;
 
 import fr.insalyon.dasi.dao.JpaUtil;
+import fr.insalyon.dasi.dao.MediumDao;
 import fr.insalyon.dasi.metier.modele.Astrologue;
 import fr.insalyon.dasi.metier.modele.Cartomancien;
 import fr.insalyon.dasi.metier.modele.Client;
@@ -9,6 +10,7 @@ import fr.insalyon.dasi.metier.modele.Employe;
 import fr.insalyon.dasi.metier.modele.Medium;
 import fr.insalyon.dasi.metier.modele.Spirite;
 import fr.insalyon.dasi.metier.service.Service;
+import fr.insalyon.dasi.techniques.service.Statistics;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
@@ -41,7 +43,7 @@ public class Main {
         //saisirRechercheClient();
         //testerProfilAstral();
         //testerConsultation();
-        testerEmployeServices();
+        //testerEmployeServices();
         testerMediumServices();
         JpaUtil.destroy();
         
@@ -120,15 +122,23 @@ public class Main {
         EntityManager em = emf.createEntityManager();
         
         Date date = new Date(1998, 3, 2);
-        Employe one = new Employe("A", "Zakaria", "azak@insa-lyon.fr", "111", "123456", "H", true, 0);
-        Employe two = new Employe("B", "Zihao", "bzih@insa-lyon.fr", "222", "123457", "H", true, 0);
-        Employe three = new Employe("C", "Sophie", "csop@insa-lyon.fr", "333", "123458", "F", true, 0);
-      
+        Employe one = new Employe("A", "Zakaria", "azak@insa-lyon.fr", "111", "123456", "H", true, 10);
+        Employe two = new Employe("B", "Zihao", "bzih@insa-lyon.fr", "222", "123457", "H", true, 3);       
+        Employe three = new Employe("C", "Sophie", "csop@insa-lyon.fr", "333", "123458", "F", true, 2);
+        Employe four = new Employe("D", "Howl", "haoru@insa-lyon.fr", "333", "123458", "F", true, 4);
+        Employe five = new Employe("E", "Pikachu", "idk@insa-lyon.fr", "333", "123458", "F", true, 6);
+        Employe six = new Employe("F", "Ushuaia", "what@insa-lyon.fr", "222", "123457", "H", true, 7);
+        Employe seven = new Employe("G", "Vodka", "lol@insa-lyon.fr", "222", "123457", "H", false, 2);
+        
         System.out.println();
         System.out.println("** Employes avant persistance: ");
         afficherEmploye(one);
         afficherEmploye(two);
         afficherEmploye(three);
+        afficherEmploye(four);
+        afficherEmploye(five);
+        afficherEmploye(six);
+        afficherEmploye(seven);
         System.out.println();
 
         try {
@@ -136,6 +146,10 @@ public class Main {
             em.persist(one);
             em.persist(two);
             em.persist(three);
+            em.persist(four);
+            em.persist(five);
+            em.persist(six);
+            em.persist(seven);
             em.getTransaction().commit();
         } catch (Exception ex) {
             Logger.getAnonymousLogger().log(Level.WARNING, "Exception lors de l'appel au Service", ex);
@@ -154,6 +168,10 @@ public class Main {
         afficherEmploye(one);
         afficherEmploye(two);
         afficherEmploye(three);
+        afficherEmploye(four);
+        afficherEmploye(five);
+        afficherEmploye(six);
+        afficherEmploye(seven);
         System.out.println();
     }
     
@@ -168,17 +186,22 @@ public class Main {
         
         Medium one = new Spirite("Professeur Tran", "H", "Votre avenir est devant vous : regardons-le ensemble !", 
                 "Marc de café, boule de cristal, oreilles de lapin");
+        one.setNbConsultations(3);
         Medium two = new Astrologue("Serena", "F", 
                 "Basée à Champigny-sur-Marne, Serena vous révèlera votre avenir pour éclairer votre passé.", 
                 "École Normale Supérieure d’Astrologie (ENS-Astro)", 2006);
+        two.setNbConsultations(40);
         Medium three = new Cartomancien("Mme Irma", "F", "Comprenez votre entourage grâce à mes cartes ! Résultats rapides.");
-        
+        three.setNbConsultations(7);
         Medium four = new Spirite("Gwenaëlle", "F", "Spécialiste des grandes conversations au-delà de TOUTES les frontières.", 
                 "Boule de cristal");
+        four.setNbConsultations(10);
         Medium five = new Astrologue("Mr M", "H", 
                 "Avenir, avenir, que nous réserves-tu ? N'attendez plus, demandez à me consulter!", 
                 " Institut des Nouveaux Savoirs Astrologiques", 2010);
+        five.setNbConsultations(12);
         Medium six = new Cartomancien("Mme Elle", "F", "Résultats excellentes !");
+        six.setNbConsultations(9);
       
         System.out.println();
         System.out.println("** Mediums avant persistance: ");
@@ -566,15 +589,37 @@ public class Main {
         Service service = new Service();
         System.out.println();
         System.out.println("*************");
-        System.out.println("** employe **");
+        System.out.println("** Choisir employe **");
         System.out.println("*************");
         System.out.println();
         System.out.println(service.choisirEmploye("H"));// devrait afficher chappe
         System.out.println(service.choisirEmploye("F"));// devrait afficher le stylo
+        System.out.println("*************");
+        System.out.println("** Tous employés **");
+        System.out.println("*************");
+        List <Employe> lemp = service.listerEmployes();
+        for (Employe e : lemp)
+        {
+            System.out.println(e);
+        }
+        System.out.println("*************");
+        System.out.println("** Employé par Id **");
+        System.out.println("*************");
+        long id=7;
+        System.out.println(service.rechercherEmployeParId((id)));
+        System.out.println("*************");
+        System.out.println("** Employé par mail **");
+        System.out.println(service.rechercherEmployeParMail("haoru@insa-lyon.fr"));
+        System.out.println("*************");
+        System.out.println("*************");
+        System.out.println("** Authentifier employé **");
+        System.out.println("*************");
+        System.out.println(service.authentifierEmploye("csop@insa-lyon.fr","333").toString());
     }
     
     public static void testerMediumServices(){
         Service service = new Service();
+        Statistics stats = new Statistics();
         System.out.println();
         System.out.println("************");
         System.out.println("** medium **");
@@ -595,11 +640,37 @@ public class Main {
         for(Medium a : ls2)
         System.out.println(a);
         
+        System.out.println("**Filtrer les astros**");
+        List<Medium> ls4 = service.filterMediums("Astrologue");
+        for(Medium a : ls4)
+        System.out.println(a);
+        
+        
         System.out.println();
         System.out.println("**Chercher par nom**");
         System.out.println();
-        String nom = Saisie.lireChaine("son nom?");
-        Medium a = service.chercherMedium(nom);
+        Medium a = service.chercherMedium("Serena");
         System.out.println(a);
+        
+        System.out.println();
+        System.out.println("**Afficher Top5");
+        service.statistics(stats);
+        for (Medium m : stats.getTop5())
+        {
+            System.out.println(m);
+        }
+        System.out.println();
+        System.out.println("***Nb de client par emp***");
+        for (Integer i : stats.getClientsParEmploye().keySet())
+        {
+            System.out.println(stats.getClientsParEmploye().get(i).getPrenom()
+            + " | Nb de clients:"+ i);
+        }
+        System.out.println("***Nb de consultations par médium***");
+        for (Integer i : stats.getConsultationsParMedium().keySet())
+        {
+            System.out.println(stats.getConsultationsParMedium().get(i).getDenomination()
+            + " | Nb de consultation:"+ i);
+        }
     }
 }

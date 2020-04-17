@@ -15,11 +15,13 @@ import fr.insalyon.dasi.techniques.service.Statistics;
 import java.io.IOException;
 import java.sql.Timestamp;
 import java.time.LocalDateTime;
+import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
 import java.util.SortedMap;
 import java.util.TimeZone;
+import java.util.TreeMap;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -99,7 +101,21 @@ public class Service {
         }
         return resultat;
     }
-
+    
+    public Employe rechercherEmployeParMail(String mail) {
+        Employe resultat = null;
+        JpaUtil.creerContextePersistance();
+        try {
+            resultat = employeDao.chercherParMail(mail);
+        } catch (Exception ex) {
+            Logger.getAnonymousLogger().log(Level.WARNING, "Exception lors de l'appel au Service rechercherEmployeParId(id)", ex);
+            resultat = null;
+        } finally {
+            JpaUtil.fermerContextePersistance();
+        }
+        return resultat;
+    }
+    
     public Client authentifierClient(String mail, String motDePasse) {
         Client resultat = null;
         JpaUtil.creerContextePersistance();
@@ -148,6 +164,20 @@ public class Service {
         JpaUtil.creerContextePersistance();
         try {
             resultat = clientDao.listerClients();
+        } catch (Exception ex) {
+            Logger.getAnonymousLogger().log(Level.WARNING, "Exception lors de l'appel au Service listerClients()", ex);
+            resultat = null;
+        } finally {
+            JpaUtil.fermerContextePersistance();
+        }
+        return resultat;
+    }
+    
+    public List<Employe> listerEmployes() {
+        List<Employe> resultat = null;
+        JpaUtil.creerContextePersistance();
+        try {
+            resultat = employeDao.listerEmployes();
         } catch (Exception ex) {
             Logger.getAnonymousLogger().log(Level.WARNING, "Exception lors de l'appel au Service listerClients()", ex);
             resultat = null;
@@ -305,25 +335,38 @@ public class Service {
         System.out.println(c.toString());
     }
     
-    public void statistics() 
+    public void statistics(Statistics stats)
     {
-        Statistics stats = null;
-        List<Medium> top5 = mediumDao.listerTop5();
-        stats.setTop5(top5);
-        SortedMap<Integer, Medium> consultationsParMedium = null;
-        List<Medium> mediumList = mediumDao.listerMediums();
-        for (Medium m : mediumList)
-        {
-            consultationsParMedium.put(m.getNbConsultations(), m);
+        List<Medium> top5 = null;
+        List<Medium> mediumList = null;
+        List<Employe> employeList = null;
+        JpaUtil.creerContextePersistance();
+        try {
+            top5 = mediumDao.listerTop5();
+            mediumList = mediumDao.listerMediums();
+            employeList = employeDao.listerEmployes();
+        } catch (Exception ex) {
+            Logger.getAnonymousLogger().log(Level.WARNING, "Exception lors de l'appel au Service statistics()", ex);
+            top5 = null;
+            mediumList = null;
+            employeList = null;
+        } finally {
+            JpaUtil.fermerContextePersistance();
         }
-        stats.setConsultationsParMedium(consultationsParMedium);
-        SortedMap<Integer, Employe> clientsParEmploye = null;
-        List<Employe> employeList=employeDao.listerEmployes();
+        
+        stats.setTop5(top5);
+        SortedMap<Integer, Employe> clientsParEmploye = new TreeMap<>();
+        SortedMap<Integer, Medium> consultationsParMedium = new TreeMap<>();
         for (Employe e : employeList)
         {
             clientsParEmploye.put(e.getNbConsultations(), e);
         }
         stats.setClientsParEmploye(clientsParEmploye);
+        for (Medium m : mediumList)
+        {
+            consultationsParMedium.put(m.getNbConsultations(), m);
+        }
+        stats.setConsultationsParMedium(consultationsParMedium);
     } 
     
     public void confirmConsultation(Consultation c) {

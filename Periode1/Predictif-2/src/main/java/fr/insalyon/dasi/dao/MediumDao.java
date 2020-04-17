@@ -97,8 +97,9 @@ public class MediumDao {
     
     public List<Medium> listerTop5() {
         EntityManager em = JpaUtil.obtenirContextePersistance();
-        TypedQuery<Medium> query = em.createQuery("SELECT m FROM medium m ORDER BY nbConsultations DESC"
-                + "FETCH FIRST 5 ROWS ONLY", Medium.class);
+        TypedQuery<Medium> query = em.createQuery("SELECT m FROM Medium m ORDER BY m.nbConsultations DESC", Medium.class);       
+        query.setMaxResults(5);
+        System.out.println("Retrieved in order");
         return query.getResultList();              
     }
     
