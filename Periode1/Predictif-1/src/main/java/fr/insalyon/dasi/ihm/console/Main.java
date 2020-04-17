@@ -196,17 +196,22 @@ public class Main {
         
         Medium one = new Spirite("Professeur Tran", "H", "Votre avenir est devant vous : regardons-le ensemble !", 
                 "Marc de café, boule de cristal, oreilles de lapin");
+        one.setNbConsultations(3);
         Medium two = new Astrologue("Serena", "F", 
                 "Basée à Champigny-sur-Marne, Serena vous révèlera votre avenir pour éclairer votre passé.", 
                 "École Normale Supérieure d’Astrologie (ENS-Astro)", 2006);
-        Medium three = new Cartomancien("Mme Irna", "F", "Comprenez votre entourage grâce à mes cartes ! Résultats rapides.");
-        
+        two.setNbConsultations(40);
+        Medium three = new Cartomancien("Mme Irma", "F", "Comprenez votre entourage grâce à mes cartes ! Résultats rapides.");
+        three.setNbConsultations(7);
         Medium four = new Spirite("Gwenaëlle", "F", "Spécialiste des grandes conversations au-delà de TOUTES les frontières.", 
                 "Boule de cristal");
+        four.setNbConsultations(10);
         Medium five = new Astrologue("Mr M", "H", 
                 "Avenir, avenir, que nous réserves-tu ? N'attendez plus, demandez à me consulter!", 
                 " Institut des Nouveaux Savoirs Astrologiques", 2010);
+        five.setNbConsultations(12);
         Medium six = new Cartomancien("Mme Elle", "F", "Résultats excellentes !");
+        six.setNbConsultations(9);
       
         System.out.println();
         System.out.println("** Mediums avant persistance: ");
@@ -217,19 +222,6 @@ public class Main {
         afficherMedium(five);
         afficherMedium(six);
         System.out.println();
-        
-        Date date = new Date(2010, 4, 5);        
-        Consultation a = new Consultation(date, "8", "9", "great-ish");
-        Service service = new Service();
-        one.getConsultations().add(a);
-        one.setNbConsultations(one.getNbConsultations()+1);
-        a = new Consultation(date, "4", "5", "ok-ish");
-        one.getConsultations().add(a);
-        one.setNbConsultations(one.getNbConsultations()+1);
-        
-        a = new Consultation(date, "1", "1:20", "difficile...");
-        two.getConsultations().add(a);
-        two.setNbConsultations(two.getNbConsultations()+1);
 
         try {
             em.getTransaction().begin();
@@ -669,7 +661,7 @@ public class Main {
         System.out.println();
         System.out.println("**Filtrer par nom**");
         System.out.println();
-        Medium m = service.chercherMedium("Mme Irna");
+        Medium m = service.chercherMedium("Serena");
         System.out.println(m.toString());
        
         System.out.println();
@@ -678,7 +670,7 @@ public class Main {
         service.statistics(stats);
         for (Medium med : stats.getTop5())
         {
-            System.out.println(m);
+            System.out.println(med);
         }
         System.out.println();
         System.out.println("***Nb de client par emp***");
@@ -696,10 +688,13 @@ public class Main {
     }
     
     public static void testerDemanderConsultation(){
+        System.out.println("*****************************");
+        System.out.println("Testing request for consultation");
+        System.out.println("*****************************");
         Service service = new Service();
         long id = 1;
         Client c = service.rechercherClientParId(id);
-        Medium m = service.chercherMedium("Mme Irna");
+        Medium m = service.chercherMedium("Serena");
         Employe e = service.demanderConsultation(m,c);
         if (e!=null) {
             afficherEmploye(e);
@@ -709,6 +704,9 @@ public class Main {
     }
     
     public static void testerConfirmerConsultation(){
+        System.out.println("*****************************");
+        System.out.println("Testing confirmation of consultation");
+        System.out.println("*****************************");
         Service service = new Service();
         long id = 1;
         Client c = service.rechercherClientParId(id);
@@ -721,6 +719,9 @@ public class Main {
     }
     
     public static void testerTerminerConsultation(){
+        System.out.println("*****************************");
+        System.out.println("Testing termination of consultation");
+        System.out.println("*****************************");
         Service service = new Service();
         long id = 1;
         Client c = service.rechercherClientParId(id);
