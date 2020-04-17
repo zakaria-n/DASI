@@ -164,7 +164,7 @@ public class Service {
         try {
             resultat = employeDao.listerEmployes();
         } catch (Exception ex) {
-            Logger.getAnonymousLogger().log(Level.WARNING, "Exception lors de l'appel au Service listerClients()", ex);
+            Logger.getAnonymousLogger().log(Level.WARNING, "Exception lors de l'appel au Service listerEmployes()", ex);
             resultat = null;
         } finally {
             JpaUtil.fermerContextePersistance();
@@ -188,7 +188,7 @@ public class Service {
                     break;
             }
         } catch (Exception ex) {
-            Logger.getAnonymousLogger().log(Level.WARNING, "Exception lors de l'appel au Service listerMediums()", ex);
+            Logger.getAnonymousLogger().log(Level.WARNING, "Exception lors de l'appel au Service filterMediums()", ex);
             resultat = null;
         } finally {
             JpaUtil.fermerContextePersistance();
@@ -203,7 +203,7 @@ public class Service {
         try {
             resultat = mediumDao.listerMediums();
         } catch (Exception ex) {
-            Logger.getAnonymousLogger().log(Level.WARNING, "Exception lors de l'appel au Service listerClients()", ex);
+            Logger.getAnonymousLogger().log(Level.WARNING, "Exception lors de l'appel au Service listerMediums()", ex);
             resultat = null;
         } finally {
             JpaUtil.fermerContextePersistance();
@@ -248,7 +248,7 @@ public class Service {
         try {
             result = choisirEmploye(choice.getGenre());
         } catch (Exception ex) {
-            Logger.getAnonymousLogger().log(Level.WARNING, "Exception lors de l'appel au Service chercherParId()", ex);
+            Logger.getAnonymousLogger().log(Level.WARNING, "Exception lors de l'appel au Service demanderConsultation()", ex);
             result = null;
         } finally {
         }
@@ -356,7 +356,7 @@ public class Service {
         Client client = c.getClient();
         Medium medium = c.getMedium();
         Message.envoyerMail("Predictif", client.getMail(), "Consultation confirmée",
-                "Votre consultation est confirmée. Vous allez bientôt  rceevoir un appel"
+                "Votre consultation est confirmée. Vous allez bientôt  recevoir un appel"
                         + "de la part de" + medium.getDenomination());
         c.setHeureDebut(Timestamp.valueOf(LocalDateTime.MIN).toString());
         JpaUtil.creerContextePersistance();
