@@ -43,8 +43,8 @@ public class MediumDao {
     
     public Medium chercherParDenomination(String denomination) {
         EntityManager em = JpaUtil.obtenirContextePersistance();
-        TypedQuery<Medium> query = em.createQuery("SELECT c FROM Medium c WHERE c.mail = :mail", Medium.class);
-        query.setParameter("denomination", denomination); // correspond au paramètre ":mail" dans la requête
+        TypedQuery<Medium> query = em.createQuery("SELECT c FROM Medium c WHERE c.denomination = :denomination", Medium.class);
+        query.setParameter("denomination", denomination); // correspond au paramètre ":denomination" dans la requête
         List<Medium> mediums = query.getResultList();
         Medium result = null;
         if (!mediums.isEmpty()) {
