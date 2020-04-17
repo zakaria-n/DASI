@@ -35,9 +35,26 @@ public class Main {
         
         testerEmployeServices();
         testerMediumServices();
+        
         JpaUtil.destroy();
     }
-
+    
+    public static void testerConsultationServices(){
+        Service service = new Service();
+        System.out.println();
+        System.out.println("**************************");
+        System.out.println("** Demande Consultation **");
+        System.out.println("**************************");
+        System.out.println();
+        
+        Employe e = service.demanderConsultation(service.chercherMedium("irma"), service.rechercherClientParId((long)(1)));
+        System.out.println(e);
+        Consultation c = e.getConsultations().get(e.getNbConsultations()-1);//the last consultation
+        System.out.println(c);
+        service.confirmConsultation(c);
+        service.terminerConsultation(c);
+    }
+    
     public static void testerEmployeServices(){
         Service service = new Service();
         System.out.println();
@@ -73,15 +90,17 @@ public class Main {
         System.out.println("**Lister TOUT**");
         System.out.println();
         List<Medium> ls1 = service.listerMediums();
-        for(Medium a : ls1)
-        System.out.println(a);
+        for(Medium a : ls1){
+            System.out.println(a);
+        }
         
         System.out.println();
         System.out.println("**Filtrer les cartos**");
         System.out.println();
         List<Medium> ls2 = service.filterMediums("Cartomancien");
-        for(Medium a : ls2)
-        System.out.println(a);
+        for(Medium a : ls2){
+            System.out.println(a);
+        }
         
         System.out.println();
         System.out.println("**Chercher par nom**");
