@@ -40,7 +40,7 @@ public class Main {
         //saisirInscriptionClient();       // Question 9
         //saisirRechercheClient();
         //testerProfilAstral();
-        testerConsultation();
+        //testerConsultation();
         testerEmployeServices();
         testerMediumServices();
         JpaUtil.destroy();
@@ -171,7 +171,7 @@ public class Main {
         Medium two = new Astrologue("Serena", "F", 
                 "Basée à Champigny-sur-Marne, Serena vous révèlera votre avenir pour éclairer votre passé.", 
                 "École Normale Supérieure d’Astrologie (ENS-Astro)", 2006);
-        Medium three = new Cartomancien("Mme Irna", "F", "Comprenez votre entourage grâce à mes cartes ! Résultats rapides.");
+        Medium three = new Cartomancien("Mme Irma", "F", "Comprenez votre entourage grâce à mes cartes ! Résultats rapides.");
         
         Medium four = new Spirite("Gwenaëlle", "F", "Spécialiste des grandes conversations au-delà de TOUTES les frontières.", 
                 "Boule de cristal");

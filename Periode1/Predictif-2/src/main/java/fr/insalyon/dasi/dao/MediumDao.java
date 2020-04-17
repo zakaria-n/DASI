@@ -9,6 +9,7 @@ import fr.insalyon.dasi.metier.modele.Astrologue;
 import fr.insalyon.dasi.metier.modele.Cartomancien;
 import fr.insalyon.dasi.metier.modele.Medium;
 import fr.insalyon.dasi.metier.modele.Spirite;
+import java.util.ArrayList;
 import java.util.List;
 import javax.persistence.EntityManager;
 import javax.persistence.TypedQuery;
@@ -42,7 +43,7 @@ public class MediumDao {
     
     public Medium chercherParDenomination(String denomination) {
         EntityManager em = JpaUtil.obtenirContextePersistance();
-        TypedQuery<Medium> query = em.createQuery("SELECT c FROM Medium c WHERE c.mail = :mail", Medium.class);
+        TypedQuery<Medium> query = em.createQuery("SELECT c FROM Medium c WHERE c.denomination = :denomination", Medium.class);
         query.setParameter("denomination", denomination); // correspond au paramètre ":mail" dans la requête
         List<Medium> mediums = query.getResultList();
         Medium result = null;
@@ -61,7 +62,7 @@ public class MediumDao {
     public List<Medium> listerAstrologues() {
         MediumDao dao=new MediumDao();
         List<Medium> mediums = dao.listerMediums();
-        List<Medium> astros = null;
+        ArrayList<Medium> astros = new ArrayList<Medium>();
         for(int i=0; i < mediums.size(); i++) {
             if(mediums.get(i) instanceof Astrologue) {
                 astros.add((Astrologue) mediums.get(i));
@@ -73,7 +74,7 @@ public class MediumDao {
     public List<Medium> listerCartomanciens() {
         MediumDao dao=new MediumDao();
         List<Medium> mediums = dao.listerMediums();
-        List<Medium> cartos = null;
+        ArrayList<Medium> cartos = new ArrayList<Medium>();
         for(int i=0; i < mediums.size(); i++) {
             if(mediums.get(i) instanceof Cartomancien) {
                 cartos.add((Cartomancien) mediums.get(i));
@@ -85,7 +86,7 @@ public class MediumDao {
     public List<Medium> listerSpirites() {
         MediumDao dao=new MediumDao();
         List<Medium> mediums = dao.listerMediums();
-        List<Medium> spirites = null;
+        ArrayList<Medium> spirites = new ArrayList<Medium>();
         for(int i=0; i < mediums.size(); i++) {
             if(mediums.get(i) instanceof Spirite) {
                 spirites.add((Spirite) mediums.get(i));
