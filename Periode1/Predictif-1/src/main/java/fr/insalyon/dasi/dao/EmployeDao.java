@@ -16,6 +16,12 @@ public class EmployeDao {
         em.persist(employe);
     }
     
+    public void update(Employe employe)
+    {
+        EntityManager em = JpaUtil.obtenirContextePersistance();
+        em.merge(employe);
+    }
+    
     public Employe chercherParId(Long employeId) {
         EntityManager em = JpaUtil.obtenirContextePersistance();
         return em.find(Employe.class, employeId); // renvoie null si l'identifiant n'existe pas
@@ -41,7 +47,7 @@ public class EmployeDao {
     
     public Employe chercherParGenre(String genre) {
         EntityManager em = JpaUtil.obtenirContextePersistance();
-        TypedQuery<Employe> query = em.createQuery("SELECT e FROM Employe e WHERE e.genre = :genre AND e.disponible==true BY e.nbConsultations DESC", Employe.class);
+        TypedQuery<Employe> query = em.createQuery("SELECT e FROM Employe e WHERE e.genre = :genre AND e.disponible=true BY e.nbConsultations DESC", Employe.class);
         query.setParameter("genre", genre); // correspond au paramètre ":genre" dans la requête
         List<Employe> Employes = query.getResultList();
         Employe result = null;

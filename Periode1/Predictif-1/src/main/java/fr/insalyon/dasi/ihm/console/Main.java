@@ -33,14 +33,16 @@ public class Main {
         initialiserClients();            // Question 3
         initialiserEmployes();
         initialiserMediums();
-        testerInscriptionClient();       // Question 4 & 5
-        testerRechercheClient();         // Question 6
-        testerListeClients();            // Question 7
-        testerAuthentificationClient();  // Question 8
+       // testerInscriptionClient();       // Question 4 & 5
+        //testerRechercheClient();         // Question 6
+       // testerListeClients();            // Question 7
+        //testerAuthentificationClient();  // Question 8
        // saisirInscriptionClient();       // Question 9
-        saisirRechercheClient();
-        testerProfilAstral();
+        //saisirRechercheClient();
+        // testerProfilAstral();
         testerConsultation();
+       // testerEmployeServices();
+        testerMediumServices();
         JpaUtil.destroy();
     }
 
@@ -588,5 +590,87 @@ public class Main {
         System.out.println("*****************");
         System.out.println();
 
+    }
+    
+        /*public static void testerEmployeServices(){
+        Service service = new Service();
+        System.out.println();
+        System.out.println("*************");
+        System.out.println("** employe **");
+        System.out.println("*************");
+        System.out.println();
+        EntityManagerFactory emf = Persistence.createEntityManagerFactory("PU-TP");
+        EntityManager em = emf.createEntityManager();
+        Employe a = new Employe("Chappe", "Claude", "claude.chappe@insa-lyon.fr",
+                "123456","1234567890","H",true,0);
+        Employe b = new Employe("Tadokoro", "Koji", "tdkrkj@inm.jp",
+                "114514","1919810","F",true,1919);
+        Employe c = new Employe("Le Stylo", "Marie", "mls@mls.fr",
+                "114514","1919810","F",true,2);
+        Employe d = new Employe("Bernard", "Claude", "claude.bernard@insa-lyon.fr",
+                "123456","1234567890","H",false,0);
+        try {
+            em.getTransaction().begin();
+            em.persist(a);
+            em.persist(b);
+            em.persist(c);
+            em.getTransaction().commit();
+        } catch (Exception ex) {
+            Logger.getAnonymousLogger().log(Level.WARNING, "Exception lors de l'appel au Service", ex);
+            try {
+                em.getTransaction().rollback();
+            }
+            catch (IllegalStateException ex2) {
+                // Ignorer cette exception...
+            }
+        } finally {
+            em.close();
+        }
+        System.out.println(service.choisirEmploye("H"));// devrait afficher chappe
+        System.out.println(service.choisirEmploye("F"));// devrait afficher le stylo
+    }*/
+    
+    public static void testerMediumServices(){
+        Service service = new Service();
+        System.out.println();
+        System.out.println("************");
+        System.out.println("** medium **");
+        System.out.println("************");
+        System.out.println();
+       
+        System.out.println();
+        System.out.println("**Lister TOUT**");
+        System.out.println();
+        List<Medium> ls1 = service.listerMediums();
+        for(Medium a : ls1)
+        System.out.println(a);
+        
+        System.out.println();
+        System.out.println("**Filtrer les cartos**");
+        System.out.println();
+        List<Medium> ls2 = service.filterMediums("Cartomancien");
+        for(Medium a : ls2)
+        System.out.println(a);
+        
+        System.out.println();
+        System.out.println("**Filtrer les spirites**");
+        System.out.println();
+        List<Medium> ls3 = service.filterMediums("Spirite");
+        for(Medium a : ls3)
+        System.out.println(a);
+        
+        System.out.println();
+        System.out.println("**Filtrer les astros**");
+        System.out.println();
+        List<Medium> ls4 = service.filterMediums("Astrologue");
+        for(Medium a : ls4)
+        System.out.println(a);
+        
+        System.out.println();
+        System.out.println("**Filtrer par nom**");
+        System.out.println();
+        Medium m = service.chercherMedium("Mr M");
+        System.out.println(m.toString());
+       
     }
 }

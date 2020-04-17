@@ -33,15 +33,18 @@ public class Main {
         initialiserClients();            // Question 3
         initialiserEmployes();
         initialiserMediums();
-        testerInscriptionClient();       // Question 4 & 5
-        testerRechercheClient();         // Question 6
-        testerListeClients();            // Question 7
-        testerAuthentificationClient();  // Question 8
-        saisirInscriptionClient();       // Question 9
-        saisirRechercheClient();
-        testerProfilAstral();
-        testerConsultation();
+        //testerInscriptionClient();       // Question 4 & 5
+        //testerRechercheClient();         // Question 6
+        //testerListeClients();            // Question 7
+        //testerAuthentificationClient();  // Question 8
+        //saisirInscriptionClient();       // Question 9
+        //saisirRechercheClient();
+        //testerProfilAstral();
+        //testerConsultation();
+        testerEmployeServices();
+        testerMediumServices();
         JpaUtil.destroy();
+        
     }
 
     public static void afficherClient(Client client) {
@@ -117,9 +120,9 @@ public class Main {
         EntityManager em = emf.createEntityManager();
         
         Date date = new Date(1998, 3, 2);
-        Employe one = new Employe("A", "Zakaria", "azak@insa-lyon.fr", "111", "123456", "?", true, 0);
-        Employe two = new Employe("B", "Zihao", "bzih@insa-lyon.fr", "222", "123457", "??", true, 0);
-        Employe three = new Employe("C", "Sophie", "csop@insa-lyon.fr", "333", "123458", "???", true, 0);
+        Employe one = new Employe("A", "Zakaria", "azak@insa-lyon.fr", "111", "123456", "H", true, 0);
+        Employe two = new Employe("B", "Zihao", "bzih@insa-lyon.fr", "222", "123457", "H", true, 0);
+        Employe three = new Employe("C", "Sophie", "csop@insa-lyon.fr", "333", "123458", "F", true, 0);
       
         System.out.println();
         System.out.println("** Employes avant persistance: ");
@@ -168,7 +171,7 @@ public class Main {
         Medium two = new Astrologue("Serena", "F", 
                 "Basée à Champigny-sur-Marne, Serena vous révèlera votre avenir pour éclairer votre passé.", 
                 "École Normale Supérieure d’Astrologie (ENS-Astro)", 2006);
-        Medium three = new Cartomancien("Mme Irna", "F", "Comprenez votre entourage grâce à mes cartes ! Résultats rapides.");
+        Medium three = new Cartomancien("Mme Irma", "F", "Comprenez votre entourage grâce à mes cartes ! Résultats rapides.");
         
         Medium four = new Spirite("Gwenaëlle", "F", "Spécialiste des grandes conversations au-delà de TOUTES les frontières.", 
                 "Boule de cristal");
@@ -557,5 +560,46 @@ public class Main {
         System.out.println("*****************");
         System.out.println();
 
+    }
+    
+    public static void testerEmployeServices(){
+        Service service = new Service();
+        System.out.println();
+        System.out.println("*************");
+        System.out.println("** employe **");
+        System.out.println("*************");
+        System.out.println();
+        System.out.println(service.choisirEmploye("H"));// devrait afficher chappe
+        System.out.println(service.choisirEmploye("F"));// devrait afficher le stylo
+    }
+    
+    public static void testerMediumServices(){
+        Service service = new Service();
+        System.out.println();
+        System.out.println("************");
+        System.out.println("** medium **");
+        System.out.println("************");
+        System.out.println();
+       
+        System.out.println();
+        System.out.println("**Lister TOUT**");
+        System.out.println();
+        List<Medium> ls1 = service.listerMediums();
+        for(Medium a : ls1)
+        System.out.println(a);
+        
+        System.out.println();
+        System.out.println("**Filtrer les cartos**");
+        System.out.println();
+        List<Medium> ls2 = service.filterMediums("Cartomancien");
+        for(Medium a : ls2)
+        System.out.println(a);
+        
+        System.out.println();
+        System.out.println("**Chercher par nom**");
+        System.out.println();
+        String nom = Saisie.lireChaine("son nom?");
+        Medium a = service.chercherMedium(nom);
+        System.out.println(a);
     }
 }

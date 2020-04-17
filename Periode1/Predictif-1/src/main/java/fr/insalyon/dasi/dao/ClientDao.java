@@ -16,6 +16,12 @@ public class ClientDao {
         em.persist(client);
     }
     
+    public void update(Client client)
+    {
+        EntityManager em = JpaUtil.obtenirContextePersistance();
+        em.merge(client);
+    }
+    
     public void supprimer(Client client) {
         EntityManager em = JpaUtil.obtenirContextePersistance();
         em.remove(client);
