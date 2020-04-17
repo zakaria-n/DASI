@@ -1,17 +1,21 @@
 @startuml
-class Utilisateur << abstract >>{
+class Client << Entity >>{
 nom: String
 prenom: String
 mail: String
 mdp: String
 tel: String
 genre: String
-}
-class Client << Entity >>{
 dateNaissance: Date
 adresse: String
 }
 class Employe << Entity >>{
+nom: String
+prenom: String
+mail: String
+mdp: String
+tel: String
+genre: String
 dispo: boolean
 nbConsultations: Integer
 }
@@ -20,13 +24,14 @@ class ProfilAstral << Entity >> {
 signeZodiaque: String
 astroChinois: String
 couleurBonheur: String
-animakTotem: String
+animalTotem: String
 }
 
 class Medium << abstract >>{
 denomination: String
 genre: String
 presentation: String
+nbConsultations: Integer
 }
 class Cartomancien << Entity >>
 {
@@ -48,8 +53,6 @@ heureDebut: String
 heureFin: String
 commentaire: String
 }
-Utilisateur <|-- Client
-Utilisateur <|-- Employe
 Client "1" *-- "1" ProfilAstral: possède
 Medium <|-- Cartomancien
 Medium <|-- Astrologue

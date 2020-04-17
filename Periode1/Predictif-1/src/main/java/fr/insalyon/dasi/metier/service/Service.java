@@ -13,7 +13,8 @@ import fr.insalyon.dasi.technique.service.AstroTest;
 import fr.insalyon.dasi.technique.service.Message;
 import fr.insalyon.dasi.technique.service.Statistics;
 import java.io.IOException;
-import java.util.ArrayList;
+import java.sql.Timestamp;
+import java.time.LocalDateTime;
 import java.util.List;
 import java.util.SortedMap;
 import java.util.logging.Level;
@@ -239,6 +240,16 @@ public class Service {
         return resultat;
     }
     
+    public void confirmConsultation(Consultation c) {
+        // send text to client, need client and medium for this
+        c.setHeureDebut(Timestamp.valueOf(LocalDateTime.MIN).toString());
+    }
+    
+    public void terminerConsultation(Consultation c) {
+        // send text to client, need client and medium for this
+        c.setHeureFin(Timestamp.valueOf(LocalDateTime.MIN).toString());
+    }
+    
     public List<String> generatePrediction(Client c, int amour, int sante, int travail) 
     {
         List<String> result = null;
@@ -257,8 +268,31 @@ public class Service {
         c.setCommentaire(comment);
     }
     
-    public void showConsultation(Consultation c) { //this might be front-end stuff? idk
+    public void showConsultation(Consultation c) { 
         System.out.println(c.toString());
+    }
+    
+    // methods like this can be changed in future to just return a list 
+    // and then in the IHM can process them
+    
+    public void showClientConsultations(Client c) { 
+        List<Consultation> consultations = c.getConsultations();
+        for(int i=0; i < c.getConsultations().size(); i++) {
+            System.out.println(consultations.get(i).toString());
+        }
+    }
+    
+    public void showMediums(List<Medium> mediums) {
+        for(int i=0; i < mediums.size(); i++) {
+            System.out.println(mediums.get(i).toString());
+        }
+    }
+  
+     public void showProfilAstral(Client c) {
+        List<Consultation> consultations = c.getConsultations();
+        for(int i=0; i < c.getConsultations().size(); i++) {
+            System.out.println(consultations.get(i).toString());
+        }
     }
     
     public void statistics() 
