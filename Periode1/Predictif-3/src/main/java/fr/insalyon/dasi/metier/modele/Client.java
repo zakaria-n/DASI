@@ -1,18 +1,13 @@
 package fr.insalyon.dasi.metier.modele;
 
 import java.io.Serializable;
-import java.util.ArrayList;
 import java.util.Date;
-import java.util.List;
-import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Embedded;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
-import javax.persistence.JoinColumn;
-import javax.persistence.OneToMany;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 
@@ -38,9 +33,6 @@ public class Client implements Serializable {
     private String adresse;
     @Embedded
     private ProfilAstral profil;
-    @OneToMany(cascade = CascadeType.ALL, orphanRemoval = true)
-    @JoinColumn(name = "employe_id")
-    private List<Consultation> consultations;
 
     protected Client() {
     }
@@ -56,7 +48,6 @@ public class Client implements Serializable {
         this.dateNaissance=dateNaissance;
         this.adresse=adresse;
         profil=new ProfilAstral(nom,dateNaissance);
-        this.consultations=new ArrayList<>();
     }
 
     public Long getId() {
@@ -114,35 +105,6 @@ public class Client implements Serializable {
     public ProfilAstral getProfil() {
         return profil;
     }
-
-    public List<Consultation> getConsultations() {
-        return consultations;
-    }
-
-    public void setTel(String tel) {
-        this.tel = tel;
-    }
-
-    public void setGenre(String genre) {
-        this.genre = genre;
-    }
-
-    public void setDateNaissance(Date dateNaissance) {
-        this.dateNaissance = dateNaissance;
-    }
-
-    public void setAdresse(String adresse) {
-        this.adresse = adresse;
-    }
-
-    public void setProfil(ProfilAstral profil) {
-        this.profil = profil;
-    }
-
-    public void addConsultations(Consultation consultation) {
-        this.consultations.add(consultation);
-    }
-    
     
     @Override
     public String toString() {
