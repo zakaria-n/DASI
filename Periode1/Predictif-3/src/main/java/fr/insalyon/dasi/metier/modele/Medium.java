@@ -6,35 +6,48 @@
 package fr.insalyon.dasi.metier.modele;
 
 import java.io.Serializable;
+import java.util.ArrayList;
+import java.util.List;
+import javax.persistence.CascadeType;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Inheritance;
+import javax.persistence.JoinColumn;
+import javax.persistence.OneToMany;
 
 /**
  *
  * @author zakaria
  */
+
 @Inheritance
 @Entity
-public abstract class Medium implements Serializable{
+public abstract class Medium implements Serializable {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
     private String denomination;
     private String genre;
     private String presentation;
+    @OneToMany(cascade = CascadeType.ALL, orphanRemoval = true)
+    @JoinColumn(name = "medium_id")
+    private List<Consultation> consultations;
+    private Integer nbConsultations;
+
+    public Medium() {
+        this.nbConsultations = 0;
+    }
 
     public Medium(String denomination, String genre, String presentation) {
         this.denomination = denomination;
         this.genre = genre;
         this.presentation = presentation;
+        this.consultations = new ArrayList<>();
+        this.nbConsultations=this.consultations.size();
     }
-    
-    public Medium() {
-    }
-    
+
     public Long getId() {
         return id;
     }
@@ -63,17 +76,26 @@ public abstract class Medium implements Serializable{
         this.presentation = presentation;
     }
 
+    public List<Consultation> getConsultations() {
+        return consultations;
+    }
+
+    public void addConsultations(Consultation consultation) {
+        this.consultations.add(consultation);
+    }
+    
+    public int getNbConsultations() {
+        return nbConsultations;
+    }
+
+    public void setNbConsultations(Integer nbConsultations) {
+        this.nbConsultations = nbConsultations;
+    }
+    
+    
     @Override
     public String toString() {
         return "Medium{" + "id=" + id + ", denomination=" + denomination + ", genre=" + genre + ", presentation=" + presentation + '}';
-    }
-
-    public int getNbConsultations() {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
-    }
-
-    public void setNbConsultations(int i) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
     
 }

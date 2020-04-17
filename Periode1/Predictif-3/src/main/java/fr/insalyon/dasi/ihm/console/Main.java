@@ -46,13 +46,13 @@ public class Main {
         System.out.println("*************");
         System.out.println();
         Employe a = new Employe("Chappe", "Claude", "claude.chappe@insa-lyon.fr",
-                "123456","1234567890","H",true,"0");
+                "123456","1234567890","H",true,0);
         Employe b = new Employe("Tadokoro", "Koji", "tdkrkj@inm.jp",
-                "114514","1919810","F",true,"1919");
+                "114514","1919810","F",true,1919);
         Employe c = new Employe("Le Stylo", "Marie", "mls@mls.fr",
-                "114514","1919810","F",true,"2");
+                "114514","1919810","F",true,2);
         Employe d = new Employe("Bernard", "Claude", "claude.bernard@insa-lyon.fr",
-                "123456","1234567890","H",false,"0");
+                "123456","1234567890","H",false,0);
         service.inscrireEmploye(a);
         service.inscrireEmploye(b);
         service.inscrireEmploye(c);
@@ -87,9 +87,8 @@ public class Main {
         System.out.println("**Chercher par nom**");
         System.out.println();
         String nom = Saisie.lireChaine("son nom?");
-        List<Medium> ls3 = service.chercherMediums(nom);
-        for(Medium a : ls3)
-        System.out.println(a);
+        Medium ls3 = service.chercherMedium(nom);
+        System.out.println(ls3);
     }
     
     public static void afficherClient(Client client) {
