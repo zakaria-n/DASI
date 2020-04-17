@@ -3,7 +3,8 @@ package fr.insalyon.dasi.metier.service;
 import fr.insalyon.dasi.dao.*;
 import fr.insalyon.dasi.metier.modele.*;
 import fr.insalyon.dasi.techniques.service.Message;
-import java.util.List;
+import java.time.ZoneId;
+import java.util.*;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -31,6 +32,26 @@ public class Service {
             JpaUtil.annulerTransaction();
             resultat = null;
             Message.envoyerMail("Predictif", client.getMail(), "Inscription refusée", "rip");
+        } finally {
+            JpaUtil.fermerContextePersistance();
+        }
+        return resultat;
+    }
+    
+    public Long inscrireEmploye(Employe employe) {
+        Long resultat = null;
+        JpaUtil.creerContextePersistance();
+        try {
+            JpaUtil.ouvrirTransaction();
+            employeDao.creer(employe);
+            JpaUtil.validerTransaction();
+            resultat = employe.getId();
+            //Message.envoyerMail("Predictif", client.getMail(), "Inscription réussie", "yay");
+        } catch (Exception ex) {
+            Logger.getAnonymousLogger().log(Level.WARNING, "Exception lors de l'appel au Service inscrireClient(client)", ex);
+            JpaUtil.annulerTransaction();
+            resultat = null;
+            //Message.envoyerMail("Predictif", client.getMail(), "Inscription refusée", "rip");
         } finally {
             JpaUtil.fermerContextePersistance();
         }
@@ -152,18 +173,44 @@ public class Service {
         return resultat;
     }
     
-    public List<Medium> demanderConsultation(Long mediumId) { //identifiant du medium choisi
-        Medium resultat = null;
+    /*public Employe demanderConsultation(Long mediumId, Long clientId) { //identifiant du medium choisi
+        Medium choice = null;
+        Employe result=null;
+        Client client=clientDao.chercherParId(clientId);
         JpaUtil.creerContextePersistance();
         try {
-            resultat = mediumDao.chercherParId(mediumId);
-            Employe e = choisirEmploye(resultat.getGenre());
+            choice = mediumDao.chercherParId(mediumId);
+            result = choisirEmploye(choice.getGenre());
         } catch (Exception ex) {
             Logger.getAnonymousLogger().log(Level.WARNING, "Exception lors de l'appel au Service chercherParId()", ex);
-            resultat = null;
+            result = null;
         } finally {
             JpaUtil.fermerContextePersistance();
         }
-        return resultat;
-    }
+        if(result!=null)
+        {
+            result.setNbConsultations(result.getNbConsultations()+1);
+            result.setDisponible(false);
+            choice.setNbConsultations(choice.getNbConsultations()+1);
+            Date debut = new Date();
+            debut.toInstant().atZone(ZoneId.systemDefault()).getHour();
+            Calendar calendar = Calendar.getInstance(TimeZone.getDefault());
+            Date date = calendar.getTime();
+            Consultation consultation = new Consultation(date,debut.toString(), null, null );
+            choice.addConsultations(consultation);
+            result.addConsultations(consultation);
+            Message.envoyerMail("Predictif", result.getMail() , "Nouvelle consultation",
+                   "Vous avez une nouvelle consultation où vous devez incarner:"
+            + choice.getDenomination());
+            
+        }else
+        {
+            Message.envoyerMail("Predictif", client.getMail(), "Demande de consultation rejetée",
+                    "Bonjour,"+"/n" + choice.getDenomination() + "n'est pas disponible"
+                            + "en ce moment."+ "/n" +"Veuillez réessayer plus tard");
+        }
+        return result;
+    }*/
+    
+    //public void confirmerConsultation()
 }

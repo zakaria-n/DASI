@@ -30,6 +30,10 @@ public class Consultation implements Serializable {
     private String heureFin;
     private String commentaire;
 
+    public Consultation(Date date, String toString, Object object, Object object0) {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
+
     public Long getId() {
         return id;
     }

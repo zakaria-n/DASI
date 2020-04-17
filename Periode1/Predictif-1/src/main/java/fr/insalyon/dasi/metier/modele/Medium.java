@@ -37,6 +37,7 @@ public abstract class Medium implements Serializable {
     private Integer nbConsultations;
 
     public Medium() {
+        this.nbConsultations = 0;
     }
 
     public Medium(String denomination, String genre, String presentation) {
