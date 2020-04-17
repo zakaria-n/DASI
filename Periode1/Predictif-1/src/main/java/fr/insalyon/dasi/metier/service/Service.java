@@ -100,6 +100,20 @@ public class Service {
         }
         return resultat;
     }
+    
+    public Employe rechercherEmployeParMail(String mail) {
+        Employe resultat = null;
+        JpaUtil.creerContextePersistance();
+        try {
+            resultat = employeDao.chercherParMail(mail);
+        } catch (Exception ex) {
+            Logger.getAnonymousLogger().log(Level.WARNING, "Exception lors de l'appel au Service rechercherEmployeParId(id)", ex);
+            resultat = null;
+        } finally {
+            JpaUtil.fermerContextePersistance();
+        }
+        return resultat;
+    }
 
     public Client authentifierClient(String mail, String motDePasse) {
         Client resultat = null;
