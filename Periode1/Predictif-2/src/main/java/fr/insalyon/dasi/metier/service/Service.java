@@ -313,8 +313,8 @@ public class Service {
         List<String> result = null;
         AstroTest astro = new AstroTest();
         try {
-            result=astro.getPredictions(c.getProfil().getCouleurBonheur(), 
-                    c.getProfil().getAnimalTotem(), amour, sante, travail);
+            result=astro.getPredictions(c.getProfil().getCouleurBonheur(),
+                    c.getProfil().getAnimalTotem(),amour,sante,travail);
         } catch (IOException ex) {
             Logger.getLogger(Service.class.getName()).log(Level.SEVERE, null, ex);
         }
