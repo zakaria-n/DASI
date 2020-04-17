@@ -30,7 +30,7 @@ public class Employe implements Serializable {
     private String telephone;
     private String genre;
     private boolean disponible;
-    private String nbConsultations;
+    private int nbConsultations;
     @OneToMany(cascade = CascadeType.ALL, orphanRemoval = true)
     @JoinColumn(name = "employe_id")
     private List<Consultation> consultations; 
@@ -39,7 +39,7 @@ public class Employe implements Serializable {
     }
 
     public Employe(String nom, String prenom, String mail, String motDePasse, 
-            String telephone, String genre, boolean disponible, String nbConsultations) {
+            String telephone, String genre, boolean disponible, int nbConsultations) {
         this.nom = nom;
         this.prenom = prenom;
         this.mail = mail;
@@ -111,11 +111,11 @@ public class Employe implements Serializable {
         this.disponible = disponible;
     }
 
-    public String getNbConsultations() {
+    public int getNbConsultations() {
         return nbConsultations;
     }
 
-    public void setNbConsultations(String nbConsultations) {
+    public void setNbConsultations(int nbConsultations) {
         this.nbConsultations = nbConsultations;
     }
 

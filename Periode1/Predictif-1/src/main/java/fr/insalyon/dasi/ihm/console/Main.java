@@ -125,9 +125,9 @@ public class Main {
         EntityManager em = emf.createEntityManager();
         
         Date date = new Date(1998, 3, 2);
-        Employe one = new Employe("A", "Zakaria", "azak@insa-lyon.fr", "111", "123456", "?", true, "0");
-        Employe two = new Employe("B", "Zihao", "bzih@insa-lyon.fr", "222", "123457", "??", true, "0");
-        Employe three = new Employe("C", "Sophie", "csop@insa-lyon.fr", "333", "123458", "???", true, "0");
+        Employe one = new Employe("A", "Zakaria", "azak@insa-lyon.fr", "111", "123456", "?", true, 0);
+        Employe two = new Employe("B", "Zihao", "bzih@insa-lyon.fr", "222", "123457", "??", true, 0);
+        Employe three = new Employe("C", "Sophie", "csop@insa-lyon.fr", "333", "123458", "???", true, 0);
         
         Consultation a = new Consultation(date, "1", "3", "great");
         Service service = new Service();

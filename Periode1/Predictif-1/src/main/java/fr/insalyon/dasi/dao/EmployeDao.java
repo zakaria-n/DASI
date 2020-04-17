@@ -39,5 +39,16 @@ public class EmployeDao {
         return query.getResultList();
     }
     
-    // modifier / supprimer  ... 
+    public Employe chercherParGenre(String genre) {
+        EntityManager em = JpaUtil.obtenirContextePersistance();
+        TypedQuery<Employe> query = em.createQuery("SELECT e FROM Employe e WHERE e.genre = :genre AND e.disponible==true BY e.nbConsultations DESC", Employe.class);
+        query.setParameter("genre", genre); // correspond au paramètre ":genre" dans la requête
+        List<Employe> Employes = query.getResultList();
+        Employe result = null;
+        if (!Employes.isEmpty()) {
+            result = Employes.get(0); // premier de la liste
+        }
+        return result;
+    }
+    
 }
