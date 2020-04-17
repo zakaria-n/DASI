@@ -41,7 +41,7 @@ public class Main {
         //testerAuthentificationClient();  // Question 8
         //saisirInscriptionClient();       // Question 9
         //saisirRechercheClient();
-        0testerProfilAstral();
+        testerProfilAstral();
         testerConsultation();
         testerEmployeServices();
         testerMediumServices();
