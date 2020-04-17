@@ -9,6 +9,7 @@ import fr.insalyon.dasi.metier.modele.Employe;
 import fr.insalyon.dasi.metier.modele.Medium;
 import fr.insalyon.dasi.metier.modele.Spirite;
 import fr.insalyon.dasi.metier.service.Service;
+import fr.insalyon.dasi.technique.service.Statistics;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
@@ -130,27 +131,23 @@ public class Main {
         EntityManager em = emf.createEntityManager();
         
         Date date = new Date(1998, 3, 2);
-        Employe one = new Employe("A", "Zakaria", "azak@insa-lyon.fr", "111", "123456", "?", true, 0);
-        Employe two = new Employe("B", "Zihao", "bzih@insa-lyon.fr", "222", "123457", "??", true, 0);
-        Employe three = new Employe("C", "Sophie", "csop@insa-lyon.fr", "333", "123458", "F", true, 0);
-        
-        Consultation a = new Consultation(date, "1", "3", "great");
-        Service service = new Service();
-        one.getConsultations().add(a);
-        one.setNbConsultations(one.getNbConsultations()+1);
-        a = new Consultation(date, "4", "4:50", "ok");
-        one.getConsultations().add(a);
-        one.setNbConsultations(one.getNbConsultations()+1);
-        
-        a = new Consultation(date, "1", "1:30", "difficile");
-        two.getConsultations().add(a);
-        two.setNbConsultations(two.getNbConsultations()+1);
+        Employe one = new Employe("A", "Zakaria", "azak@insa-lyon.fr", "111", "123456", "H", true, 10);
+        Employe two = new Employe("B", "Zihao", "bzih@insa-lyon.fr", "222", "123457", "H", true, 3);       
+        Employe three = new Employe("C", "Sophie", "csop@insa-lyon.fr", "333", "123458", "F", true, 2);
+        Employe four = new Employe("D", "Howl", "haoru@insa-lyon.fr", "333", "123458", "F", true, 4);
+        Employe five = new Employe("E", "Pikachu", "idk@insa-lyon.fr", "333", "123458", "F", true, 6);
+        Employe six = new Employe("F", "Ushuaia", "what@insa-lyon.fr", "222", "123457", "H", true, 7);
+        Employe seven = new Employe("G", "Vodka", "lol@insa-lyon.fr", "222", "123457", "H", false, 2);
         
         System.out.println();
         System.out.println("** Employes avant persistance: ");
         afficherEmploye(one);
         afficherEmploye(two);
         afficherEmploye(three);
+        afficherEmploye(four);
+        afficherEmploye(five);
+        afficherEmploye(six);
+        afficherEmploye(seven);
         System.out.println();
 
         try {
@@ -158,6 +155,10 @@ public class Main {
             em.persist(one);
             em.persist(two);
             em.persist(three);
+            em.persist(four);
+            em.persist(five);
+            em.persist(six);
+            em.persist(seven);
             em.getTransaction().commit();
         } catch (Exception ex) {
             Logger.getAnonymousLogger().log(Level.WARNING, "Exception lors de l'appel au Service", ex);
@@ -176,6 +177,10 @@ public class Main {
         afficherEmploye(one);
         afficherEmploye(two);
         afficherEmploye(three);
+        afficherEmploye(four);
+        afficherEmploye(five);
+        afficherEmploye(six);
+        afficherEmploye(seven);
         System.out.println();
     }
     
@@ -597,8 +602,31 @@ public class Main {
     
     public static void testerEmployeServices(){
         Service service = new Service();
-        System.out.println(service.choisirEmploye("F"));// devrait afficher chappe
-        System.out.println(service.choisirEmploye("??"));// devrait afficher le stylo
+        System.out.println();
+        System.out.println("*************");
+        System.out.println("** Choisir employe **");
+        System.out.println("*************");
+        System.out.println();
+        System.out.println(service.choisirEmploye("H"));// devrait afficher chappe
+        System.out.println(service.choisirEmploye("F"));// devrait afficher le stylo
+        System.out.println("*************");
+        System.out.println("** Tous employés **");
+        System.out.println("*************");
+        List <Employe> lemp = service.listerEmployes();
+        for (Employe e : lemp)
+        {
+            System.out.println(e);
+        }
+        System.out.println("*************");
+        System.out.println("** Employé par Id **");
+        System.out.println("*************");
+        long id=7;
+        System.out.println(service.rechercherEmployeParId((id)));
+        System.out.println("*************");
+        System.out.println("*************");
+        System.out.println("** Authentifier employé **");
+        System.out.println("*************");
+        System.out.println(service.authentifierEmploye("csop@insa-lyon.fr","333").toString());
     }
     
     public static void testerMediumServices(){
@@ -643,6 +671,27 @@ public class Main {
         Medium m = service.chercherMedium("Mme Irna");
         System.out.println(m.toString());
        
+        System.out.println();
+        System.out.println("**Afficher Top5");
+        Statistics stats = new Statistics();
+        service.statistics(stats);
+        for (Medium med : stats.getTop5())
+        {
+            System.out.println(m);
+        }
+        System.out.println();
+        System.out.println("***Nb de client par emp***");
+        for (Integer i : stats.getClientsParEmploye().keySet())
+        {
+            System.out.println(stats.getClientsParEmploye().get(i).getPrenom()
+            + " | Nb de clients:"+ i);
+        }
+        System.out.println("***Nb de consultations par médium***");
+        for (Integer i : stats.getConsultationsParMedium().keySet())
+        {
+            System.out.println(stats.getConsultationsParMedium().get(i).getDenomination()
+            + " | Nb de consultation:"+ i);
+        }
     }
     
     public static void testerDemanderConsultation(){
@@ -663,7 +712,7 @@ public class Main {
         long id = 1;
         Client c = service.rechercherClientParId(id);
         Medium m = service.chercherMedium("Mme Irna");
-        id = 3;
+        id = 4;
         Employe e = service.rechercherEmployeParId(id);
         Consultation consul = e.getConsultations().get(0);
         service.confirmConsultation(consul);
@@ -675,7 +724,7 @@ public class Main {
         long id = 1;
         Client c = service.rechercherClientParId(id);
         Medium m = service.chercherMedium("Mme Irna");
-        id = 3;
+        id = 4;
         Employe e = service.rechercherEmployeParId(id);
         Consultation consul = e.getConsultations().get(0);
         service.terminerConsultation(consul);
