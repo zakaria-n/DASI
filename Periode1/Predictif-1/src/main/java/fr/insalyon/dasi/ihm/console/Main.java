@@ -33,16 +33,16 @@ public class Main {
         initialiserClients();            // Question 3
         initialiserEmployes();
         initialiserMediums();
-        testerInscriptionClient();       // Question 4 & 5
-        testerRechercheClient();         // Question 6
-        testerListeClients();            // Question 7
-        testerAuthentificationClient();  // Question 8
+       // testerInscriptionClient();       // Question 4 & 5
+        //testerRechercheClient();         // Question 6
+       // testerListeClients();            // Question 7
+        //testerAuthentificationClient();  // Question 8
        // saisirInscriptionClient();       // Question 9
-        saisirRechercheClient();
-        testerProfilAstral();
+        //saisirRechercheClient();
+        // testerProfilAstral();
         testerConsultation();
        // testerEmployeServices();
-       // testerMediumServices();
+        testerMediumServices();
         JpaUtil.destroy();
     }
 
@@ -628,7 +628,7 @@ public class Main {
         }
         System.out.println(service.choisirEmploye("H"));// devrait afficher chappe
         System.out.println(service.choisirEmploye("F"));// devrait afficher le stylo
-    }
+    }*/
     
     public static void testerMediumServices(){
         Service service = new Service();
@@ -651,6 +651,20 @@ public class Main {
         List<Medium> ls2 = service.filterMediums("Cartomancien");
         for(Medium a : ls2)
         System.out.println(a);
+        
+        System.out.println();
+        System.out.println("**Filtrer les spirites**");
+        System.out.println();
+        List<Medium> ls3 = service.filterMediums("Spirite");
+        for(Medium a : ls3)
+        System.out.println(a);
+        
+        System.out.println();
+        System.out.println("**Filtrer les astros**");
+        System.out.println();
+        List<Medium> ls4 = service.filterMediums("Astrologue");
+        for(Medium a : ls4)
+        System.out.println(a);
        
-    }*/
+    }
 }
