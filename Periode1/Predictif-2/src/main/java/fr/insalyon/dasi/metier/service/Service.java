@@ -9,7 +9,10 @@ import fr.insalyon.dasi.metier.modele.Client;
 import fr.insalyon.dasi.metier.modele.Consultation;
 import fr.insalyon.dasi.metier.modele.Employe;
 import fr.insalyon.dasi.metier.modele.Medium;
+import fr.insalyon.dasi.techniques.service.AstroTest;
 import fr.insalyon.dasi.techniques.service.Message;
+import java.io.IOException;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -112,7 +115,8 @@ public class Service {
         return resultat;
     }
     
-    public Employe authentifierEmploye(String mail, String motDePasse) {
+    public Employe authentifierEmploye(String mail, String motDePasse) 
+    {
         Employe resultat = null;
         JpaUtil.creerContextePersistance();
         try {
@@ -203,5 +207,46 @@ public class Service {
         }
         return resultat;
     }
- 
+    
+    public Employe choisirEmploye(String genre){
+        Employe resultat = null;
+        JpaUtil.creerContextePersistance();
+        try {
+            resultat = employeDao.chercherParGenre(genre);
+        } catch (Exception ex) {
+            Logger.getAnonymousLogger().log(Level.WARNING, "Exception lors de l'appel au Service choisirEmploye()", ex);
+            resultat = null;
+        } finally {
+            JpaUtil.fermerContextePersistance();
+        }
+        return resultat;
+    }
+    
+    public Medium demanderConsultation(Long mediumId) { //identifiant du medium choisi
+        Medium resultat = null;
+        JpaUtil.creerContextePersistance();
+        try {
+            resultat = mediumDao.chercherParId(mediumId);
+            Employe e = choisirEmploye(resultat.getGenre());
+        } catch (Exception ex) {
+            Logger.getAnonymousLogger().log(Level.WARNING, "Exception lors de l'appel au Service chercherParId()", ex);
+            resultat = null;
+        } finally {
+            JpaUtil.fermerContextePersistance();
+        }
+        return resultat;
+    }
+    
+    public List<String> generatePrediction(Client c, int amour, int sante, int travail) 
+    {
+        List<String> result = null;
+        AstroTest astro = new AstroTest();
+        try {
+            result=astro.getPredictions(c.getProfil().getCouleurBonheur(), 
+                    c.getProfil().getAnimalTotem(), amour, sante, travail);
+        } catch (IOException ex) {
+            Logger.getLogger(Service.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        return result;
+    } 
 }
