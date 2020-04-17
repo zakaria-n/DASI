@@ -47,6 +47,7 @@ public class Main {
         testerConfirmerConsultation();
         testerTerminerConsultation();
         testerConsultation();
+        testingPrediction();
         JpaUtil.destroy();
     }
 
@@ -732,5 +733,22 @@ public class Main {
         afficherEmploye(e);
         service.ajouterCommentaire(consul, "fini");
         service.afficherCommentaire(consul);
+    }
+    
+    public static void testingPrediction()
+    {
+        System.out.println("*****************************");
+        System.out.println("Testing prediction generator");
+        System.out.println("*****************************");
+        Service service = new Service();
+        long id = 2;
+        Client client = service.rechercherClientParId(id);
+        System.out.println("Found client");
+        List<String> pred = service.generatePrediction(client, 2, 3, 3);
+        System.out.println("Got prediction");
+        for (String c : pred)
+        {
+            System.out.println(c);
+        }
     }
 }
