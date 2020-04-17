@@ -11,9 +11,11 @@ import fr.insalyon.dasi.metier.modele.Employe;
 import fr.insalyon.dasi.metier.modele.Medium;
 import fr.insalyon.dasi.techniques.service.AstroTest;
 import fr.insalyon.dasi.techniques.service.Message;
+import fr.insalyon.dasi.techniques.service.Statistics;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.SortedMap;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -248,5 +250,35 @@ public class Service {
             Logger.getLogger(Service.class.getName()).log(Level.SEVERE, null, ex);
         }
         return result;
+    }
+    
+    public void ajouterCommentaire(Consultation c, String comment) 
+    {
+        c.setCommentaire(comment);
+    }
+    
+    public void showConsultation(Consultation c) { //this might be front-end stuff? idk
+        System.out.println(c.toString());
+    }
+    
+    public void statistics() 
+    {
+        Statistics stats = null;
+        List<Medium> top5 = mediumDao.listerTop5();
+        stats.setTop5(top5);
+        SortedMap<Integer, Medium> consultationsParMedium = null;
+        List<Medium> mediumList = mediumDao.listerMediums();
+        for (Medium m : mediumList)
+        {
+            consultationsParMedium.put(m.getNbConsultations(), m);
+        }
+        stats.setConsultationsParMedium(consultationsParMedium);
+        SortedMap<Integer, Employe> clientsParEmploye = null;
+        List<Employe> employeList=employeDao.listerEmployes();
+        for (Employe e : employeList)
+        {
+            clientsParEmploye.put(e.getNbConsultations(), e);
+        }
+        stats.setClientsParEmploye(clientsParEmploye);
     } 
 }
