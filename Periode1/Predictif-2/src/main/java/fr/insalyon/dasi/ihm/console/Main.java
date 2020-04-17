@@ -45,6 +45,7 @@ public class Main {
         //testerConsultation();
         //testerEmployeServices();
         testerMediumServices();
+        TestingPrediction();
         JpaUtil.destroy();
         
     }
@@ -671,6 +672,23 @@ public class Main {
         {
             System.out.println(stats.getConsultationsParMedium().get(i).getDenomination()
             + " | Nb de consultation:"+ i);
+        }
+    }
+    
+    public static void TestingPrediction()
+    {
+        System.out.println("*****************************");
+        System.out.println("Testing prediction generator");
+        System.out.println("*****************************");
+        Service service = new Service();
+        long id = 2;
+        Client client = service.rechercherClientParId(id);
+        System.out.println("Found client");
+        List<String> pred = service.generatePrediction(client, 2, 3, 3);
+        System.out.println("Got prediction");
+        for (String c : pred)
+        {
+            System.out.println(c);
         }
     }
 }
