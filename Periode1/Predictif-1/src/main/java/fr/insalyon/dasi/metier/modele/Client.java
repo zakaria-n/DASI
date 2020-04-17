@@ -20,7 +20,7 @@ import javax.persistence.TemporalType;
  *
  * @author DASI Team
  */
-@Entity(name="Client")
+@Entity
 public class Client implements Serializable {
 
     @Id
@@ -31,32 +31,32 @@ public class Client implements Serializable {
     @Column(unique = true)
     private String mail;
     private String motDePasse;
-    private String telephone;
+    private String tel;
     private String genre;
     @Temporal(TemporalType.DATE)
-    private Date date;
+    private Date dateNaissance;
     private String adresse;
     @Embedded
     private ProfilAstral profil;
     @OneToMany(cascade = CascadeType.ALL, orphanRemoval = true)
-    @JoinColumn(name = "client_id")
-    private List<Consultation> consultations;    
+    @JoinColumn(name = "employe_id")
+    private List<Consultation> consultations;
 
     protected Client() {
     }
 
     public Client(String nom, String prenom, String mail, String motDePasse, 
-            String telephone, String genre, Date date, String adresse) {
+            String tel, String genre, Date dateNaissance, String adresse) {
         this.nom = nom;
         this.prenom = prenom;
         this.mail = mail;
         this.motDePasse = motDePasse;
-        this.telephone = telephone;
-        this.genre = genre;
-        this.date = date;
-        this.adresse = adresse;
-        profil = new ProfilAstral(nom, date);
-        this.consultations = new ArrayList<>();
+        this.tel=tel;
+        this.genre=genre;
+        this.dateNaissance=dateNaissance;
+        this.adresse=adresse;
+        profil=new ProfilAstral(nom,dateNaissance);
+        this.consultations=new ArrayList<>();
     }
 
     public Long getId() {
@@ -94,62 +94,62 @@ public class Client implements Serializable {
     public void setMotDePasse(String motDePasse) {
         this.motDePasse = motDePasse;
     }
-    
-    public String getTelephone() {
-        return telephone;
-    }
 
-    public void setTelephone(String telephone) {
-        this.telephone = telephone;
+    public String getTel() {
+        return tel;
     }
 
     public String getGenre() {
         return genre;
     }
 
-    public void setGenre(String genre) {
-        this.genre = genre;
-    }
-
-    public Date getDate() {
-        return date;
-    }
-
-    public void setDate(Date date) {
-        this.date = date;
+    public Date getDateNaissance() {
+        return dateNaissance;
     }
 
     public String getAdresse() {
         return adresse;
     }
 
-    public void setAdresse(String adresse) {
-        this.adresse = adresse;
-    }
-
     public ProfilAstral getProfil() {
         return profil;
-    }
-
-    public void setProfil(ProfilAstral profil) {
-        this.profil = profil;
     }
 
     public List<Consultation> getConsultations() {
         return consultations;
     }
 
-    public void setConsultations(List<Consultation> consultations) {
-        this.consultations = consultations;
+    public void setTel(String tel) {
+        this.tel = tel;
+    }
+
+    public void setGenre(String genre) {
+        this.genre = genre;
+    }
+
+    public void setDateNaissance(Date dateNaissance) {
+        this.dateNaissance = dateNaissance;
+    }
+
+    public void setAdresse(String adresse) {
+        this.adresse = adresse;
+    }
+
+    public void setProfil(ProfilAstral profil) {
+        this.profil = profil;
+    }
+
+    public void addConsultations(Consultation consultation) {
+        this.consultations.add(consultation);
     }
     
-
+    
     @Override
     public String toString() {
         return "Client : id=" + id + ", nom=" + nom + ", prenom=" + prenom + ", "
                 + "mail=" + mail + ", motDePasse=" + motDePasse + ", téléphone=" 
-                + telephone + ", genre=" + genre + ", date=" + date + 
-                ", adresse=" + adresse;
+                + tel + ", genre=" + genre + ", date de naissance=" + dateNaissance 
+                + ", adresse="+ adresse;
     }
     
 

@@ -9,6 +9,7 @@ import fr.insalyon.dasi.metier.modele.Astrologue;
 import fr.insalyon.dasi.metier.modele.Cartomancien;
 import fr.insalyon.dasi.metier.modele.Medium;
 import fr.insalyon.dasi.metier.modele.Spirite;
+import java.util.ArrayList;
 import java.util.List;
 import javax.persistence.EntityManager;
 import javax.persistence.TypedQuery;
@@ -22,6 +23,12 @@ public class MediumDao {
     public void creer(Medium medium) {
         EntityManager em = JpaUtil.obtenirContextePersistance();
         em.persist(medium);
+    }
+    
+    public void update(Medium medium)
+    {
+        EntityManager em = JpaUtil.obtenirContextePersistance();
+        em.merge(medium);
     }
     
     public void supprimer(Medium medium) {
@@ -48,14 +55,14 @@ public class MediumDao {
     
     public List<Medium> listerMediums() {
         EntityManager em = JpaUtil.obtenirContextePersistance();
-        TypedQuery<Medium> query = em.createQuery("SELECT m FROM medium m", Medium.class);
+        TypedQuery<Medium> query = em.createQuery("SELECT m FROM Medium m", Medium.class);
         return query.getResultList();
     }
     
     public List<Medium> listerAstrologues() {
         MediumDao dao=new MediumDao();
         List<Medium> mediums = dao.listerMediums();
-        List<Medium> astros = null;
+        ArrayList<Medium> astros = new ArrayList<Medium>();
         for(int i=0; i < mediums.size(); i++) {
             if(mediums.get(i) instanceof Astrologue) {
                 astros.add((Astrologue) mediums.get(i));
@@ -67,10 +74,11 @@ public class MediumDao {
     public List<Medium> listerCartomanciens() {
         MediumDao dao=new MediumDao();
         List<Medium> mediums = dao.listerMediums();
-        List<Medium> cartos = null;
+        ArrayList<Medium> cartos = new ArrayList<Medium>();
         for(int i=0; i < mediums.size(); i++) {
             if(mediums.get(i) instanceof Cartomancien) {
                 cartos.add((Cartomancien) mediums.get(i));
+                System.out.println("point 4!");
             }
         }
         return cartos;
@@ -79,7 +87,7 @@ public class MediumDao {
     public List<Medium> listerSpirites() {
         MediumDao dao=new MediumDao();
         List<Medium> mediums = dao.listerMediums();
-        List<Medium> spirites = null;
+        ArrayList<Medium> spirites = new ArrayList<Medium>();
         for(int i=0; i < mediums.size(); i++) {
             if(mediums.get(i) instanceof Spirite) {
                 spirites.add((Spirite) mediums.get(i));
