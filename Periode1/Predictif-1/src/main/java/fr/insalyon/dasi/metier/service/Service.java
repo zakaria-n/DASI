@@ -353,7 +353,6 @@ public class Service {
     } 
     
     public void confirmConsultation(Consultation c) {
-        // send text to client, need client and medium for this
         Client client = c.getClient();
         Medium medium = c.getMedium();
         Message.envoyerMail("Predictif", client.getMail(), "Consultation confirmée",
@@ -366,7 +365,7 @@ public class Service {
             consultationDao.update(c);
             JpaUtil.validerTransaction();
         } catch (Exception ex) {
-            Logger.getAnonymousLogger().log(Level.WARNING, "Exception lors de l'appel au Service confrimConsultation(c)");
+            Logger.getAnonymousLogger().log(Level.WARNING, "Exception lors de l'appel au Service confirmConsultation(c)");
             JpaUtil.annulerTransaction();
         } finally {
             JpaUtil.fermerContextePersistance();
@@ -374,15 +373,8 @@ public class Service {
     }
    
     public void terminerConsultation(Consultation c) {
-        // send text to client, need client and medium for this
-        Client client = c.getClient();
         Employe employe = c.getEmploye();
         employe.setDisponible(true);
-        Message.envoyerMail("Predictif", client.getMail(), "Consultation terminée",
-                "Votre consultation est terminée. Merci de votre confiance.");
-        Message.envoyerMail("Predictif", employe.getMail(), "Consultation terminée",
-                "Vous venez de terminer votre consultation. Veuillez laisser un commentaire"
-                        + "pour assister vos collègues dans le futur.");
         c.setHeureFin(Timestamp.valueOf(LocalDateTime.MIN).toString());
         JpaUtil.creerContextePersistance();
         try {
@@ -391,7 +383,7 @@ public class Service {
             employeDao.update(employe);
             JpaUtil.validerTransaction();
         } catch (Exception ex) {
-            Logger.getAnonymousLogger().log(Level.WARNING, "Exception lors de l'appel au Service confrimConsultation(c)");
+            Logger.getAnonymousLogger().log(Level.WARNING, "Exception lors de l'appel au Service confirmConsultation(c)");
             JpaUtil.annulerTransaction();
         } finally {
             JpaUtil.fermerContextePersistance();

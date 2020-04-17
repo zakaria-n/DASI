@@ -701,10 +701,10 @@ public class Main {
         Medium m = service.chercherMedium("Mme Irna");
         Employe e = service.demanderConsultation(m,c);
         if (e!=null) {
-                    System.out.println(e.toString());
+            afficherEmploye(e);
         }
-        System.out.println(m.toString());
-        System.out.println(c.toString());
+        afficherMedium(m);
+        afficherClient(c);
     }
     
     public static void testerConfirmerConsultation(){
@@ -716,7 +716,7 @@ public class Main {
         Employe e = service.rechercherEmployeParId(id);
         Consultation consul = e.getConsultations().get(0);
         service.confirmConsultation(consul);
-        System.out.println(consul.toString());
+        service.showConsultation(consul);
     }
     
     public static void testerTerminerConsultation(){
@@ -728,7 +728,9 @@ public class Main {
         Employe e = service.rechercherEmployeParId(id);
         Consultation consul = e.getConsultations().get(0);
         service.terminerConsultation(consul);
-        System.out.println(consul.toString());
-        System.out.println(e.toString());
+        service.showConsultation(consul);
+        afficherEmploye(e);
+        service.ajouterCommentaire(consul, "fini");
+        service.afficherCommentaire(consul);
     }
 }
