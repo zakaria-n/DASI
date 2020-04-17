@@ -40,9 +40,10 @@ public class Main {
        // saisirInscriptionClient();       // Question 9
         //saisirRechercheClient();
         // testerProfilAstral();
-        testerConsultation();
-       // testerEmployeServices();
+        testerEmployeServices();
         testerMediumServices();
+        testerDemanderConsultation();
+        testerConsultation();
         JpaUtil.destroy();
     }
 
@@ -129,7 +130,7 @@ public class Main {
         Date date = new Date(1998, 3, 2);
         Employe one = new Employe("A", "Zakaria", "azak@insa-lyon.fr", "111", "123456", "?", true, 0);
         Employe two = new Employe("B", "Zihao", "bzih@insa-lyon.fr", "222", "123457", "??", true, 0);
-        Employe three = new Employe("C", "Sophie", "csop@insa-lyon.fr", "333", "123458", "???", true, 0);
+        Employe three = new Employe("C", "Sophie", "csop@insa-lyon.fr", "333", "123458", "F", true, 0);
         
         Consultation a = new Consultation(date, "1", "3", "great");
         Service service = new Service();
@@ -592,43 +593,11 @@ public class Main {
 
     }
     
-        /*public static void testerEmployeServices(){
+    public static void testerEmployeServices(){
         Service service = new Service();
-        System.out.println();
-        System.out.println("*************");
-        System.out.println("** employe **");
-        System.out.println("*************");
-        System.out.println();
-        EntityManagerFactory emf = Persistence.createEntityManagerFactory("PU-TP");
-        EntityManager em = emf.createEntityManager();
-        Employe a = new Employe("Chappe", "Claude", "claude.chappe@insa-lyon.fr",
-                "123456","1234567890","H",true,0);
-        Employe b = new Employe("Tadokoro", "Koji", "tdkrkj@inm.jp",
-                "114514","1919810","F",true,1919);
-        Employe c = new Employe("Le Stylo", "Marie", "mls@mls.fr",
-                "114514","1919810","F",true,2);
-        Employe d = new Employe("Bernard", "Claude", "claude.bernard@insa-lyon.fr",
-                "123456","1234567890","H",false,0);
-        try {
-            em.getTransaction().begin();
-            em.persist(a);
-            em.persist(b);
-            em.persist(c);
-            em.getTransaction().commit();
-        } catch (Exception ex) {
-            Logger.getAnonymousLogger().log(Level.WARNING, "Exception lors de l'appel au Service", ex);
-            try {
-                em.getTransaction().rollback();
-            }
-            catch (IllegalStateException ex2) {
-                // Ignorer cette exception...
-            }
-        } finally {
-            em.close();
-        }
-        System.out.println(service.choisirEmploye("H"));// devrait afficher chappe
-        System.out.println(service.choisirEmploye("F"));// devrait afficher le stylo
-    }*/
+        System.out.println(service.choisirEmploye("F"));// devrait afficher chappe
+        System.out.println(service.choisirEmploye("??"));// devrait afficher le stylo
+    }
     
     public static void testerMediumServices(){
         Service service = new Service();
@@ -669,8 +638,21 @@ public class Main {
         System.out.println();
         System.out.println("**Filtrer par nom**");
         System.out.println();
-        Medium m = service.chercherMedium("Mr M");
+        Medium m = service.chercherMedium("Mme Irna");
         System.out.println(m.toString());
        
+    }
+    
+    public static void testerDemanderConsultation(){
+        Service service = new Service();
+        long id = 1;
+        Client c = service.rechercherClientParId(id);
+        Medium m = service.chercherMedium("Mme Irna");
+        Employe e = service.demanderConsultation(m,c);
+        if (e!=null) {
+                    System.out.println(e.toString());
+        }
+        System.out.println(m.toString());
+        System.out.println(c.toString());
     }
 }

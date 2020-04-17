@@ -78,7 +78,6 @@ public class MediumDao {
         for(int i=0; i < mediums.size(); i++) {
             if(mediums.get(i) instanceof Cartomancien) {
                 cartos.add((Cartomancien) mediums.get(i));
-                System.out.println("point 4!");
             }
         }
         return cartos;

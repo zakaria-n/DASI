@@ -230,14 +230,12 @@ public class Service {
     
     public Employe demanderConsultation(Medium choice, Client client) { //identifiant du medium choisi
         Employe result=null;
-        JpaUtil.creerContextePersistance();
         try {
             result = choisirEmploye(choice.getGenre());
         } catch (Exception ex) {
             Logger.getAnonymousLogger().log(Level.WARNING, "Exception lors de l'appel au Service chercherParId()", ex);
             result = null;
         } finally {
-            JpaUtil.fermerContextePersistance();
         }
         if(result!=null)
         {
@@ -266,13 +264,13 @@ public class Service {
             }
             Message.envoyerMail("Predictif", result.getMail() , "Nouvelle consultation",
                    "Vous avez une nouvelle consultation où vous devez incarner:"
-            + choice.getDenomination() + "Votre client est joignable au" +
+            + choice.getDenomination() + "\nVotre client est joignable au" +
                            client.getTel());
             
         }else
         {
             Message.envoyerMail("Predictif", client.getMail(), "Demande de consultation rejetée",
-                    "Bonjour,"+"/n" + choice.getDenomination() + "n'est pas disponible"
+                    "Bonjour,"+"\n" + choice.getDenomination() + "n'est pas disponible"
                             + "en ce moment."+ "/n" +"Veuillez réessayer plus tard");
         }
         return result;
