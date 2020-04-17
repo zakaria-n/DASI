@@ -15,7 +15,6 @@ import fr.insalyon.dasi.technique.service.Statistics;
 import java.io.IOException;
 import java.sql.Timestamp;
 import java.time.LocalDateTime;
-import java.util.ArrayList;
 import java.util.List;
 import java.util.SortedMap;
 import java.util.logging.Level;
