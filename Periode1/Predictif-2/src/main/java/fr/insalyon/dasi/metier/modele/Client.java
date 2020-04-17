@@ -139,8 +139,8 @@ public class Client implements Serializable {
         this.profil = profil;
     }
 
-    public void setConsultations(List<Consultation> consultations) {
-        this.consultations = consultations;
+    public void addConsultations(Consultation consultation) {
+        this.consultations.add(consultation);
     }
     
     

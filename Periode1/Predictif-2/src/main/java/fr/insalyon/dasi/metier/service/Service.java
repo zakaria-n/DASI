@@ -26,6 +26,7 @@ import java.util.SortedMap;
 import java.util.TimeZone;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import javax.persistence.EntityManager;
 
 /**
  *
@@ -232,13 +233,10 @@ public class Service {
         return resultat;
     }
     
-    public Employe demanderConsultation(Long mediumId, Long clientId) { //identifiant du medium choisi
-        Medium choice = null;
+    public Employe demanderConsultation(Medium choice, Client client) { //identifiant du medium choisi
         Employe result=null;
-        Client client=clientDao.chercherParId(clientId);
         JpaUtil.creerContextePersistance();
         try {
-            choice = mediumDao.chercherParId(mediumId);
             result = choisirEmploye(choice.getGenre());
         } catch (Exception ex) {
             Logger.getAnonymousLogger().log(Level.WARNING, "Exception lors de l'appel au Service chercherParId()", ex);
@@ -254,8 +252,23 @@ public class Service {
             Calendar calendar = Calendar.getInstance(TimeZone.getDefault());
             Date date = calendar.getTime();
             Consultation consultation = new Consultation(date,null, null, null );
+            creerConsultation(consultation);
             choice.addConsultations(consultation);
             result.addConsultations(consultation);
+            client.addConsultations(consultation);
+            JpaUtil.creerContextePersistance();
+            try {
+                JpaUtil.ouvrirTransaction();
+                mediumDao.update(choice);
+                employeDao.update(result);
+                clientDao.update(client);
+                JpaUtil.validerTransaction();
+            } catch (Exception ex) {
+                Logger.getAnonymousLogger().log(Level.WARNING, "Exception lors de l'appel au Service creerConsultation(c)");
+                JpaUtil.annulerTransaction();
+            } finally {
+                JpaUtil.fermerContextePersistance();
+            }
             Message.envoyerMail("Predictif", result.getMail() , "Nouvelle consultation",
                    "Vous avez une nouvelle consultation où vous devez incarner:"
             + choice.getDenomination() + "Votre client est joignable au" +
@@ -288,6 +301,11 @@ public class Service {
         c.setCommentaire(comment);
     }
     
+    public void afficherCommentaire(Consultation c)
+    {
+        System.out.println(c.getCommentaire());
+    }
+    
     public void showConsultation(Consultation c) { //this might be front-end stuff? idk
         System.out.println(c.toString());
     }
@@ -313,20 +331,20 @@ public class Service {
         stats.setClientsParEmploye(clientsParEmploye);
     } 
     
-    public void confirmConsultation(Consultation c, Long ClientId, Long MediumId) {
+    public void confirmConsultation(Consultation c) {
         // send text to client, need client and medium for this
-        Client client = clientDao.chercherParId(ClientId);
-        Medium medium = mediumDao.chercherParId(MediumId);
+        Client client = c.getClient();
+        Medium medium = c.getMedium();
         Message.envoyerMail("Predictif", client.getMail(), "Consultation confirmée",
                 "Votre consultation est confirmée. Vous allez bientôt  rceevoir un appel"
                         + "de la part de" + medium.getDenomination());
         c.setHeureDebut(Timestamp.valueOf(LocalDateTime.MIN).toString());
     }
-    
-    public void terminerConsultation(Consultation c, Long ClientId, Long EmployeId) {
+   
+    public void terminerConsultation(Consultation c) {
         // send text to client, need client and medium for this
-        Client client = clientDao.chercherParId(ClientId);
-        Employe employe = employeDao.chercherParId(EmployeId);
+        Client client = c.getClient();
+        Employe employe = c.getEmploye();
         Message.envoyerMail("Predictif", client.getMail(), "Consultation terminée",
                 "Votre consultation est terminée. Merci de votre confiance.");
         Message.envoyerMail("Predictif", employe.getMail(), "Consultation terminée",
@@ -334,4 +352,22 @@ public class Service {
                         + "pour assister vos collègues dans le futur.");
         c.setHeureFin(Timestamp.valueOf(LocalDateTime.MIN).toString());
     }
+    
+    public void showClientConsultations(Client c) { 
+        List<Consultation> consultations = c.getConsultations();
+        for(int i=0; i < c.getConsultations().size(); i++) {
+            System.out.println(consultations.get(i).toString());
+        }
+    }
+    
+    public void showMediums(List<Medium> mediums) {
+        for(int i=0; i < mediums.size(); i++) {
+            System.out.println(mediums.get(i).toString());
+        }
+    }
+  
+     public void showProfilAstral(Client c) {
+        System.out.println(c.getProfil().toString());
+    }
+
 }

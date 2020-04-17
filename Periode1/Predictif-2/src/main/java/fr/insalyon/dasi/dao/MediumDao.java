@@ -24,6 +24,12 @@ public class MediumDao {
         em.persist(medium);
     }
     
+    public void update(Medium medium)
+    {
+        EntityManager em = JpaUtil.obtenirContextePersistance();
+        em.merge(medium);
+    }
+    
     public void supprimer(Medium medium) {
         EntityManager em = JpaUtil.obtenirContextePersistance();
         em.remove(medium);

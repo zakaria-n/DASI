@@ -288,11 +288,8 @@ public class Service {
         }
     }
   
-     public void showProfilAstral(Client c) {
-        List<Consultation> consultations = c.getConsultations();
-        for(int i=0; i < c.getConsultations().size(); i++) {
-            System.out.println(consultations.get(i).toString());
-        }
+    public void showProfilAstral(Client c) {
+        System.out.println(c.getProfil().toString());
     }
     
     public void statistics() 
