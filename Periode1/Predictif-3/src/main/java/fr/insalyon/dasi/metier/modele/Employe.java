@@ -6,11 +6,16 @@
 package fr.insalyon.dasi.metier.modele;
 
 import java.io.Serializable;
+import java.util.ArrayList;
+import java.util.List;
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.OneToMany;
 
 /**
  *
@@ -30,13 +35,17 @@ public class Employe implements Serializable {
     private String telephone;
     private String genre;
     private boolean disponible;
-    private String nbConsultations;
+    private Integer nbConsultations;
+    @OneToMany(cascade = CascadeType.ALL, orphanRemoval = true)
+    @JoinColumn(name = "employe_id")
+    private List<Consultation> consultations;
 
     protected Employe() {
+        this.nbConsultations = 0;
     }
 
     public Employe(String nom, String prenom, String mail, String motDePasse, 
-            String telephone, String genre, boolean disponible, String nbConsultations) {
+            String telephone, String genre, boolean disponible, Integer nbConsultations) {
         this.nom = nom;
         this.prenom = prenom;
         this.mail = mail;
@@ -45,6 +54,7 @@ public class Employe implements Serializable {
         this.genre = genre;
         this.disponible=disponible;
         this.nbConsultations=nbConsultations;
+        this.consultations= new ArrayList<>();
     }
 
     public Long getId() {
@@ -107,12 +117,21 @@ public class Employe implements Serializable {
         this.disponible = disponible;
     }
 
-    public String getNbConsultations() {
+    public Integer getNbConsultations() {
         return nbConsultations;
     }
 
-    public void setNbConsultations(String nbConsultations) {
+    public void setNbConsultations(Integer nbConsultations) {
         this.nbConsultations = nbConsultations;
+    }
+    
+    
+    public List<Consultation> getConsultations() {
+        return consultations;
+    }
+
+    public void addConsultations(Consultation consultation) {
+        this.consultations.add(consultation);
     }
     
 
