@@ -13,8 +13,10 @@ import fr.insalyon.dasi.techniques.service.AstroTest;
 import fr.insalyon.dasi.techniques.service.Message;
 import fr.insalyon.dasi.techniques.service.Statistics;
 import java.io.IOException;
+import java.sql.Timestamp;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
+import java.time.LocalDateTime;
 import java.time.ZoneId;
 import java.util.ArrayList;
 import java.util.Calendar;
@@ -249,16 +251,15 @@ public class Service {
             result.setNbConsultations(result.getNbConsultations()+1);
             result.setDisponible(false);
             choice.setNbConsultations(choice.getNbConsultations()+1);
-            Date debut = new Date();
-            debut.toInstant().atZone(ZoneId.systemDefault()).getHour();
             Calendar calendar = Calendar.getInstance(TimeZone.getDefault());
             Date date = calendar.getTime();
-            Consultation consultation = new Consultation(date,debut.toString(), null, null );
+            Consultation consultation = new Consultation(date,null, null, null );
             choice.addConsultations(consultation);
             result.addConsultations(consultation);
             Message.envoyerMail("Predictif", result.getMail() , "Nouvelle consultation",
                    "Vous avez une nouvelle consultation où vous devez incarner:"
-            + choice.getDenomination());
+            + choice.getDenomination() + "Votre client est joignable au" +
+                           client.getTel());
             
         }else
         {
@@ -311,4 +312,26 @@ public class Service {
         }
         stats.setClientsParEmploye(clientsParEmploye);
     } 
+    
+    public void confirmConsultation(Consultation c, Long ClientId, Long MediumId) {
+        // send text to client, need client and medium for this
+        Client client = clientDao.chercherParId(ClientId);
+        Medium medium = mediumDao.chercherParId(MediumId);
+        Message.envoyerMail("Predictif", client.getMail(), "Consultation confirmée",
+                "Votre consultation est confirmée. Vous allez bientôt  rceevoir un appel"
+                        + "de la part de" + medium.getDenomination());
+        c.setHeureDebut(Timestamp.valueOf(LocalDateTime.MIN).toString());
+    }
+    
+    public void terminerConsultation(Consultation c, Long ClientId, Long EmployeId) {
+        // send text to client, need client and medium for this
+        Client client = clientDao.chercherParId(ClientId);
+        Employe employe = employeDao.chercherParId(EmployeId);
+        Message.envoyerMail("Predictif", client.getMail(), "Consultation terminée",
+                "Votre consultation est terminée. Merci de votre confiance.");
+        Message.envoyerMail("Predictif", employe.getMail(), "Consultation terminée",
+                "Vous venez de terminer votre consultation. Veuillez laisser un commentaire"
+                        + "pour assister vos collègues dans le futur.");
+        c.setHeureFin(Timestamp.valueOf(LocalDateTime.MIN).toString());
+    }
 }
