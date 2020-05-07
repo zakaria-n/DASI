@@ -18,9 +18,15 @@ public class AfficherMediumsAction extends Action {
     
      @Override
     public void executer(HttpServletRequest request) {
-        
+        List<Medium> mediums;
         Service service = new Service();
-        List<Medium> mediums = service.listerMediums();
+        String mediumType = request.getParameter("type");
+        if(mediumType.equals("All")) {
+            mediums = service.listerMediums();
+        }
+        else {
+            mediums = service.filterMediums(mediumType);
+        }
 
         request.setAttribute("mediums", mediums);
         

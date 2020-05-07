@@ -50,15 +50,17 @@
                         if (response.connexion) {
                             var user;
                             if(response.user === "client") {
-                                user = response.client;
+                                window.location.href = "./client-dashboard.html";
+                               //  user = response.client;
                             }
                             else if(response.user === "employe") {
-                                user = response.employe;
+                                // user = response.employe;
+                                 window.location.href = "./employe-dashboard.html";
                             }
                             //$('#notification').html("Connexion OK");  // Message pour le paragraphe de notification
                             // TODO: afficher les informations du client dans la notification
                             // Exemple: Connexion de Ada Lovelace (ID 1)
-                            $('#notification').html("Connexion de " + user.prenom + " " + user.nom + " (ID " + user.id + ")");  // Message pour le paragraphe de notification
+                           //  $('#notification').html("Connexion de " + user.prenom + " " + user.nom + " (ID " + user.id + ")");  // Message pour le paragraphe de notification
                         }
                         else {
                             $('#notification').html("Erreur de Connexion"); // Message pour le paragraphe de notification
