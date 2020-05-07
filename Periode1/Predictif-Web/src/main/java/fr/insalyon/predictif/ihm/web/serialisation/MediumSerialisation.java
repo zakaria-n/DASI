@@ -9,12 +9,10 @@ import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.google.gson.JsonArray;
 import com.google.gson.JsonObject;
-import fr.insalyon.dasi.metier.modele.Client;
 import fr.insalyon.dasi.metier.modele.Medium;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.util.List;
-import javax.json.JsonException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
