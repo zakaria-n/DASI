@@ -8,6 +8,12 @@
     <body>
         <h1>Bienvenue sur PREDICTIF !</h1>
         <p><a href="./login.html">Aller à la page de Connexion</a></p>
+          <select id="mediumType" size="4">
+            <option>Astrologue</option>
+            <option>Cartomancien</option>
+            <option>Spirite</option>
+            <option>All</option>
+          </select>
         <button id="bouton-affichage">Afficher Mediums</button>
         <p id="showMediums"></p>
         <script>
@@ -16,7 +22,7 @@
 
                     console.log("clic sur le bouton d'affichage"); // LOG dans Console Javascript
                     $('#notification').html("Affichage en cours"); // Message pour le paragraphe de notification
-
+                    var mediumType = $("#mediumType option:selected").html();
 
                     // Appel AJAX
                     $.ajax({
@@ -24,6 +30,7 @@
                         method: 'POST',
                         data: {
                             todo: 'showMediums',
+                            type: mediumType 
                         },
                         dataType: 'json'
                     })
