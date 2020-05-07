@@ -48,11 +48,17 @@
                     .done( function (response) { // Fonction appelée en cas d'appel AJAX réussi
                         console.log('Response',response); // LOG dans Console Javascript
                         if (response.connexion) {
+                            var user;
+                            if(response.user === "client") {
+                                user = response.client;
+                            }
+                            else if(response.user === "employe") {
+                                user = response.employe;
+                            }
                             //$('#notification').html("Connexion OK");  // Message pour le paragraphe de notification
                             // TODO: afficher les informations du client dans la notification
                             // Exemple: Connexion de Ada Lovelace (ID 1)
-                            var client = response.client;
-                            $('#notification').html("Connexion de " + client.prenom + " " + client.nom + " (ID " + client.id + ")");  // Message pour le paragraphe de notification
+                            $('#notification').html("Connexion de " + user.prenom + " " + user.nom + " (ID " + user.id + ")");  // Message pour le paragraphe de notification
                         }
                         else {
                             $('#notification').html("Erreur de Connexion"); // Message pour le paragraphe de notification

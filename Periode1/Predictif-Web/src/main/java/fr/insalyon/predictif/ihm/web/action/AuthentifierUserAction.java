@@ -1,6 +1,7 @@
 package fr.insalyon.predictif.ihm.web.action;
 
 import fr.insalyon.dasi.metier.modele.Client;
+import fr.insalyon.dasi.metier.modele.Employe;
 import fr.insalyon.dasi.metier.service.Service;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
@@ -9,7 +10,7 @@ import javax.servlet.http.HttpSession;
  *
  * @author zakaria
  */
-public class AuthentifierClientAction extends Action {
+public class AuthentifierUserAction extends Action {
     
     @Override
     public void executer(HttpServletRequest request) {
@@ -18,9 +19,19 @@ public class AuthentifierClientAction extends Action {
         String password = request.getParameter("password");
 
         Service service = new Service();
+        
         Client client = service.authentifierClient(login, password);
-
-        request.setAttribute("client", client);
+        Employe employe = service.authentifierEmploye(login, password);
+        if(client!=null) {
+            request.setAttribute("client", client); 
+            request.setAttribute("user", "client"); 
+        }
+        else {
+            if(employe!=null) {
+            request.setAttribute("employe", employe); 
+            request.setAttribute("user", "employe"); 
+        }
+        }
         
         // Gestion de la Session: ici, enregistrer l'ID du Client authentifié
         HttpSession session = request.getSession();
@@ -29,6 +40,12 @@ public class AuthentifierClientAction extends Action {
         }
         else {
             session.removeAttribute("idClient");
+            if (employe != null) {
+            session.setAttribute("idEmploye", employe.getId());
+            }
+            else {
+                session.removeAttribute("idEmploye");
+            }
         }
     }
 }

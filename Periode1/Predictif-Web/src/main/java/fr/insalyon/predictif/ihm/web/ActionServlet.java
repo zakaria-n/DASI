@@ -8,9 +8,9 @@ package fr.insalyon.predictif.ihm.web;
 import fr.insalyon.dasi.dao.JpaUtil;
 import fr.insalyon.predictif.ihm.web.action.Action;
 import fr.insalyon.predictif.ihm.web.action.AfficherMediumsAction;
-import fr.insalyon.predictif.ihm.web.action.AuthentifierClientAction;
+import fr.insalyon.predictif.ihm.web.action.AuthentifierUserAction;
 import fr.insalyon.predictif.ihm.web.serialisation.MediumSerialisation;
-import fr.insalyon.predictif.ihm.web.serialisation.ProfilClientSerialisation;
+import fr.insalyon.predictif.ihm.web.serialisation.ProfilUserSerialisation;
 import fr.insalyon.predictif.ihm.web.serialisation.Serialisation;
 import java.io.IOException;
 import javax.servlet.ServletException;
@@ -52,8 +52,8 @@ public class ActionServlet extends HttpServlet {
         if (todo != null) {
             switch (todo) {
                 case "connecter":
-                    action = new AuthentifierClientAction();
-                    serialisation = new ProfilClientSerialisation();
+                    action = new AuthentifierUserAction();
+                    serialisation = new ProfilUserSerialisation();
                     break;
                 case "showMediums":
                     action = new AfficherMediumsAction();
