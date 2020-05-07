@@ -35,6 +35,9 @@ and open the template in the editor.
         <br/>
         <button id="bouton-inscription">M'inscrire</button>
         
+         <!-- Lien vers l'accueil -->
+        <p><a href="index.html">Retour à la page d'Accueil</a></p>
+        
          <script>
             $(document).ready( function () {
                 $('#bouton-inscription').on( 'click', function () { // Fonction appelée lors du clic sur le bouton
@@ -73,10 +76,6 @@ and open the template in the editor.
                         console.log('Response',response); // LOG dans Console Javascript
                         if (response.inscription) {
                             $('#notification').html("Inscription réussie");
-                            //$('#notification').html("Connexion OK");  // Message pour le paragraphe de notification
-                            // TODO: afficher les informations du client dans la notification
-                            // Exemple: Connexion de Ada Lovelace (ID 1)
-                           //  $('#notification').html("Connexion de " + user.prenom + " " + user.nom + " (ID " + user.id + ")");  // Message pour le paragraphe de notification
                         }
                         else {
                             $('#notification').html("Erreur d'inscription"); // Message pour le paragraphe de notification
