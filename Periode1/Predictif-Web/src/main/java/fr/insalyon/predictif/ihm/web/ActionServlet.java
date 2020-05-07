@@ -11,6 +11,8 @@ import fr.insalyon.predictif.ihm.web.action.AfficherMediumsAction;
 import fr.insalyon.predictif.ihm.web.action.AuthentifierUserAction;
 import fr.insalyon.predictif.ihm.web.action.Deconnexion;
 import fr.insalyon.predictif.ihm.web.serialisation.DeconnexionSerialisation;
+import fr.insalyon.predictif.ihm.web.action.InscrireClientAction;
+import fr.insalyon.predictif.ihm.web.serialisation.InscrireClientSerialisation;
 import fr.insalyon.predictif.ihm.web.serialisation.MediumSerialisation;
 import fr.insalyon.predictif.ihm.web.serialisation.ProfilUserSerialisation;
 import fr.insalyon.predictif.ihm.web.serialisation.Serialisation;
@@ -64,6 +66,9 @@ public class ActionServlet extends HttpServlet {
                 case "Deconnecter":
                     action = new Deconnexion();
                     serialisation = new DeconnexionSerialisation();
+                case "signup":
+                    action = new InscrireClientAction();
+                    serialisation = new InscrireClientSerialisation();
             }
         }
         
