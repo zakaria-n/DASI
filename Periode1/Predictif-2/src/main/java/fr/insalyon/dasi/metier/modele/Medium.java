@@ -22,8 +22,8 @@ import javax.persistence.OneToMany;
  * @author zakaria
  */
 
-@Inheritance
 @Entity
+@Inheritance
 public abstract class Medium implements Serializable {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
