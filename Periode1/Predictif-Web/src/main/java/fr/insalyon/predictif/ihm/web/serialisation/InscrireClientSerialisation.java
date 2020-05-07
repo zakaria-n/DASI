@@ -25,15 +25,17 @@ public class InscrireClientSerialisation extends Serialisation {
         Boolean inscription = false;
         JsonObject container = new JsonObject();
         
-        Client client = (Client)request.getAttribute("inscrit");
+        Client client = (Client)request.getAttribute("client");
+        
         inscription = (client != null);
-        if (client != null) {
+        if (client!= null) {
             JsonObject jsonClient = new JsonObject();
             jsonClient.addProperty("id", client.getId());
             jsonClient.addProperty("nom", client.getNom());
             jsonClient.addProperty("prenom", client.getPrenom());
             jsonClient.addProperty("mail", client.getMail());
             container.add("client", jsonClient);
+            container.addProperty("inscription", inscription);
         }
         
         response.setContentType("application/json;charset=UTF-8");

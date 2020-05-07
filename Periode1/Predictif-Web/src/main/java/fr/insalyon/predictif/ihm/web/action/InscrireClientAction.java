@@ -46,7 +46,7 @@ public class InscrireClientAction extends Action {
         Long id = service.inscrireClient(client);
         
         if(id!=null) {
-            request.setAttribute("inscrit", client); 
+            request.setAttribute("client", client); 
         }
     }
 }
