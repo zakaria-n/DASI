@@ -596,8 +596,8 @@ public class Main {
         System.out.println("** Choisir employe **");
         System.out.println("*************");
         System.out.println();
-        System.out.println(service.choisirEmploye("H"));// devrait afficher chappe
-        System.out.println(service.choisirEmploye("F"));// devrait afficher le stylo
+        System.out.println(service.choisirEmploye("H"));
+        System.out.println(service.choisirEmploye("F"));
         System.out.println("*************");
         System.out.println("** Tous employés **");
         System.out.println("*************");
