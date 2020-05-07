@@ -12,7 +12,7 @@ import javax.servlet.http.HttpSession;
  */
 public class AuthentifierUserAction extends Action {
     
-     @Override
+    @Override
     public void executer(HttpServletRequest request) {
         
         String login = request.getParameter("login");
