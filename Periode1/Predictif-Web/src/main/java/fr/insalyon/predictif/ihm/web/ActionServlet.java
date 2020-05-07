@@ -9,6 +9,8 @@ import fr.insalyon.dasi.dao.JpaUtil;
 import fr.insalyon.predictif.ihm.web.action.Action;
 import fr.insalyon.predictif.ihm.web.action.AfficherMediumsAction;
 import fr.insalyon.predictif.ihm.web.action.AuthentifierUserAction;
+import fr.insalyon.predictif.ihm.web.action.InscrireClientAction;
+import fr.insalyon.predictif.ihm.web.serialisation.InscrireClientSerialisation;
 import fr.insalyon.predictif.ihm.web.serialisation.MediumSerialisation;
 import fr.insalyon.predictif.ihm.web.serialisation.ProfilUserSerialisation;
 import fr.insalyon.predictif.ihm.web.serialisation.Serialisation;
@@ -59,6 +61,9 @@ public class ActionServlet extends HttpServlet {
                     action = new AfficherMediumsAction();
                     serialisation = new MediumSerialisation();
                     break;
+                case "signup":
+                    action = new InscrireClientAction();
+                    serialisation = new InscrireClientSerialisation();
             }
         }
         

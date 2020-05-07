@@ -13,7 +13,6 @@ import java.util.Date;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpSession;
 
 /**
  *
@@ -26,29 +25,28 @@ public class InscrireClientAction extends Action {
         
         String nom = request.getParameter("nom");
         String prenom = request.getParameter("prenom");
-        String date = request.getParameter("date");
-        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
-         try {
-             Date datenaissance = sdf.parse(date);
-         } catch (ParseException ex) {
-             Logger.getLogger(InscrireClientAction.class.getName()).log(Level.SEVERE, null, ex);
-         }
         String email = request.getParameter("email");
-        String adresse = request.getParameter("adresse");
         String password = request.getParameter("password");
+        String phone = request.getParameter("phone");
+        String genre = request.getParameter("genre");
+        String date = request.getParameter("date");
+        Date dateNaissance = null;
+        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
+        try {
+            dateNaissance = sdf.parse(date);
+        } catch (ParseException ex) {
+            Logger.getLogger(InscrireClientAction.class.getName()).log(Level.SEVERE, null, ex);
+        }         
+        String adresse = request.getParameter("adresse");
+        
+        Client client = new Client(nom,  prenom,  email,  password, 
+             phone, genre,  dateNaissance, adresse);
         
         Service service = new Service();
-        Client client = new Client();
-
-        request.setAttribute("client", client);
+        Long id = service.inscrireClient(client);
         
-        // Gestion de la Session: ici, enregistrer l'ID du Client authentifié
-        HttpSession session = request.getSession();
-        if (client != null) {
-            session.setAttribute("idClient", client.getId());
-        }
-        else {
-            session.removeAttribute("idClient");
+        if(id!=null) {
+            request.setAttribute("inscrit", client); 
         }
     }
 }
