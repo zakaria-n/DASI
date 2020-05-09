@@ -66,9 +66,11 @@ public class ActionServlet extends HttpServlet {
                 case "Deconnecter":
                     action = new Deconnexion();
                     serialisation = new DeconnexionSerialisation();
+                    break;
                 case "signup":
                     action = new InscrireClientAction();
                     serialisation = new InscrireClientSerialisation();
+                    break;
             }
         }
         
