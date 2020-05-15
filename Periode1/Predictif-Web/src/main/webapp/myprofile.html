@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<!--
+To change this license header, choose License Headers in Project Properties.
+To change this template file, choose Tools | Templates
+and open the template in the editor.
+-->
+<html>
+    <head>
+        <title>TODO supply a title</title>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
+    </head>
+    <body>
+        <button id="logout">Déconnexion</button>
+        <table id="profile" style="width:100%">
+            <tr>
+                <th>Signe du Zodiaque</th>
+                <th>Signe astrologique chinois</th>
+                <th>Couleur porte-bonheur</th>
+                <th>Animal totem</th>                 
+            </tr>
+            <tr>
+                <td id="zodiaque"></td>
+                <td id="astro"></td>
+                <td id="couleur"></td>
+                <td id="animal"></td>
+            </tr>             
+        </table>
+        <!-- Lien vers l'accueil -->
+        <p><a href="client-dashboard.html">Retour à la page d'Accueil</a></p>
+        
+        <script>
+            function OnInit ()
+            {
+                
+            }
+            
+            $(document).ready(function() {
+                $.ajax({
+                            url: './ActionServlet',
+                            method: 'POST',
+                            data: {
+                                todo: 'showProfile'
+                            }
+                        })
+                        .done(function(response) { // Fonction appelée en cas d'appel AJAX réussi
+                             console.log('Response', response.succes); // LOG dans Console Javascript
+                             if (response.profile)
+                             {
+                                 var profile = response.profile;
+                                 $('#zodiaque').html(profile.signeZodiaque);
+                                 $('#astro').html(profile.astroChinois);
+                                 $('#couleur').html(profile.couleurBonheur);
+                                 $('#animal').html(profile.animalTotem);
+                             }
+                        })
+                        .fail(function(error) { // Fonction appelée en cas d'erreur lors de l'appel AJAX
+                            console.log('Error', error); // LOG dans Console Javascript
+                            alert("Erreur lors de l'appel AJAX");
+                        })
+                        .always(function() { // Fonction toujours appelée
+                        });
+                //OnInit();
+                $('#logout').on('click', function() { // Fonction appelée lors du clic sur le bouton
+
+                    console.log("clic sur le bouton d'affichage"); // LOG dans Console Javascript
+                    //
+                    // Appel AJAX
+                    $.ajax({
+                            url: './ActionServlet',
+                            method: 'POST',
+                            data: {
+                                todo: 'Deconnecter'
+                            }
+                        })
+                        .done(function(response) { // Fonction appelée en cas d'appel AJAX réussi
+                             window.location.href = "./logged-out.html";
+                             console.log('Response', response.succes); // LOG dans Console Javascript
+                        })
+                        .fail(function(error) { // Fonction appelée en cas d'erreur lors de l'appel AJAX
+                            console.log('Error', error); // LOG dans Console Javascript
+                            alert("Erreur lors de l'appel AJAX");
+                        })
+                        .always(function() { // Fonction toujours appelée
+                        });
+                });
+            });
+            
+        </script>
+    </body>
+</html>

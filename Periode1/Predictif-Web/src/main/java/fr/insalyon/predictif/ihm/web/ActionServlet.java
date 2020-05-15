@@ -7,8 +7,6 @@ package fr.insalyon.predictif.ihm.web;
 
 import fr.insalyon.dasi.dao.JpaUtil;
 import fr.insalyon.predictif.ihm.web.action.*;
-import fr.insalyon.predictif.ihm.web.serialisation.DeconnexionSerialisation;
-import fr.insalyon.predictif.ihm.web.action.InscrireClientAction;
 import fr.insalyon.predictif.ihm.web.serialisation.*;
 import java.io.IOException;
 import javax.servlet.ServletException;
@@ -65,6 +63,14 @@ public class ActionServlet extends HttpServlet {
                     action = new InscrireClientAction();
                     serialisation = new InscrireClientSerialisation();
                     break;
+                case "showProfile":
+                    action = new DisplayProfileAction();
+                    serialisation = new DisplayProfileSerialisation();
+                    break;
+                case "showConsultations":
+                    action = new AfficherConsultations();
+                    serialisation = new ConsultationsSerialisation();
+                    break;                    
             }
         }
         

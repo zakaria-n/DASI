@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<!--
+To change this license header, choose License Headers in Project Properties.
+To change this template file, choose Tools | Templates
+and open the template in the editor.
+-->
+<html>
+<head>
+    <title>Consultations</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    <script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
+</head>
+    <body>
+        <div id="showConsultations">TODO</div>
+        <script>
+            $(document).ready(function() { 
+                $('#showConsultations').html("Affichage en cours"); // Message pour le paragraphe de notification
+                // Appel AJAX
+                $.ajax({
+                        url: './ActionServlet',
+                        method: 'POST',
+                        data: {
+                            todo: 'showConsultations'
+                        },
+                        dataType: 'json'
+                    })
+                    .done(function(response) { // Fonction appelée en cas d'appel AJAX réussi
+                        console.log('Response', response); // LOG dans Console Javascript
+                        if (response.consultations) {
+                            //$('#notification').html("Connexion OK");  // Message pour le paragraphe de notification
+                            // TODO: afficher les informations du client dans la notification
+                            // Exemple: Connexion de Ada Lovelace (ID 1)
+                            var consultations = response.consultations;
+                            var output = "";
+                            for (var i = 0; i < consultations.length; i++) {
+                                output += "<br/> Consultation du " + consultations[i].date;
+                            }
+                            $('#showConsultations').html("Affichage des mediums" + output); // Message pour le paragraphe de notification
+                        } else {
+                            $('#showConsultations').html("Erreur d'affichage"); // Message pour le paragraphe de notification
+                        }
+                    })
+                    .fail(function(error) { // Fonction appelée en cas d'erreur lors de l'appel AJAX
+                        console.log('Error', error); // LOG dans Console Javascript
+                        alert("Erreur lors de l'appel AJAX");
+                    })
+                    .always(function() { // Fonction toujours appelée
+
+                    });
+            });
+    </script>
+    </body>
+</html>

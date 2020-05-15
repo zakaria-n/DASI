@@ -20,7 +20,7 @@ import javax.servlet.http.HttpServletRequest;
  */
 public class InscrireClientAction extends Action {
     
-     @Override
+    @Override
     public void executer(HttpServletRequest request) {
         
         String nom = request.getParameter("nom");
