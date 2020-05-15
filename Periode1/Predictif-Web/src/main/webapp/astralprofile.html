@@ -41,13 +41,17 @@ and open the template in the editor.
                             url: './ActionServlet',
                             method: 'POST',
                             data: {
-                                todo: 'showProfile'
+                                todo: 'showProfile',
+                                clientid: window.location.search.substring(1)
                             }
                         })
                         .done(function(response) { // Fonction appelée en cas d'appel AJAX réussi
                              console.log('Response', response.succes); // LOG dans Console Javascript
-                             if (response.profile)
-                             {
+                            if(response.profile.length===0){
+                                $('#profile').html("<p> No client </p>");
+                            } 
+                            else
+                            {
                                  var profile = response.profile;
                                  $('#zodiaque').html(profile.signeZodiaque);
                                  $('#astro').html(profile.astroChinois);
