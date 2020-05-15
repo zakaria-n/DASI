@@ -409,15 +409,16 @@ public class Service {
         return consultations;
     }
     
-    public Client getCurrentConsultationClient(Employe e) { 
+    public long getCurrentConsultationClient(Employe e) { 
+        long clientId = -1;
         List<Consultation> consultations = e.getConsultations();
-        Consultation current = null;
-        for(int i=0; i < consultations.size() && current==null; i++) {
+        for(int i=0; i < consultations.size(); i++) {
             if(consultations.get(i).getHeureDebut()==null) {
-                current = consultations.get(i);
+                clientId = consultations.get(i).getClient().getId();
+                break;
             }
         }
-        return current.getClient();
+        return clientId;
     }
     
     public void showMediums(List<Medium> mediums) {

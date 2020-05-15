@@ -9,6 +9,7 @@ import fr.insalyon.dasi.metier.modele.Client;
 import fr.insalyon.dasi.metier.modele.Consultation;
 import fr.insalyon.dasi.metier.modele.Employe;
 import fr.insalyon.dasi.metier.service.Service;
+import java.util.ArrayList;
 import java.util.List;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
@@ -20,7 +21,7 @@ import javax.servlet.http.HttpSession;
 public class AfficherConsultations extends Action {
          @Override
     public void executer(HttpServletRequest request) {
-        List<Consultation> consultations = null;
+        List<Consultation> consultations = new ArrayList<Consultation>();
         Service service = new Service();
         HttpSession session = request.getSession();
         Object id =  session.getAttribute("idClient");
@@ -33,10 +34,13 @@ public class AfficherConsultations extends Action {
             id = session.getAttribute("idEmploye");
             System.out.println(id);
             if(id!=null) {
-            System.out.println("employe");
-            Employe e = service.rechercherEmployeParId((long) id);
-            Client c = service.getCurrentConsultationClient(e);
-            consultations = service.showClientConsultations(c);
+                Employe e = service.rechercherEmployeParId((long) id);
+                long clientId = service.getCurrentConsultationClient(e);
+                            System.out.println(clientId);
+                if(clientId!=-1) {
+                    Client c = service.rechercherClientParId(clientId);
+                    consultations = service.showClientConsultations(c);                   
+                }
             }
             
         }
