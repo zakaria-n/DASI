@@ -6,16 +6,10 @@
 package fr.insalyon.predictif.ihm.web;
 
 import fr.insalyon.dasi.dao.JpaUtil;
-import fr.insalyon.predictif.ihm.web.action.Action;
-import fr.insalyon.predictif.ihm.web.action.AfficherMediumsAction;
-import fr.insalyon.predictif.ihm.web.action.AuthentifierUserAction;
-import fr.insalyon.predictif.ihm.web.action.Deconnexion;
+import fr.insalyon.predictif.ihm.web.action.*;
 import fr.insalyon.predictif.ihm.web.serialisation.DeconnexionSerialisation;
 import fr.insalyon.predictif.ihm.web.action.InscrireClientAction;
-import fr.insalyon.predictif.ihm.web.serialisation.InscrireClientSerialisation;
-import fr.insalyon.predictif.ihm.web.serialisation.MediumSerialisation;
-import fr.insalyon.predictif.ihm.web.serialisation.ProfilUserSerialisation;
-import fr.insalyon.predictif.ihm.web.serialisation.Serialisation;
+import fr.insalyon.predictif.ihm.web.serialisation.*;
 import java.io.IOException;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -61,6 +55,10 @@ public class ActionServlet extends HttpServlet {
                     break;
                 case "showMediums":
                     action = new AfficherMediumsAction();
+                    serialisation = new MediumSerialisation();
+                    break;
+                case "findMedium":
+                    action = new ChercherMediumAction();
                     serialisation = new MediumSerialisation();
                     break;
                 case "Deconnecter":

@@ -31,13 +31,13 @@ public class Main {
         // Contrôlez l'affichage du log de JpaUtil grâce à la méthode log de la classe JpaUtil
         JpaUtil.init();
 
-        //initialiserClients();            // Question 3
-        //initialiserEmployes();
-        //initialiserMediums();
-        //testerInscriptionClient();       // Question 4 & 5
-        //testerRechercheClient();         // Question 6
-        //testerListeClients();            // Question 7
-        //testerAuthentificationClient();  // Question 8
+        initialiserClients();            // Question 3
+        initialiserEmployes();
+        initialiserMediums();
+        testerInscriptionClient();       // Question 4 & 5
+        testerRechercheClient();         // Question 6
+        testerListeClients();            // Question 7
+        testerAuthentificationClient();  // Question 8
         //saisirInscriptionClient();       // Question 9
         //saisirRechercheClient();
         testerProfilAstral();

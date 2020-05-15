@@ -1,4 +1,4 @@
- /*
+/*
  * To change this license header, choose License Headers in Project Properties.
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
@@ -7,29 +7,29 @@ package fr.insalyon.predictif.ihm.web.action;
 
 import fr.insalyon.dasi.metier.modele.Medium;
 import fr.insalyon.dasi.metier.service.Service;
+import java.util.ArrayList;
 import java.util.List;
 import javax.servlet.http.HttpServletRequest;
 
+
 /**
  *
- * @author zakaria
+ * @author Zihao
  */
-public class AfficherMediumsAction extends Action {
+public class ChercherMediumAction extends Action {
     
-     @Override
+    @Override
+    
     public void executer(HttpServletRequest request) {
-        List<Medium> mediums;
+        Medium medium;
+        List<Medium> mediums = new ArrayList<Medium>();
         Service service = new Service();
-        String mediumType = request.getParameter("type");
-        if(mediumType.equals("All")) {
-            mediums = service.listerMediums();
-        }
-        else {
-            mediums = service.filterMediums(mediumType);
-        }
-
+        String mediumName = request.getParameter("name");
+        medium = service.chercherMedium(mediumName);
+        mediums.add(medium);
         request.setAttribute("mediums", mediums);
         
         
     }
+    
 }
