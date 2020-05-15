@@ -245,29 +245,21 @@ public class Service {
         return resultat;
     }
     
-    public Employe choisirEmploye(String genre){
-        Employe resultat = null;
-        JpaUtil.creerContextePersistance();
-        try {
-            resultat = employeDao.chercherParGenre(genre);
-        } catch (Exception ex) {
-            Logger.getAnonymousLogger().log(Level.WARNING, "Exception lors de l'appel au Service choisirEmploye()", ex);
-            resultat = null;
-        } finally {
-            JpaUtil.fermerContextePersistance();
-        }
-        return resultat;
-    }
     
     public Employe demanderConsultation(Medium choice, Client client) { //identifiant du medium choisi
         Employe result=null;
+        String genre = choice.getGenre();
+        
+        JpaUtil.creerContextePersistance();
         try {
-            result = choisirEmploye(choice.getGenre());
+            result = employeDao.chercherParGenre(genre);
         } catch (Exception ex) {
-            Logger.getAnonymousLogger().log(Level.WARNING, "Exception lors de l'appel au Service chercherParId()", ex);
+            Logger.getAnonymousLogger().log(Level.WARNING, "Exception lors de l'appel au Service choisirEmploye()", ex);
             result = null;
         } finally {
+            JpaUtil.fermerContextePersistance();
         }
+        
         if(result!=null)
         {
             result.setNbConsultations(result.getNbConsultations()+1);
