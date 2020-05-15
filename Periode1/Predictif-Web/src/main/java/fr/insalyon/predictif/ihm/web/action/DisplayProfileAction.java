@@ -31,8 +31,12 @@ public class DisplayProfileAction extends Action {
             id = (Long) session.getAttribute("idEmploye");
             if(id!=null) {
                 Employe e = service.rechercherEmployeParId(id);
-                Client client = service.getCurrentConsultationClient(e);
-                profile = service.showProfilAstral(client);
+                long clientid = service.getCurrentConsultationClient(e);
+                if (clientid != -1)
+                {
+                    Client client = service.rechercherClientParId(clientid);
+                    profile = service.showProfilAstral(client); 
+                }                
             }
         }
         

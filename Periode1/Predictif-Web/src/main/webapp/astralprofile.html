@@ -28,15 +28,11 @@ and open the template in the editor.
             </tr>             
         </table>
         <!-- Lien vers l'accueil -->
-        <p><a href="client-dashboard.html">Retour à la page d'Accueil</a></p>
+        <p><a href="./client-dashboard.html" id="dash">Retour à la page d'Accueil</a></p>
         
         <script>
             function OnInit ()
             {
-                
-            }
-            
-            $(document).ready(function() {
                 $.ajax({
                             url: './ActionServlet',
                             method: 'POST',
@@ -46,7 +42,7 @@ and open the template in the editor.
                             }
                         })
                         .done(function(response) { // Fonction appelée en cas d'appel AJAX réussi
-                             console.log('Response', response.succes); // LOG dans Console Javascript
+                            console.log('Response', response.succes); // LOG dans Console Javascript
                             if(response.profile.length===0){
                                 $('#profile').html("<p> No client </p>");
                             } 
@@ -57,7 +53,11 @@ and open the template in the editor.
                                  $('#astro').html(profile.astroChinois);
                                  $('#couleur').html(profile.couleurBonheur);
                                  $('#animal').html(profile.animalTotem);
-                             }
+                                 if (response.user == "employe")
+                                 {
+                                     $("#dash").attr("href","./employe-dashboard.html");
+                                 }
+                            }
                         })
                         .fail(function(error) { // Fonction appelée en cas d'erreur lors de l'appel AJAX
                             console.log('Error', error); // LOG dans Console Javascript
@@ -65,7 +65,11 @@ and open the template in the editor.
                         })
                         .always(function() { // Fonction toujours appelée
                         });
-                //OnInit();
+            }
+            
+            $(document).ready(function() {
+                
+                OnInit();
                 $('#logout').on('click', function() { // Fonction appelée lors du clic sur le bouton
 
                     console.log("clic sur le bouton d'affichage"); // LOG dans Console Javascript
