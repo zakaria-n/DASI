@@ -67,6 +67,10 @@ public class ActionServlet extends HttpServlet {
                     action = new InscrireClientAction();
                     serialisation = new InscrireClientSerialisation();
                     break;
+                case "showConsultations":
+                    action = new AfficherConsultations();
+                    serialisation = new ConsultationsSerialisation();
+                    break;                    
             }
         }
         

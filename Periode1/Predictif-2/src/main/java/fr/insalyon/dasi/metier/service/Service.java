@@ -411,11 +411,20 @@ public class Service {
         }
     }
     
-    public void showClientConsultations(Client c) { 
+    public List<Consultation> showClientConsultations(Client c) { 
         List<Consultation> consultations = c.getConsultations();
-        for(int i=0; i < c.getConsultations().size(); i++) {
-            System.out.println(consultations.get(i).toString());
+        return consultations;
+    }
+    
+    public Client getCurrentConsultationClient(Employe e) { 
+        List<Consultation> consultations = e.getConsultations();
+        Consultation current = null;
+        for(int i=0; i < consultations.size() && current==null; i++) {
+            if(consultations.get(i).getHeureDebut()==null) {
+                current = consultations.get(i);
+            }
         }
+        return current.getClient();
     }
     
     public void showMediums(List<Medium> mediums) {
