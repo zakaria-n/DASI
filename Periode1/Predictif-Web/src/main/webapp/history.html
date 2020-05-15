@@ -9,9 +9,12 @@ and open the template in the editor.
     <title>Consultations</title>
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
     <script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
 </head>
     <body>
-        <div id="showConsultations">TODO</div>
+        <div class="showConsultations panel-group" id="accordion" role="tablist" aria-multiselectable="true">
+        </div>
         <script>
             $(document).ready(function() { 
                 $('#showConsultations').html("Affichage en cours"); // Message pour le paragraphe de notification
@@ -26,16 +29,32 @@ and open the template in the editor.
                     })
                     .done(function(response) { // Fonction appelée en cas d'appel AJAX réussi
                         console.log('Response', response); // LOG dans Console Javascript
-                        if (response.consultations) {
-                            //$('#notification').html("Connexion OK");  // Message pour le paragraphe de notification
-                            // TODO: afficher les informations du client dans la notification
-                            // Exemple: Connexion de Ada Lovelace (ID 1)
-                            var consultations = response.consultations;
-                            var output = "";
-                            for (var i = 0; i < consultations.length; i++) {
-                                output += "<br/> Consultation du " + consultations[i].date;
+                        if (response.consultations) {  
+                            if(response.consultations.length===0){
+                                $('.showConsultations').append("<p> No Consultations </p>");
                             }
-                            $('#showConsultations').html("Affichage des mediums" + output); // Message pour le paragraphe de notification
+                            else {
+                              response.consultations.forEach(function(item,index) {
+                                $('.showConsultations').append(
+                                    '<div class="panel panel-default">'+
+                                      '<div class="panel-heading" role="tab" id="heading_'+index+'">'+
+                                        '<h4 class="panel-title">'+
+                                          '<a role="button" data-toggle="collapse" data-parent="#accordion" href="#collapse_'+index+'" aria-expanded="true" aria-controls="collapse_'+index+'">'+
+                                              item.date+
+                                          '</a>'+
+                                        '</h4>'+
+                                      '</div>'+
+                                      '<div id="collapse_'+index+'" class="collapse panel-collapse" role="tabpanel" aria-labelledby="heading_'+index+'">'+
+                                        '<div class="panel-body">'+
+                                          item.date+
+                                        '</div>'+
+                                      '</div>'+
+                                    '</div>'
+                                  );
+                              });                                
+                            }
+                            
+                            
                         } else {
                             $('#showConsultations').html("Erreur d'affichage"); // Message pour le paragraphe de notification
                         }
