@@ -9,6 +9,7 @@ import fr.insalyon.dasi.metier.modele.Client;
 import fr.insalyon.dasi.metier.modele.Consultation;
 import fr.insalyon.dasi.metier.modele.Employe;
 import fr.insalyon.dasi.metier.modele.Medium;
+import fr.insalyon.dasi.metier.modele.ProfilAstral;
 import fr.insalyon.dasi.techniques.service.AstroTest;
 import fr.insalyon.dasi.techniques.service.Message;
 import fr.insalyon.dasi.techniques.service.Statistics;
@@ -424,8 +425,9 @@ public class Service {
         }
     }
   
-     public void showProfilAstral(Client c) {
-        System.out.println(c.getProfil().toString());
+    public ProfilAstral showProfilAstral(Client c) {
+        ProfilAstral profile = c.getProfil();
+        return profile;
     }
 
 }
