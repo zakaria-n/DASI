@@ -16,22 +16,26 @@ and open the template in the editor.
              padding: 0;
             }
             
-            p{
+            div[id="menu"] p{
                 width: 100%;
                 border-style: solid;
                 margin: 0;
-                padding: 0;
+                
             }
             
             p[id]{
-                margin: 0;
                 padding: 0 0 15px 0;
+            }
+            
+            p[id="feedback"]{
+                align-self: center;
+                align-content: center;
             }
             
             #logo{
                 height: 30%;
                 width: 80%;
-                border-style: solid;
+                border-style: dotted;
             }
             #deconnexion{
                 height: 40px;
@@ -84,7 +88,34 @@ and open the template in the editor.
             }
             
             function valider(){
-            
+                console.log(MediumName);
+                // Appel AJAX
+                $.ajax({
+                        url: './ActionServlet',
+                        method: 'POST',
+                        data: {
+                            todo: 'requestConsultation',
+                            medium: MediumName
+                        },
+                        dataType: 'json'
+                    })
+                    .done(function (response) { // Fonction appelée en cas d'appel AJAX réussi
+                        console.log("NIubi");
+                        $("#mainSection").hide();
+                        $(".panel-body").after(
+                            '<div><p id="feedback">Un message vous sera bientôt envoyé vous indiquant si le médium que vous avez demandé est disponible</div>\n\
+                            <button id="B_decouvrirMedium">Découvrir nos médiums</button>\n\
+                            <button id="B_tableau">Tableau de board</button>'
+                        );
+                        $(".panel-body").hide();
+                    })
+                    .fail(function(error) { // Fonction appelée en cas d'erreur lors de l'appel AJAX
+                        console.log('Error', error); // LOG dans Console Javascript
+                        alert("Erreur lors de l'appel AJAX");
+                    })
+                    .always(function() { // Fonction toujours appelée
+                        
+                    });
             }
             
             function AfficherMediums() { // Fonction appelée lors du clic sur le bouton

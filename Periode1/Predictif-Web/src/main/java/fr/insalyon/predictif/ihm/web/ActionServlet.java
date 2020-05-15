@@ -70,7 +70,11 @@ public class ActionServlet extends HttpServlet {
                 case "showConsultations":
                     action = new AfficherConsultations();
                     serialisation = new ConsultationsSerialisation();
-                    break;                    
+                    break;
+                case "requestConsultation":
+                    action = new DemanderConsultationsAction();
+                    serialisation = new ConsultationsSerialisation();
+                    break;
             }
         }
         
