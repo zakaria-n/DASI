@@ -43,20 +43,16 @@ and open the template in the editor.
                         })
                         .done(function(response) { // Fonction appelée en cas d'appel AJAX réussi
                             console.log('Response', response.succes); // LOG dans Console Javascript
-                            if(response.profile.length===0){
-                                $('#profile').html("<p> No client </p>");
-                            } 
-                            else
-                            {
+                            if(response.profile){                               
                                  var profile = response.profile;
                                  $('#zodiaque').html(profile.signeZodiaque);
                                  $('#astro').html(profile.astroChinois);
                                  $('#couleur').html(profile.couleurBonheur);
-                                 $('#animal').html(profile.animalTotem);
-                                 if (response.user == "employe")
-                                 {
-                                     $("#dash").attr("href","./employe-dashboard.html");
-                                 }
+                                 $('#animal').html(profile.animalTotem);                               
+                            }
+                            if(response.usertype!=="client")
+                            {
+                                $("#dash").attr("href", "./employe-dashboard.html"); 
                             }
                         })
                         .fail(function(error) { // Fonction appelée en cas d'erreur lors de l'appel AJAX

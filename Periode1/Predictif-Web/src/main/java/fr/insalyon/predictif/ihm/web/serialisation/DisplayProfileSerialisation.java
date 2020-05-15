@@ -47,7 +47,7 @@ public class DisplayProfileSerialisation extends Serialisation {
             container.add("profile", jsonProfile);
         }
         
-        container.addProperty("user", userType);
+        container.addProperty("usertype", userType);
         
         response.setContentType("application/json;charset=UTF-8");
         PrintWriter out = response.getWriter();
