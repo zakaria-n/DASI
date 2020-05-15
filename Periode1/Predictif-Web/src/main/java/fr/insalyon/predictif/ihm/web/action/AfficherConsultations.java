@@ -36,7 +36,7 @@ public class AfficherConsultations extends Action {
             if(id!=null) {
                 Employe e = service.rechercherEmployeParId((long) id);
                 long clientId = service.getCurrentConsultationClient(e);
-                            System.out.println(clientId);
+                System.out.println(clientId);
                 if(clientId!=-1) {
                     Client c = service.rechercherClientParId(clientId);
                     consultations = service.showClientConsultations(c);                   

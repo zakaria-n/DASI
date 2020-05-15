@@ -117,8 +117,8 @@ public class Service {
         return resultat;
     }
     
-    public Client authentifierClient(String mail, String motDePasse) {
-        Client resultat = null;
+    public long authentifierClient(String mail, String motDePasse) {
+        long resultat = -1;
         JpaUtil.creerContextePersistance();
         try {
             // Recherche du client
@@ -126,21 +126,22 @@ public class Service {
             if (client != null) {
                 // Vérification du mot de passe
                 if (client.getMotDePasse().equals(motDePasse)) {
-                    resultat = client;
+                    resultat = client.getId();
                 }
             }
         } catch (Exception ex) {
+            System.out.println("in the catch");
             Logger.getAnonymousLogger().log(Level.WARNING, "Exception lors de l'appel au Service authentifierClient(mail,motDePasse)", ex);
-            resultat = null;
         } finally {
             JpaUtil.fermerContextePersistance();
         }
+        System.out.println("result" + resultat);
         return resultat;
     }
     
-    public Employe authentifierEmploye(String mail, String motDePasse) 
+    public long authentifierEmploye(String mail, String motDePasse) 
     {
-        Employe resultat = null;
+        long resultat = -1;
         JpaUtil.creerContextePersistance();
         try {
             // Recherche du client
@@ -148,12 +149,11 @@ public class Service {
             if (employe != null) {
                 // Vérification du mot de passe
                 if (employe.getMotDePasse().equals(motDePasse)) {
-                    resultat = employe;
+                    resultat = employe.getId();
                 }
             }
         } catch (Exception ex) {
             Logger.getAnonymousLogger().log(Level.WARNING, "Exception lors de l'appel au Service authentifierClient(mail,motDePasse)", ex);
-            resultat = null;
         } finally {
             JpaUtil.fermerContextePersistance();
         }
