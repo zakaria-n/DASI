@@ -599,8 +599,8 @@ public class Main {
         System.out.println("** Choisir employe **");
         System.out.println("*************");
         System.out.println();
-        //System.out.println(service.choisirEmploye("H"));
-        //System.out.println(service.choisirEmploye("F"));
+        System.out.println(service.choisirEmploye("H"));
+        System.out.println(service.choisirEmploye("F"));
         System.out.println("*************");
         System.out.println("** Tous employés **");
         System.out.println("*************");
