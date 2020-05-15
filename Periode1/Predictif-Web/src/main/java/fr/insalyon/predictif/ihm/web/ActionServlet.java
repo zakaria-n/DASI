@@ -57,10 +57,6 @@ public class ActionServlet extends HttpServlet {
                     action = new AfficherMediumsAction();
                     serialisation = new MediumSerialisation();
                     break;
-                case "findMedium":
-                    action = new ChercherMediumAction();
-                    serialisation = new MediumSerialisation();
-                    break;
                 case "Deconnecter":
                     action = new Deconnexion();
                     serialisation = new DeconnexionSerialisation();
