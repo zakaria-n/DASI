@@ -33,7 +33,6 @@
                     // Récupération de la valeur des champs du formulaire
                     var champLogin = $('#champ-login').val();
                     var champPassword = $('#champ-password').val();
-
                     // Appel AJAX
                     $.ajax({
                         url: './ActionServlet',
@@ -46,9 +45,9 @@
                         dataType: 'json'
                     })
                     .done( function (response) { // Fonction appelée en cas d'appel AJAX réussi
+                                                        console.log("testtest"); // LOG dans Console Javascript
                         console.log('Response',response); // LOG dans Console Javascript
                         if (response.connexion) {
-                            var user;
                             if(response.user === "client") {
                                 window.location.href = "./client-dashboard.html";
                                //  user = response.client;

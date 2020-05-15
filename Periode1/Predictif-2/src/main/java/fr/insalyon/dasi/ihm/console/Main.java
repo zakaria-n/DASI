@@ -397,16 +397,15 @@ public class Main {
         System.out.println();
         
         Service service = new Service();
-        Client client;
+        long client;
         String mail;
         String motDePasse;
 
         mail = "ada.lovelace@insa-lyon.fr";
         motDePasse = "Ada1012";
         client = service.authentifierClient(mail, motDePasse);
-        if (client != null) {
+        if (client != -1) {
             System.out.println("Authentification réussie avec le mail '" + mail + "' et le mot de passe '" + motDePasse + "'");
-            afficherClient(client);
         } else {
             System.out.println("Authentification échouée avec le mail '" + mail + "' et le mot de passe '" + motDePasse + "'");
         }
@@ -414,9 +413,8 @@ public class Main {
         mail = "ada.lovelace@insa-lyon.fr";
         motDePasse = "Ada2020";
         client = service.authentifierClient(mail, motDePasse);
-        if (client != null) {
+        if (client != -1) {
             System.out.println("Authentification réussie avec le mail '" + mail + "' et le mot de passe '" + motDePasse + "'");
-            afficherClient(client);
         } else {
             System.out.println("Authentification échouée avec le mail '" + mail + "' et le mot de passe '" + motDePasse + "'");
         }
@@ -424,9 +422,8 @@ public class Main {
         mail = "etudiant.fictif@insa-lyon.fr";
         motDePasse = "********";
         client = service.authentifierClient(mail, motDePasse);
-        if (client != null) {
+        if (client != -1) {
             System.out.println("Authentification réussie avec le mail '" + mail + "' et le mot de passe '" + motDePasse + "'");
-            afficherClient(client);
         } else {
             System.out.println("Authentification échouée avec le mail '" + mail + "' et le mot de passe '" + motDePasse + "'");
         }
@@ -522,14 +519,14 @@ public class Main {
         String mail = Saisie.lireChaine("Mail ? ");
         String motDePasse = Saisie.lireChaine("Mot de passe ? ");
 
-        Client client = service.authentifierClient(mail, motDePasse);
+        long client = service.authentifierClient(mail, motDePasse);
 
-        if (client != null) {
+        if (client != -1) {
             System.out.println("> Succès connexion");
         } else {
             System.out.println("> Échec connexion");
         }
-        afficherClient(client);
+        //afficherClient(client);
 
     }
 
@@ -578,9 +575,9 @@ public class Main {
 
         while (!clientMail.equals("0")) {
             String clientMotDePasse = Saisie.lireChaine("Mot de passe ? ");
-            Client client = service.authentifierClient(clientMail, clientMotDePasse);
-            if (client != null) {
-                afficherClient(client);
+            long client = service.authentifierClient(clientMail, clientMotDePasse);
+            if (client != -1) {
+              //  afficherClient(client);
             } else {
                 System.out.println("=> Client non-authentifié");
             }
@@ -624,7 +621,7 @@ public class Main {
         System.out.println("*************");
         System.out.println("** Authentifier employé **");
         System.out.println("*************");
-        System.out.println(service.authentifierEmploye("csop@insa-lyon.fr","333").toString());
+        System.out.println(service.authentifierEmploye("csop@insa-lyon.fr","333"));
     }
     
     public static void testerMediumServices(){

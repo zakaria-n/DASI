@@ -20,32 +20,26 @@ public class AuthentifierUserAction extends Action {
 
         Service service = new Service();
         
-        Client client = service.authentifierClient(login, password);
-        Employe employe = service.authentifierEmploye(login, password);
-        if(client!=null) {
-            request.setAttribute("client", client); 
+        long clientId = service.authentifierClient(login, password);
+        System.out.println(clientId);
+        long employeId = service.authentifierEmploye(login, password);
+                System.out.println(employeId);
+        if(clientId!=-1) {
+            request.setAttribute("client", clientId); 
             request.setAttribute("user", "client"); 
         }
-        else {
-            if(employe!=null) {
-            request.setAttribute("employe", employe); 
+        else if(employeId!=-1) {
+            request.setAttribute("employe", employeId); 
             request.setAttribute("user", "employe"); 
-        }
         }
         
         // Gestion de la Session: ici, enregistrer l'ID du Client authentifié
         HttpSession session = request.getSession();
-        if (client != null) {
-            session.setAttribute("idClient", client.getId());
+        if (clientId != -1) {
+            session.setAttribute("idClient", clientId);
         }
-        else {
-            session.removeAttribute("idClient");
-            if (employe != null) {
-            session.setAttribute("idEmploye", employe.getId());
-            }
-            else {
-                session.removeAttribute("idEmploye");
-            }
+        else if(employeId != -1) {
+            session.setAttribute("idEmploye", employeId);
         }
     }
 }
