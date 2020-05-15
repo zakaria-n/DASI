@@ -31,7 +31,7 @@ public class AfficherConsultations extends Action {
         }
         else {
             id = session.getAttribute("idEmploye");
-             System.out.println(id);
+            System.out.println(id);
             if(id!=null) {
             System.out.println("employe");
             Employe e = service.rechercherEmployeParId((long) id);
