@@ -48,6 +48,13 @@ public class Main {
         testerDemanderConsultation();
         testerConfirmerConsultation();
         testerTerminerConsultation();
+        
+       /* Service service = new Service();
+        long id = 2;
+        Client c = service.rechercherClientParId(id);
+        Medium m = service.chercherMedium("Mme Irma");
+        Employe e = service.demanderConsultation(m,c);*/
+        
         JpaUtil.destroy();
         
     }
@@ -705,6 +712,7 @@ public class Main {
         }
         System.out.println(m.toString());
         System.out.println(c.toString());
+        
     }
     
     public static void testerConfirmerConsultation(){
