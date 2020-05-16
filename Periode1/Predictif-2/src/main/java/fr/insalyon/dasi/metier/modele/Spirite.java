@@ -24,7 +24,6 @@ public class Spirite extends Medium {
         
     }
     
-    @Override
     public String getSupport() {
         return support;
     }

@@ -9,7 +9,9 @@ import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.google.gson.JsonArray;
 import com.google.gson.JsonObject;
+import fr.insalyon.dasi.metier.modele.Astrologue;
 import fr.insalyon.dasi.metier.modele.Medium;
+import fr.insalyon.dasi.metier.modele.Spirite;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.util.List;
@@ -41,12 +43,16 @@ public class MediumSerialisation extends Serialisation {
                 jsonMedium.addProperty("genre", m.getGenre());
                 jsonMedium.addProperty("presentation", m.getPresentation());
                 jsonMedium.addProperty("nbConsultations", m.getNbConsultations());
-                if(m.getType().equals("Spirite") && m.getSupport()!=null){
-                    jsonMedium.addProperty("support", m.getSupport());
+                if(m.getType().equals("Spirite")){
+                   Spirite current;
+                   current = (Spirite) m;
+                   jsonMedium.addProperty("support", current.getSupport());
                 }
-                if(m.getType().equals("Astrologue") && m.getPromotion()!=-1){
-                    jsonMedium.addProperty("promotion", m.getPromotion());
-                    jsonMedium.addProperty("formation", m.getFormation());
+                if(m.getType().equals("Astrologue")){
+                    Astrologue current;
+                    current = (Astrologue) m;
+                    jsonMedium.addProperty("promotion", current.getPromotion());
+                    jsonMedium.addProperty("formation", current.getFormation());
                 }
                 ja.add(jsonMedium);
             }

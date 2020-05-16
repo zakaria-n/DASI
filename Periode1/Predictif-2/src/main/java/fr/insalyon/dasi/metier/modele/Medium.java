@@ -96,18 +96,6 @@ public abstract class Medium implements Serializable {
         this.nbConsultations = nbConsultations;
     }
     
-    public String getSupport(){
-        return null;
-    }
-    
-    public int getPromotion(){
-        return (-1);
-    }
-    
-    public String getFormation(){
-        return null;
-    }
-    
     @Override
     public String toString() {
         return "Medium{" + "id=" + id + ", denomination=" + denomination + ", genre=" + genre + ", presentation=" + presentation + '}';
