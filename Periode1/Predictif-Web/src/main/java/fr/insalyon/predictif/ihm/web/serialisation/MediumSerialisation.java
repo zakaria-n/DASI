@@ -36,11 +36,18 @@ public class MediumSerialisation extends Serialisation {
             for (Medium m : mediums)
             {
                 JsonObject jsonMedium = new JsonObject();
+                jsonMedium.addProperty("type", m.getType());
                 jsonMedium.addProperty("denomination", m.getDenomination());
                 jsonMedium.addProperty("genre", m.getGenre());
                 jsonMedium.addProperty("presentation", m.getPresentation());
                 jsonMedium.addProperty("nbConsultations", m.getNbConsultations());
-                
+                if(m.getType().equals("Spirite") && m.getSupport()!=null){
+                    jsonMedium.addProperty("support", m.getSupport());
+                }
+                if(m.getType().equals("Astrologue") && m.getPromotion()!=-1){
+                    jsonMedium.addProperty("promotion", m.getPromotion());
+                    jsonMedium.addProperty("formation", m.getFormation());
+                }
                 ja.add(jsonMedium);
             }
 

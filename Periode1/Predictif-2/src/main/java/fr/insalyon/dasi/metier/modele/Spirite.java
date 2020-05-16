@@ -23,6 +23,8 @@ public class Spirite extends Medium {
     public Spirite(){
         
     }
+    
+    @Override
     public String getSupport() {
         return support;
     }

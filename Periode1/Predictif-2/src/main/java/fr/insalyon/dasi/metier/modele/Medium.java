@@ -48,6 +48,10 @@ public abstract class Medium implements Serializable {
         this.nbConsultations=this.consultations.size();
     }
 
+    public String getType() {
+        return this.getClass().getSimpleName();
+    }
+    
     public Long getId() {
         return id;
     }
@@ -92,6 +96,17 @@ public abstract class Medium implements Serializable {
         this.nbConsultations = nbConsultations;
     }
     
+    public String getSupport(){
+        return null;
+    }
+    
+    public int getPromotion(){
+        return (-1);
+    }
+    
+    public String getFormation(){
+        return null;
+    }
     
     @Override
     public String toString() {
