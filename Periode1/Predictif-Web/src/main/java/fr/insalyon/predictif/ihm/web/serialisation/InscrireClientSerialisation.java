@@ -35,9 +35,8 @@ public class InscrireClientSerialisation extends Serialisation {
             jsonClient.addProperty("prenom", client.getPrenom());
             jsonClient.addProperty("mail", client.getMail());
             container.add("client", jsonClient);
-            container.addProperty("inscription", inscription);
         }
-        
+        container.addProperty("inscription", inscription);        
         response.setContentType("application/json;charset=UTF-8");
         PrintWriter out = response.getWriter();
         Gson gson = new GsonBuilder().setPrettyPrinting().serializeNulls().create();

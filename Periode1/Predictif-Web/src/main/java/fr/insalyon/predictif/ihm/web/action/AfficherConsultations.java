@@ -21,7 +21,7 @@ import javax.servlet.http.HttpSession;
 public class AfficherConsultations extends Action {
          @Override
     public void executer(HttpServletRequest request) {
-        List<Consultation> consultations = new ArrayList<Consultation>();
+        List<Consultation> consultations = new ArrayList<>();
         Service service = new Service();
         HttpSession session = request.getSession();
         Object id =  session.getAttribute("idClient");

@@ -31,9 +31,8 @@ public class ConsultationDao {
    
     public List<Consultation> listerConsultations() {
         EntityManager em = JpaUtil.obtenirContextePersistance();
-        TypedQuery<Consultation> query = em.createQuery("SELECT c FROM Consulation c ORDER BY e.date ASC", Consultation.class);
+        TypedQuery<Consultation> query = em.createQuery("SELECT c FROM Consultation c ORDER BY e.date ASC", Consultation.class);
         return query.getResultList();
     }
-    
-    // modifier / supprimer  ... 
+     
 }

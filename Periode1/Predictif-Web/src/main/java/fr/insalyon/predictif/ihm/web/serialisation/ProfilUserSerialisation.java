@@ -8,8 +8,6 @@ package fr.insalyon.predictif.ihm.web.serialisation;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.google.gson.JsonObject;
-import fr.insalyon.dasi.metier.modele.Client;
-import fr.insalyon.dasi.metier.modele.Employe;
 import java.io.IOException;
 import java.io.PrintWriter;
 import javax.servlet.http.HttpServletRequest;
