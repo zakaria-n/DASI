@@ -10,24 +10,27 @@ and open the template in the editor.
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
         <script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
         
-        <style type="text/css">
-            :not(p){
+        <style type="text/css"> 
+            *:not(p.info){
              margin: 10px 0 10px 0;
              padding: 0;
             }
             
-            div[id="menu"] p{
-                width: 100%;
+            div#menu p{  
+                width: 80%;
                 border-style: solid;
-                margin: 0;
-                
+                margin: 0 auto 0 auto;
             }
             
-            p[id]{
-                padding: 0 0 15px 0;
+            p.info{
+                padding: 8px 0 10px 0; 
             }
             
-            p[id="feedback"]{
+            span.infos{
+                padding: 1px 0 1px 2em;
+            }
+            
+            #feedback{
                 align-self: center;
                 align-content: center;
             }
@@ -105,7 +108,7 @@ and open the template in the editor.
                         $(".panel-body").after(
                             '<div><p id="feedback">Un message vous sera bientôt envoyé vous indiquant si le médium que vous avez demandé est disponible</div>\n\
                             <button id="B_decouvrirMedium">Découvrir nos médiums</button>\n\
-                            <button id="B_tableau">Tableau de board</button>'
+                            <button id="B_tableau" href="client-dashboard.html">Tableau de bord</button>'
                         );
                         $(".panel-body").hide();
                     })
@@ -142,11 +145,20 @@ and open the template in the editor.
                         var output = "";
                         for (var i = 0; i < mediums.length; i++) {
                             output += '<p class="nom" onclick="afficherLuiMeme('+ i +","+ mediums.length +')">' + mediums[i].denomination + "</p>";
-                            output += '<p class="info" ' + 'id="' + i + '"' + 'style="display:none"> Genre:' + mediums[i].genre 
-                                    + "<br/> Presentation:" + mediums[i].presentation + "</p>";
+                            output += '<p class="info" ' + 'id="' + i + '"' + 'style="display:none"> \n\
+                                       <span class="infos"> Genre:' + mediums[i].genre + "</span><br/>"
+                                   +  '<span class="infos"> Presentation:' + mediums[i].presentation + "</span><br/>"; 
+                            if(mediums[i].type==="Astrologue"){
+                                output += '<span class="infos"> Promotion:' + mediums[i].promotion + "</span><br/>"
+                                        + '<span class="infos"> Formation:' + mediums[i].formation + "</span><br/>";
+                            }
+                            if(mediums[i].type==="Spirite"){
+                                output += '<span class="infos"> Support:' + mediums[i].support + "</span><br/>";
+                            }
+                            output += "</p>";
                             //Charger toutes les infos en mode invisible puis les Afficher lorsqu'on clique le bloc <p>
                         }
-                        $('#menu').html("Affichage des mediums" + output); // Message pour le paragraphe de notification
+                        $('#menu').html(output); // Message pour le paragraphe de notification
                     } else {
                         $('#menu').html("Erreur d'affichage"); // Message pour le paragraphe de notification
                     }
@@ -182,7 +194,7 @@ and open the template in the editor.
             <button id="B_valider" onclick="valider()">Valider</button>
         </div>
         
-        <div class="panel-body" style="height: 400px; overflow-y:scroll">
+        <div class="panel-body" style="height: 400px; overflow-y:scroll; margin-top: 30px;">
             <div style="border: 1px  #000000; width: 90%; margin: 0 auto;" id="menu">
                 
             </div>

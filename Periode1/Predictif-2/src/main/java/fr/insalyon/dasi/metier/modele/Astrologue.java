@@ -25,6 +25,7 @@ public class Astrologue extends Medium {
     public Astrologue(){
         
     }
+    @Override
     public String getFormation() {
         return formation;
     }
@@ -33,6 +34,7 @@ public class Astrologue extends Medium {
         this.formation = formation;
     }
 
+    @Override
     public int getPromotion() {
         return promotion;
     }
