@@ -27,7 +27,8 @@ public class ConsultationsSerialisation extends Serialisation {
         List<Consultation> consultations = (List<Consultation>)request.getAttribute("consultations");
         
         JsonObject container = new JsonObject();
-
+        String homepage = (String) request.getAttribute("homepage");
+        container.addProperty("homepage", homepage);
         if (consultations != null) {
             JsonArray ja = new JsonArray();
             for (Consultation c : consultations)

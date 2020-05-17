@@ -15,7 +15,7 @@ and open the template in the editor.
     <body>
         <div class="showConsultations panel-group" id="accordion" role="tablist" aria-multiselectable="true">
         </div>
-        <p><a href="index.html">Retour à la page d'Accueil</a></p>
+        <p><a class="home" href="index.html">Retour à la page d'Accueil</a></p>
         <script>
             $(document).ready(function() { 
                 $('#showConsultations').html("Affichage en cours"); // Message pour le paragraphe de notification
@@ -30,6 +30,7 @@ and open the template in the editor.
                     })
                     .done(function(response) { // Fonction appelée en cas d'appel AJAX réussi
                         console.log('Response', response); // LOG dans Console Javascript
+                        $("a.home").attr("href", response.homepage);
                         if (response.consultations) {  
                             if(response.consultations.length===0){
                                 $('.showConsultations').append("<p> No Consultations </p>");

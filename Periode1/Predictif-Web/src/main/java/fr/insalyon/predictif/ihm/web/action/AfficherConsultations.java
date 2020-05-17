@@ -22,31 +22,31 @@ public class AfficherConsultations extends Action {
          @Override
     public void executer(HttpServletRequest request) {
         List<Consultation> consultations = new ArrayList<>();
+        String homepageLink = "index.html";
         Service service = new Service();
         HttpSession session = request.getSession();
-        Object id =  session.getAttribute("idClient");
+        Object id = session.getAttribute("idClient");
         if(id!=null) {
             System.out.println("client");
             Client c = service.rechercherClientParId((long) id);
             consultations = service.showClientConsultations(c);
+            homepageLink = "client-dashboard.html";
         }
         else {
             id = session.getAttribute("idEmploye");
-            System.out.println(id);
             if(id!=null) {
+                homepageLink = "employe-dashboard.html";
                 Employe e = service.rechercherEmployeParId((long) id);
                 long clientId = service.getCurrentConsultationClient(e);
-                System.out.println(clientId);
                 if(clientId!=-1) {
                     Client c = service.rechercherClientParId(clientId);
-                    consultations = service.showClientConsultations(c);                   
+                    consultations = service.showClientConsultations(c);
                 }
             }
             
         }
         request.setAttribute("consultations", consultations);
-        
-        
+        request.setAttribute("homepage", homepageLink);
     }
     
 }
