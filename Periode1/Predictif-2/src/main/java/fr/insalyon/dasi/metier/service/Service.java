@@ -283,9 +283,9 @@ public class Service {
             Date date = calendar.getTime();
             Consultation consultation = new Consultation(date,null, null, null, client, choice, result);
             creerConsultation(consultation);
-            choice.getConsultations().add(consultation);
-            result.getConsultations().add(consultation);
-            client.getConsultations().add(consultation);
+            choice.getConsultations().add(0, consultation);
+            result.getConsultations().add(0, consultation);
+            client.getConsultations().add(0, consultation);
             JpaUtil.creerContextePersistance();
             try {
                 JpaUtil.ouvrirTransaction();
@@ -405,7 +405,9 @@ public class Service {
             Date date=cal.getTime();
             DateFormat dateFormat = new SimpleDateFormat("HH:mm:ss");
             String formattedDate=dateFormat.format(date);
-            c.setHeureDebut(formattedDate);
+            if(c.getHeureDebut() == null){
+                c.setHeureDebut(formattedDate);
+            }           
             JpaUtil.creerContextePersistance();
             try {
                 JpaUtil.ouvrirTransaction();
@@ -481,7 +483,7 @@ public class Service {
         long clientId = -1;
         List<Consultation> consultations = e.getConsultations();
         for(int i=0; i < consultations.size(); i++) {
-            if(consultations.get(i).getHeureDebut()==null) {
+            if(consultations.get(i).getHeureFin()==null) {
                 clientId = consultations.get(i).getClient().getId();
                 break;
             }
