@@ -6,6 +6,7 @@
 package fr.insalyon.predictif.ihm.web.action;
 
 import fr.insalyon.dasi.metier.modele.Client;
+import fr.insalyon.dasi.metier.modele.Consultation;
 import fr.insalyon.dasi.metier.modele.Employe;
 import fr.insalyon.dasi.metier.service.Service;
 import java.util.ArrayList;
@@ -31,9 +32,11 @@ public class GeneratePredictions extends Action {
         Client c = null;
         if(id!=null) {
             Employe e = service.rechercherEmployeParId((long) id);
-            long clientId = service.getCurrentConsultationClient(e);
-            if(clientId!=-1) {
-                c = service.rechercherClientParId(clientId);
+            Consultation consul = e.getConsultations().get(0);
+            //long clientId = service.getCurrentConsultationClient(e);
+            c = consul.getClient();
+            if(c.getId()!=-1) {
+                //c = service.rechercherClientParId(clientId);
                 predictions = service.generatePrediction(c, loveNum, healthNum, workNum);
             }
         }
