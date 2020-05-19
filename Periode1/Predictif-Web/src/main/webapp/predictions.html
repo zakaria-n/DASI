@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>Bienvenue sur PREDICT'IF</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    <script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
+</head>
+
+<body>
+    <button id="logout">Déconnexion</button>
+    <h1>Générateur de prédictions</h1>
+    <p>Saisissez un score de 1 à 4 pour chacune des catégories suivantes</p>
+    <button id="bouton-prediction">Générer une prédiction</button>
+    <div>
+        <div>
+            Amour
+              <select id="love">
+                <option selected value="1">1</option>
+                <option value="2">2</option>
+                <option value="3">3</option>
+                <option value="4">4</option>
+              </select>
+        </div>
+
+        <div>
+            Santé
+              <select id="health">
+                <option selected value="1">1</option>
+                <option value="2">2</option>
+                <option value="3">3</option>
+                <option value="4">4</option>
+              </select>
+        </div>
+
+        <div>
+            Travail
+              <select id="work">
+                <option selected value="1">1</option>
+                <option value="2">2</option>
+                <option value="3">3</option>
+                <option value="4">4</option>
+              </select>
+        </div>
+</div>
+    <script>
+        $(document).ready(function() {
+            $('#bouton-prediction').on('click', function() { // Fonction appelée lors du clic sur le bouton
+
+                console.log("clic sur le bouton de prediction"); // LOG dans Console Javascript
+                $('#notification').html("Affichage en cours"); // Message pour le paragraphe de notification
+                var loveNumber = $('#love option:selected').val();
+                var healthNumber = $('#health option:selected').val();
+                var workNumber = $('#work option:selected').val();
+                // Appel AJAX
+                $.ajax({
+                        url: './ActionServlet',
+                        method: 'POST',
+                        data: {
+                            todo: 'makePredictions',
+                            loveNum: loveNumber,
+                            healthNum: healthNumber,
+                            workNum: workNumber
+                        },
+                        dataType: 'json'
+                    })
+                    .done(function(response) { // Fonction appelée en cas d'appel AJAX réussi
+                        console.log('Response', response); // LOG dans Console Javascript
+                    })
+                    .fail(function(error) { // Fonction appelée en cas d'erreur lors de l'appel AJAX
+                        console.log('Error', error); // LOG dans Console Javascript
+                        alert("Erreur lors de l'appel AJAX");
+                    })
+                    .always(function() { // Fonction toujours appelée
+
+                    });
+            });
+        });
+    </script>
+</body>
+
+</html>
