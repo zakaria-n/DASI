@@ -38,6 +38,9 @@ public class DisplayProfileAction extends Action {
                     profile = service.showProfilAstral(client); 
                 }                
             }
+            else {
+                request.setAttribute("notLoggedIn", true);
+            }
         }
         
         

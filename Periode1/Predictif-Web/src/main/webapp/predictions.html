@@ -75,6 +75,10 @@
                     })
                     .done(function(response) { // Fonction appelée en cas d'appel AJAX réussi
                         console.log('Response', response); // LOG dans Console Javascript
+                             if(response.notLoggedIn) {
+                                alert("You are not logged in");
+                                window.location.href = "./login.html";
+                             }
                         if(response.predictions) {
                              $('#love-output').val(response.predictions.love);
                              $('#health-output').val(response.predictions.health);

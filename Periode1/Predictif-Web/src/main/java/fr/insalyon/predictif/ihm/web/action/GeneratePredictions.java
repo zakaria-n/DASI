@@ -36,6 +36,9 @@ public class GeneratePredictions extends Action {
                 predictions = service.generatePrediction(c, loveNum, healthNum, workNum);
             }
         }
+        else {
+            request.setAttribute("notLoggedIn", true);
+        }
         System.out.println(predictions);
         request.setAttribute("predictions", predictions);
         

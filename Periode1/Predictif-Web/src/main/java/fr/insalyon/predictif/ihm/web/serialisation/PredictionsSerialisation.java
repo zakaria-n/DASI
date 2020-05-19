@@ -35,6 +35,10 @@ public class PredictionsSerialisation extends Serialisation {
             predicts.addProperty("work", predictions.get(2));
             container.add("predictions", predicts);
         } 
+        if(request.getAttribute("notLoggedIn")!=null) 
+        {
+            container.addProperty("notLoggedIn", (Boolean) request.getAttribute("notLoggedIn"));
+        }
         response.setContentType("application/json;charset=UTF-8");
         PrintWriter out = response.getWriter();
         Gson gson = new GsonBuilder().setPrettyPrinting().serializeNulls().create();

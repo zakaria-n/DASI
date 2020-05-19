@@ -49,7 +49,9 @@ public class ConsultationsSerialisation extends Serialisation {
             }
 
             container.add("consultations", ja);
-            container.addProperty("notLoggedIn", (Boolean) request.getAttribute("notLoggedIn"));
+            if(request.getAttribute("notLoggedIn")!=null) {
+                container.addProperty("notLoggedIn", (Boolean) request.getAttribute("notLoggedIn"));
+            }
         }
 
         response.setContentType("application/json;charset=UTF-8");
