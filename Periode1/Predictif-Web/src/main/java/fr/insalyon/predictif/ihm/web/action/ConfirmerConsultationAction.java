@@ -8,6 +8,7 @@ package fr.insalyon.predictif.ihm.web.action;
 import fr.insalyon.dasi.metier.modele.Consultation;
 import fr.insalyon.dasi.metier.modele.Employe;
 import fr.insalyon.dasi.metier.service.Service;
+import java.util.List;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 
@@ -18,7 +19,6 @@ import javax.servlet.http.HttpSession;
 public class ConfirmerConsultationAction extends Action {
     @Override
     public void executer(HttpServletRequest request) {
-        
         HttpSession session = request.getSession();
         Service service = new Service();
         Long id = (Long) session.getAttribute("idEmploye");

@@ -23,7 +23,8 @@ public class GeneratePredictions extends Action {
         HttpSession session = request.getSession();
         List<String> predictions = null;
         Service service = new Service();
-        int loveNum = Integer.parseInt((String) request.getParameter("loveNum"));
+        String love = (String) request.getParameter("loveNum");
+        int loveNum = Integer.parseInt(love);
         int healthNum = Integer.parseInt((String) request.getParameter("healthNum"));
         int workNum = Integer.parseInt((String) request.getParameter("workNum"));
         Object id = session.getAttribute("idEmploye");
@@ -39,7 +40,6 @@ public class GeneratePredictions extends Action {
         else {
             request.setAttribute("notLoggedIn", true);
         }
-        System.out.println(predictions);
         request.setAttribute("predictions", predictions);
         
     }
