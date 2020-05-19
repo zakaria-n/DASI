@@ -31,16 +31,16 @@ public class Main {
         // Contrôlez l'affichage du log de JpaUtil grâce à la méthode log de la classe JpaUtil
         JpaUtil.init();
 
-        initialiserClients();            // Question 3
-        initialiserEmployes();
-        initialiserMediums();
-        testerInscriptionClient();       // Question 4 & 5
-        testerRechercheClient();         // Question 6
-        testerListeClients();            // Question 7
-        testerAuthentificationClient();  // Question 8
+        //initialiserClients();            // Question 3
+        //initialiserEmployes();
+        //initialiserMediums();
+        //testerInscriptionClient();       // Question 4 & 5
+        //testerRechercheClient();         // Question 6
+        //testerListeClients();            // Question 7
+        //testerAuthentificationClient();  // Question 8
         //saisirInscriptionClient();       // Question 9
         //saisirRechercheClient();
-        testerProfilAstral();
+        //testerProfilAstral();
         testerConsultation();
         testerEmployeServices();
         testerMediumServices();
@@ -284,7 +284,7 @@ public class Main {
         afficherClient(hedy);
 
         date = new Date(1998, 3, 2);
-        Client hedwig = new Client("Lamarr", "Hedwig Eva Maria", 
+        /*Client hedwig = new Client("Lamarr", "Hedwig Eva Maria", 
                 "hlamarr@insa-lyon.fr", "WiFi", "333" ,"female",date , "france 2");
         Long idHedwig = service.inscrireClient(hedwig);
         if (idHedwig != null) {
@@ -292,7 +292,7 @@ public class Main {
         } else {
             System.out.println("> Échec inscription");
         }
-        afficherClient(hedwig);
+        afficherClient(hedwig);*/
     }
 
     public static void testerRechercheClient() {
@@ -427,6 +427,16 @@ public class Main {
         } else {
             System.out.println("Authentification échouée avec le mail '" + mail + "' et le mot de passe '" + motDePasse + "'");
         }
+        
+        mail = "taeyong.lee@sment.kr";
+        motDePasse = "lovezak";
+        client = service.authentifierClient(mail, motDePasse);
+        if (client != -1) {
+            System.out.println("Authentification réussie avec le mail '" + mail + "' et le mot de passe '" + motDePasse + "'");
+        } else {
+            System.out.println("Authentification échouée avec le mail '" + mail + "' et le mot de passe '" + motDePasse + "'");
+        }
+        
     }
     
         public static void testerConsultation() {
@@ -435,11 +445,14 @@ public class Main {
         System.out.println();
         
         Service service = new Service();
-        long id = 1;
+        long id = 121;
         Client client;
         client = service.rechercherClientParId(id);
+        System.out.println(client.toString());
         Employe employe;
-        employe = service.rechercherEmployeParId(id);
+        long employeid = 122;
+        employe = service.rechercherEmployeParId(employeid);
+        System.out.println(employe.toString());
         SimpleDateFormat dateFormat = new SimpleDateFormat("dd-MM-yyyy");
         Date date2=null;
         try {
@@ -612,7 +625,7 @@ public class Main {
         System.out.println("*************");
         System.out.println("** Employé par Id **");
         System.out.println("*************");
-        long id=7;
+        long id=123;
         System.out.println(service.rechercherEmployeParId((id)));
         System.out.println("*************");
         System.out.println("** Employé par mail **");
@@ -687,7 +700,7 @@ public class Main {
         System.out.println("Testing prediction generator");
         System.out.println("*****************************");
         Service service = new Service();
-        long id = 2;
+        long id = 121;
         Client client = service.rechercherClientParId(id);
         System.out.println("Found client");
         List<String> pred = service.generatePrediction(client, 2, 3, 3);
@@ -699,8 +712,11 @@ public class Main {
     }
     
     public static void testerDemanderConsultation(){
+        System.out.println("*****************************");
+        System.out.println("Testing demander Consultation");
+        System.out.println("*****************************");
         Service service = new Service();
-        long id = 1;
+        long id = 121;
         Client c = service.rechercherClientParId(id);
         Medium m = service.chercherMedium("Mme Irma");
         Employe e = service.demanderConsultation(m,c);
@@ -717,9 +733,9 @@ public class Main {
         System.out.println("Testing confirmation of consultation");
         System.out.println("*****************************");
         Service service = new Service();
-        long id = 1;
+        long id = 121;
         Client c = service.rechercherClientParId(id);
-        Medium m = service.chercherMedium("Serena");
+        Medium m = service.chercherMedium("Mme Irma");
         Employe e = service.rechercherEmployeParMail("csop@insa-lyon.fr");
         Consultation consul = e.getConsultations().get(0);
         service.confirmConsultation(consul);
@@ -731,7 +747,7 @@ public class Main {
         System.out.println("Testing termination of consultation");
         System.out.println("*****************************");
         Service service = new Service();
-        long id = 1;
+        long id = 121;
         Client c = service.rechercherClientParId(id);
         Medium m = service.chercherMedium("Serena");
         Employe e = service.rechercherEmployeParMail("csop@insa-lyon.fr");
