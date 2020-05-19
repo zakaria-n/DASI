@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>Bienvenue sur PREDICT'IF</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    <script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
+</head>
+
+<body>
+    <h1>Mediums</h1>
+    <p><a href="index.html">Retour à la page d'Accueil</a></p>
+    <select id="mediumType" size="4">
+            <option>Astrologue</option>
+            <option>Cartomancien</option>
+            <option>Spirite</option>
+            <option selected>All</option>
+    </select>
+    <button id="bouton-affichage">Afficher Mediums</button>
+    <p id="showMediums"></p>
+    <script>
+        $(document).ready(function() {
+            $('#bouton-affichage').on('click', function() { // Fonction appelée lors du clic sur le bouton
+
+                console.log("clic sur le bouton d'affichage"); // LOG dans Console Javascript
+                $('#notification').html("Affichage en cours"); // Message pour le paragraphe de notification
+                var mediumType = $("#mediumType option:selected").html();
+
+                // Appel AJAX
+                $.ajax({
+                        url: './ActionServlet',
+                        method: 'POST',
+                        data: {
+                            todo: 'showMediums',
+                            type: mediumType
+                        },
+                        dataType: 'json'
+                    })
+                    .done(function(response) { // Fonction appelée en cas d'appel AJAX réussi
+                        console.log('Response', response); // LOG dans Console Javascript
+                        if (response.mediums) {
+                            //$('#notification').html("Connexion OK");  // Message pour le paragraphe de notification
+                            // TODO: afficher les informations du client dans la notification
+                            // Exemple: Connexion de Ada Lovelace (ID 1)
+                            var mediums = response.mediums;
+                            var output = "";
+                            for (var i = 0; i < mediums.length; i++) {
+                                output += "<br/>" + mediums[i].denomination;
+                            }
+                            $('#showMediums').html("Affichage des mediums" + output); // Message pour le paragraphe de notification
+                        } else {
+                            $('#showMediums').html("Erreur d'affichage"); // Message pour le paragraphe de notification
+                        }
+                    })
+                    .fail(function(error) { // Fonction appelée en cas d'erreur lors de l'appel AJAX
+                        console.log('Error', error); // LOG dans Console Javascript
+                        alert("Erreur lors de l'appel AJAX");
+                    })
+                    .always(function() { // Fonction toujours appelée
+
+                    });
+            });
+        });
+    </script>
+</body>
+
+</html>
