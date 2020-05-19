@@ -15,6 +15,8 @@ import fr.insalyon.dasi.techniques.service.Message;
 import fr.insalyon.dasi.techniques.service.Statistics;
 import java.io.IOException;
 import java.sql.Timestamp;
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
 import java.time.LocalDateTime;
 import java.util.Calendar;
 import java.util.Date;
@@ -374,7 +376,11 @@ public class Service {
         Message.envoyerMail("Predictif", client.getMail(), "Consultation confirmée",
                 "Votre consultation est confirmée. Vous allez bientôt  rceevoir un appel"
                         + "de la part de" + medium.getDenomination());
-        c.setHeureDebut(Timestamp.valueOf(LocalDateTime.MIN).toString());
+        Calendar cal = Calendar.getInstance();
+        Date date=cal.getTime();
+        DateFormat dateFormat = new SimpleDateFormat("HH:mm:ss");
+        String formattedDate=dateFormat.format(date);
+        c.setHeureDebut(formattedDate);
         JpaUtil.creerContextePersistance();
         try {
             JpaUtil.ouvrirTransaction();
@@ -397,7 +403,11 @@ public class Service {
         Message.envoyerMail("Predictif", employe.getMail(), "Consultation terminée",
                 "Vous venez de terminer votre consultation. Veuillez laisser un commentaire"
                         + "pour assister vos collègues dans le futur.");
-        c.setHeureFin(Timestamp.valueOf(LocalDateTime.MIN).toString());
+        Calendar cal = Calendar.getInstance();
+        Date date=cal.getTime();
+        DateFormat dateFormat = new SimpleDateFormat("HH:mm:ss");
+        String formattedDate=dateFormat.format(date);
+        c.setHeureFin(formattedDate);
         JpaUtil.creerContextePersistance();
         try {
             JpaUtil.ouvrirTransaction();

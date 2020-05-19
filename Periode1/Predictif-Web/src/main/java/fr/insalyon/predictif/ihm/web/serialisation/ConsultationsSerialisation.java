@@ -33,12 +33,19 @@ public class ConsultationsSerialisation extends Serialisation {
             JsonArray ja = new JsonArray();
             for (Consultation c : consultations)
             {
-                JsonObject jsonConsultation = new JsonObject();
-                jsonConsultation.addProperty("date", c.getDate().toString());
-                jsonConsultation.addProperty("heureDebut", c.getHeureDebut());
-                jsonConsultation.addProperty("heureFin", c.getHeureFin());
-                jsonConsultation.addProperty("commentaire", c.getCommentaire()); 
-                ja.add(jsonConsultation);
+                if(c.getHeureDebut()!=null) {
+                    JsonObject jsonConsultation = new JsonObject();
+                    jsonConsultation.addProperty("date", c.getDate().toString());
+                    jsonConsultation.addProperty("heureDebut", c.getHeureDebut());
+                    jsonConsultation.addProperty("heureFin", c.getHeureFin());
+                    if(c.getCommentaire()!=null) {
+                       jsonConsultation.addProperty("commentaire", c.getCommentaire()); 
+                    }
+                    else {
+                        jsonConsultation.addProperty("commentaire", "n/a"); 
+                    } 
+                    ja.add(jsonConsultation);                    
+                }
             }
 
             container.add("consultations", ja);
