@@ -43,6 +43,9 @@ public class AfficherConsultations extends Action {
                     consultations = service.showClientConsultations(c);
                 }
             }
+            else {
+                request.setAttribute("notLoggedIn", true);
+            }
             
         }
         request.setAttribute("consultations", consultations);

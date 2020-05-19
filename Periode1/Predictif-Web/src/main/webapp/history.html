@@ -32,6 +32,10 @@ and open the template in the editor.
                     .done(function(response) { // Fonction appelée en cas d'appel AJAX réussi
                         console.log('Response', response); // LOG dans Console Javascript
                         $("a.home").attr("href", response.homepage);
+                        if(response.notLoggedIn) {
+                            alert("You are not logged in");
+                            window.location.href = "./login.html";
+                        }
                         if (response.consultations) {  
                             if(response.consultations.length===0){
                                 $('.showConsultations').append("<p> No Consultations </p>");

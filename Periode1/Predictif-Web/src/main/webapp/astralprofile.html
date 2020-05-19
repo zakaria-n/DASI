@@ -42,7 +42,7 @@ and open the template in the editor.
                             }
                         })
                         .done(function(response) { // Fonction appelée en cas d'appel AJAX réussi
-                            console.log('Response', response.succes); // LOG dans Console Javascript
+                            console.log('Response', response); // LOG dans Console Javascript
                             if(response.profile){                               
                                  var profile = response.profile;
                                  $('#zodiaque').html(profile.signeZodiaque);
