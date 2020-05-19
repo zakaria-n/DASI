@@ -374,29 +374,36 @@ public class Service {
         stats.setConsultationsParMedium(consultationsParMedium);
     } 
     
-    public void confirmConsultation(Consultation c) {
+    public boolean confirmConsultation(Consultation c) {
         // send text to client, need client and medium for this
-        Client client = c.getClient();
-        Medium medium = c.getMedium();
-        Message.envoyerMail("Predictif", client.getMail(), "Consultation confirmée",
-                "Votre consultation est confirmée. Vous allez bientôt  rceevoir un appel"
-                        + "de la part de" + medium.getDenomination());
-        Calendar cal = Calendar.getInstance();
-        Date date=cal.getTime();
-        DateFormat dateFormat = new SimpleDateFormat("HH:mm:ss");
-        String formattedDate=dateFormat.format(date);
-        c.setHeureDebut(formattedDate);
-        JpaUtil.creerContextePersistance();
-        try {
-            JpaUtil.ouvrirTransaction();
-            consultationDao.update(c);
-            JpaUtil.validerTransaction();
-        } catch (Exception ex) {
-            Logger.getAnonymousLogger().log(Level.WARNING, "Exception lors de l'appel au Service confrimConsultation(c)");
-            JpaUtil.annulerTransaction();
-        } finally {
-            JpaUtil.fermerContextePersistance();
+        boolean success = true;
+        if(c!=null) {
+            Client client = c.getClient();
+            Medium medium = c.getMedium();
+            Message.envoyerMail("Predictif", client.getMail(), "Consultation confirmée",
+                    "Votre consultation est confirmée. Vous allez bientôt  rceevoir un appel"
+                            + "de la part de" + medium.getDenomination());
+            Calendar cal = Calendar.getInstance();
+            Date date=cal.getTime();
+            DateFormat dateFormat = new SimpleDateFormat("HH:mm:ss");
+            String formattedDate=dateFormat.format(date);
+            c.setHeureDebut(formattedDate);
+            JpaUtil.creerContextePersistance();
+            try {
+                JpaUtil.ouvrirTransaction();
+                consultationDao.update(c);
+                JpaUtil.validerTransaction();
+            } catch (Exception ex) {
+                Logger.getAnonymousLogger().log(Level.WARNING, "Exception lors de l'appel au Service confrimConsultation(c)");
+                JpaUtil.annulerTransaction();
+            } finally {
+                JpaUtil.fermerContextePersistance();
+            }                 
         }
+        else {
+            success = false;
+        }
+        return success;
     }
    
     public void terminerConsultation(Consultation c) {

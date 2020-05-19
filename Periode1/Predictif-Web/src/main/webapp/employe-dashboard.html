@@ -22,7 +22,8 @@ and open the template in the editor.
         </div>
         <div>
             <p>[picture here]</p>
-            <p id="confirm"> <a href="./ongoing.html"> Confirmer la consultation </a> </p>
+            <p id="confirm"> <a href="javascript:void(0)"> Confirmer la consultation </a> </p>
+            <p id="rejection"> </p>
         </div>
         <div>
             <p>[picture here]</p>
@@ -64,8 +65,13 @@ and open the template in the editor.
                             }
                         })
                         .done(function(response) { // Fonction appelée en cas d'appel AJAX réussi
-                             window.location.href = "./ongoing.html";
-                             console.log('Response', response.succes); // LOG dans Console Javascript
+                            if(response.success) {
+                                window.location.href = "./ongoing.html";   
+                            }
+                            else {
+                                 $('#rejection').text("Could not confirm consultation");
+                            }
+                             console.log('Response', response); // LOG dans Console Javascript
                         })
                         .fail(function(error) { // Fonction appelée en cas d'erreur lors de l'appel AJAX
                             console.log('Error', error); // LOG dans Console Javascript
