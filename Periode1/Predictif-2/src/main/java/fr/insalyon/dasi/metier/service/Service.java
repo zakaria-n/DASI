@@ -431,6 +431,18 @@ public class Service {
         return consultations;
     }
     
+    public Consultation getCurrentConsultation(Employe e) { 
+        Consultation c = null;
+        List<Consultation> consultations = e.getConsultations();
+        for(int i=0; i < consultations.size(); i++) {
+            if(consultations.get(i).getHeureDebut()==null) {
+                c = consultations.get(i);
+                break;
+            }
+        }
+        return c;
+    }
+    
     public long getCurrentConsultationClient(Employe e) { 
         long clientId = -1;
         List<Consultation> consultations = e.getConsultations();

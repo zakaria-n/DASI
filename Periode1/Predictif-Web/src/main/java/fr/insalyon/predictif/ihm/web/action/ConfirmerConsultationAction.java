@@ -22,10 +22,11 @@ public class ConfirmerConsultationAction extends Action {
         HttpSession session = request.getSession();
         Service service = new Service();
         Long id = (Long) session.getAttribute("idEmploye");
+        System.out.println("Employe "+ id);
         if(id!=null) {
             Employe e = service.rechercherEmployeParId(id);
-            Consultation c = e.getConsultations().get(0);
-            service.confirmConsultation(c);
+            Consultation consul = e.getConsultations().get(0);
+            service.confirmConsultation(consul);
         }               
     }
 }

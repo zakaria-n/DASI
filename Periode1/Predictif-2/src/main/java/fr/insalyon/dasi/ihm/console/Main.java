@@ -41,13 +41,13 @@ public class Main {
         //saisirInscriptionClient();       // Question 9
         //saisirRechercheClient();
         //testerProfilAstral();
-        testerConsultation();
-        testerEmployeServices();
-        testerMediumServices();
-        TestingPrediction();
-        testerDemanderConsultation();
+        //testerConsultation();
+        //testerEmployeServices();
+        //testerMediumServices();
+        //TestingPrediction();
+        //testerDemanderConsultation();
         testerConfirmerConsultation();
-        testerTerminerConsultation();
+        //testerTerminerConsultation();
         
        /* Service service = new Service();
         long id = 2;
@@ -733,10 +733,7 @@ public class Main {
         System.out.println("Testing confirmation of consultation");
         System.out.println("*****************************");
         Service service = new Service();
-        long id = 121;
-        Client c = service.rechercherClientParId(id);
-        Medium m = service.chercherMedium("Mme Irma");
-        Employe e = service.rechercherEmployeParMail("csop@insa-lyon.fr");
+        Employe e = service.rechercherEmployeParMail("lol@insa-lyon.fr");
         Consultation consul = e.getConsultations().get(0);
         service.confirmConsultation(consul);
         service.showConsultation(consul);

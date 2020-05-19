@@ -22,7 +22,7 @@ and open the template in the editor.
         </div>
         <div>
             <p>[picture here]</p>
-            <p id="confirm"> <a href="./ongoing.html"> Confirmer la consultation </a> </p>
+             <button id="confirm">Confirmer la consultation</button>
         </div>
         <div>
             <p>[picture here]</p>
@@ -55,7 +55,7 @@ and open the template in the editor.
                 });
                 
                 $('#confirm').on('click', function() {
-                    console.log("clic sur le bouton de confiration");
+                    console.log("clic sur le bouton de confirmation");
                     $.ajax({
                             url: './ActionServlet',
                             method: 'POST',
@@ -73,6 +73,7 @@ and open the template in the editor.
                         })
                         .always(function() { // Fonction toujours appelée
                         });
+                        return false;
                 });
             });
         </script>
