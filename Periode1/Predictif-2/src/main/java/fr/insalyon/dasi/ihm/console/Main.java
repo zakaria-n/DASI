@@ -46,8 +46,9 @@ public class Main {
         //testerMediumServices();
         //TestingPrediction();
         //testerDemanderConsultation();
-        testerConfirmerConsultation();
+        //testerConfirmerConsultation();
         //testerTerminerConsultation();
+        testerAddComment();
         
        /* Service service = new Service();
         long id = 2;
@@ -744,9 +745,6 @@ public class Main {
         System.out.println("Testing termination of consultation");
         System.out.println("*****************************");
         Service service = new Service();
-        long id = 121;
-        Client c = service.rechercherClientParId(id);
-        Medium m = service.chercherMedium("Serena");
         Employe e = service.rechercherEmployeParMail("csop@insa-lyon.fr");
         Consultation consul = e.getConsultations().get(0);
         service.terminerConsultation(consul);
@@ -754,6 +752,19 @@ public class Main {
         afficherEmploye(e);
         service.ajouterCommentaire(consul, "fini");
         service.afficherCommentaire(consul);
+    }
+    
+     public static void testerAddComment(){
+        System.out.println("*****************************");
+        System.out.println("Testing add comment");
+        System.out.println("*****************************");
+        Service service = new Service();
+        Employe e = service.rechercherEmployeParMail("bzih@insa-lyon.fr");
+        Consultation consul = e.getConsultations().get(0);
+        service.ajouterCommentaire(consul, "You are KANG!");
+        service.showConsultation(consul);
+        afficherEmploye(e);
+        
     }
     
 }

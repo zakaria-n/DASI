@@ -6,20 +6,26 @@ and open the template in the editor.
 -->
 <html>
     <head>
-        <title>Consultation en cours</title>
+        <title>Consultation terminée</title>
         <meta charset="UTF-8">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
-         <script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
+        <script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
     </head>
     <body>
         <div>
-            <button id="logout">Déconnexion</button>
-            <p> Un SMS a été envoyé à votre client </p>
-            <button id="inspiration" ><a href="./predictions.html">Besoin d'inspiration ?</a></button>
             <div>
-            <button id="terminate">Terminer la consulation</button>
-            <p id="rejection"> </p>
+            <button id="logout">Déconnexion</button>
             </div>
+            <p>La consultation est terminée</p>
+            <p id="prompt">Souhaitez-vous laisser un commentaire ?</p>
+            <div>
+                <input type="text" id="champ-commentaire" size="40" />
+                <button id="addComment">Valider </button>
+            </div>
+            <div>
+                <button id="home">Quitter sans laisser de commentaire</button>
+            </div>
+            
         </div>
         <script>
             $(document).ready(function() {
@@ -47,23 +53,26 @@ and open the template in the editor.
                         });
                 });
                 
-                $('#terminate').on('click', function() {
-                    console.log("clic sur le bouton terminer");
+                $('#addComment').on('click', function() { // Fonction appelée lors du clic sur le bouton
+
+                    console.log("clic sur le bouton pour valider le commentaire"); // LOG dans Console Javascript
+                    //
+                    var commentaire = $('#champ-commentaire').val();
+                    // Appel AJAX
                     $.ajax({
                             url: './ActionServlet',
                             method: 'POST',
                             data: {
-                                todo: 'endConsultation'
+                                todo: 'addComment',
+                                comment: commentaire
                             }
                         })
                         .done(function(response) { // Fonction appelée en cas d'appel AJAX réussi
-                            if(response.success) {
-                                window.location.href = "./ended.html";   
-                            }
-                            else {
-                                 $('#rejection').text("Could not terminate consultation");
-                            }
-                             console.log('Response', response); // LOG dans Console Javascript
+                             $("#champ-commentaire").hide();
+                             $("#addComment").hide();
+                             $("#prompt").hide();
+                             $('#home').html("Retour au tableau de bord");
+                             console.log('Response', response.succes); // LOG dans Console Javascript
                         })
                         .fail(function(error) { // Fonction appelée en cas d'erreur lors de l'appel AJAX
                             console.log('Error', error); // LOG dans Console Javascript
@@ -71,8 +80,13 @@ and open the template in the editor.
                         })
                         .always(function() { // Fonction toujours appelée
                         });
-                        return false;
                 });
+                
+                $('#home').on('click', function(){
+                    window.location.href = "./employe-dashboard.html";
+                    console.log('Response', response.succes);
+                })
+                
             });
         </script>
     </body>

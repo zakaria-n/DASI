@@ -326,9 +326,27 @@ public class Service {
         return result;
     }
     
-    public void ajouterCommentaire(Consultation c, String comment) 
+    public boolean ajouterCommentaire(Consultation c, String comment) 
     {
-        c.setCommentaire(comment);
+        boolean success = true;
+        if (c != null)
+        {
+            c.setCommentaire(comment);
+            JpaUtil.creerContextePersistance();
+            try {
+                JpaUtil.ouvrirTransaction();
+                consultationDao.update(c);
+                JpaUtil.validerTransaction();
+            } catch (Exception ex) {
+                Logger.getAnonymousLogger().log(Level.WARNING, "Exception lors de l'appel au Service ajouterCommentaire");
+                JpaUtil.annulerTransaction();
+            } finally {
+                JpaUtil.fermerContextePersistance();
+            }
+        }else{
+           success = false; 
+        }
+        return success;
     }
     
     public void afficherCommentaire(Consultation c)
@@ -406,31 +424,40 @@ public class Service {
         return success;
     }
    
-    public void terminerConsultation(Consultation c) {
+    public boolean terminerConsultation(Consultation c) {
         // send text to client, need client and medium for this
-        Client client = c.getClient();
-        Employe employe = c.getEmploye();
-        Message.envoyerMail("Predictif", client.getMail(), "Consultation terminée",
-                "Votre consultation est terminée. Merci de votre confiance.");
-        Message.envoyerMail("Predictif", employe.getMail(), "Consultation terminée",
-                "Vous venez de terminer votre consultation. Veuillez laisser un commentaire"
-                        + "pour assister vos collègues dans le futur.");
-        Calendar cal = Calendar.getInstance();
-        Date date=cal.getTime();
-        DateFormat dateFormat = new SimpleDateFormat("HH:mm:ss");
-        String formattedDate=dateFormat.format(date);
-        c.setHeureFin(formattedDate);
-        JpaUtil.creerContextePersistance();
-        try {
-            JpaUtil.ouvrirTransaction();
-            consultationDao.update(c);
-            JpaUtil.validerTransaction();
-        } catch (Exception ex) {
-            Logger.getAnonymousLogger().log(Level.WARNING, "Exception lors de l'appel au Service confrimConsultation(c)");
-            JpaUtil.annulerTransaction();
-        } finally {
-            JpaUtil.fermerContextePersistance();
+        boolean success = true;
+        if(c!=null) {
+            Client client = c.getClient();
+            Employe employe = c.getEmploye();
+            Message.envoyerMail("Predictif", client.getMail(), "Consultation terminée",
+                    "Votre consultation est terminée. Merci de votre confiance.");
+            Message.envoyerMail("Predictif", employe.getMail(), "Consultation terminée",
+                    "Vous venez de terminer votre consultation. Veuillez laisser un commentaire"
+                            + "pour assister vos collègues dans le futur.");
+            Calendar cal = Calendar.getInstance();
+            Date date=cal.getTime();
+            DateFormat dateFormat = new SimpleDateFormat("HH:mm:ss");
+            String formattedDate=dateFormat.format(date);
+            c.setHeureFin(formattedDate);
+            employe.setDisponible(true);
+            JpaUtil.creerContextePersistance();
+            try {
+                JpaUtil.ouvrirTransaction();
+                consultationDao.update(c);
+                employeDao.update(employe);
+                JpaUtil.validerTransaction();
+            } catch (Exception ex) {
+                Logger.getAnonymousLogger().log(Level.WARNING, "Exception lors de l'appel au Service confrimConsultation(c)");
+                JpaUtil.annulerTransaction();
+            } finally {
+                JpaUtil.fermerContextePersistance();
+            }
         }
+        else {
+            success = false;
+        }
+        return success;
     }
     
     public List<Consultation> showClientConsultations(Client c) { 
