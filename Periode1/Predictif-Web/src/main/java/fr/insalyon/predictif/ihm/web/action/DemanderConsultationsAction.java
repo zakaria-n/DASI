@@ -23,7 +23,7 @@ public class DemanderConsultationsAction extends Action {
         Medium m = null ;
         Service service = new Service();
         HttpSession session = request.getSession();
-        Object id =  session.getAttribute("idClient");
+        Long id =  (Long) session.getAttribute("idClient");
         String mediumName = request.getParameter("medium");
         if(id!=null) {
             //System.out.println("client");

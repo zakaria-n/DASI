@@ -22,7 +22,7 @@ and open the template in the editor.
         </div>
         <div>
             <p>[picture here]</p>
-            <p><u>Confirmer la consultation</u></p>
+            <p id="confirm"> <a href="./ongoing.html"> Confirmer la consultation </a> </p>
         </div>
         <div>
             <p>[picture here]</p>
@@ -32,7 +32,7 @@ and open the template in the editor.
             $(document).ready(function() {
                 $('#logout').on('click', function() { // Fonction appelée lors du clic sur le bouton
 
-                    console.log("clic sur le bouton d'affichage"); // LOG dans Console Javascript
+                    console.log("clic sur le bouton de déconnexion"); // LOG dans Console Javascript
                     //
                     // Appel AJAX
                     $.ajax({
@@ -44,6 +44,27 @@ and open the template in the editor.
                         })
                         .done(function(response) { // Fonction appelée en cas d'appel AJAX réussi
                              window.location.href = "./logged-out.html";
+                             console.log('Response', response.succes); // LOG dans Console Javascript
+                        })
+                        .fail(function(error) { // Fonction appelée en cas d'erreur lors de l'appel AJAX
+                            console.log('Error', error); // LOG dans Console Javascript
+                            alert("Erreur lors de l'appel AJAX");
+                        })
+                        .always(function() { // Fonction toujours appelée
+                        });
+                });
+                
+                $('#confirm').on('click', function() {
+                    console.log("clic sur le bouton de confiration");
+                    $.ajax({
+                            url: './ActionServlet',
+                            method: 'POST',
+                            data: {
+                                todo: 'confirmConsultation'
+                            }
+                        })
+                        .done(function(response) { // Fonction appelée en cas d'appel AJAX réussi
+                             window.location.href = "./ongoing.html";
                              console.log('Response', response.succes); // LOG dans Console Javascript
                         })
                         .fail(function(error) { // Fonction appelée en cas d'erreur lors de l'appel AJAX

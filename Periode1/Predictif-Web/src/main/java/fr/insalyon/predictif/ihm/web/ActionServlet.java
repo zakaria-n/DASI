@@ -75,6 +75,10 @@ public class ActionServlet extends HttpServlet {
                     action = new DemanderConsultationsAction();
                     serialisation = new ConsultationsSerialisation();
                     break;
+                case "confirmConsultation":
+                    action = new ConfirmerConsultationAction();
+                    serialisation = new ConsultationsSerialisation();
+                    break;
             }
         }
         
