@@ -10,6 +10,6 @@ import javax.servlet.http.HttpServletResponse;
  */
 public abstract class Serialisation {
     
-     public abstract void serialiser(HttpServletRequest request, HttpServletResponse response) throws IOException;
+    public abstract void serialiser(HttpServletRequest request, HttpServletResponse response) throws IOException;
      
 }
