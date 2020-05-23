@@ -31,6 +31,8 @@ public class AfficherConsultations extends Action {
             Client c = service.rechercherClientParId((long) id);
             consultations = service.showClientConsultations(c);
             homepageLink = "client-dashboard.html";
+            request.setAttribute("prenomClient", c.getPrenom());
+            request.setAttribute("nomClient", c.getNom());
         }
         else {
             id = session.getAttribute("idEmploye");

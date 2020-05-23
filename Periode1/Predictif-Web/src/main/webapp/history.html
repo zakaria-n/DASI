@@ -14,6 +14,8 @@ and open the template in the editor.
 </head>
     <body>
         <h2>Consultations</h2>
+        <p id="name">Consultations de: </p>
+        <p id="medium">Dernière séance en compagnie de: </p>
         <div class="showConsultations panel-group" id="accordion" role="tablist" aria-multiselectable="true">
         </div>
         <p><a class="home" href="index.html">Retour à la page d'Accueil</a></p>
@@ -36,6 +38,17 @@ and open the template in the editor.
                             alert("You are not logged in");
                             window.location.href = "./login.html";
                         }
+                        
+                        var name = document.getElementById("name");
+                        var prenom = document.createTextNode(response.prenomClient+" ");
+                        name.appendChild(prenom);  
+                        var nom = document.createTextNode(response.nomClient);
+                        name.appendChild(nom);
+                        
+                        var medium = document.getElementById("medium");
+                        var denom = document.createTextNode(response.consultations[0].mediumName);
+                        medium.appendChild(denom);
+                        
                         if (response.consultations) {  
                             if(response.consultations.length===0){
                                 $('.showConsultations').append("<p> No Consultations </p>");

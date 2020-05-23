@@ -25,10 +25,13 @@ public class ConsultationsSerialisation extends Serialisation {
     public void serialiser(HttpServletRequest request, HttpServletResponse response) throws IOException {
 
         List<Consultation> consultations = (List<Consultation>)request.getAttribute("consultations");
-        
+        String prenom = (String) request.getAttribute("prenomClient");
+        String nom = (String) request.getAttribute("nomClient");
         JsonObject container = new JsonObject();
         String homepage = (String) request.getAttribute("homepage");
         container.addProperty("homepage", homepage);
+        container.addProperty("prenomClient", prenom);
+        container.addProperty("nomClient", nom);
         if (consultations != null) {
             JsonArray ja = new JsonArray();
             for (Consultation c : consultations)
@@ -38,6 +41,7 @@ public class ConsultationsSerialisation extends Serialisation {
                     jsonConsultation.addProperty("date", c.getDate().toString());
                     jsonConsultation.addProperty("heureDebut", c.getHeureDebut());
                     jsonConsultation.addProperty("heureFin", c.getHeureFin());
+                    jsonConsultation.addProperty("mediumName", c.getMedium().getDenomination());
                     if(c.getCommentaire()!=null) {
                        jsonConsultation.addProperty("commentaire", c.getCommentaire()); 
                     }
