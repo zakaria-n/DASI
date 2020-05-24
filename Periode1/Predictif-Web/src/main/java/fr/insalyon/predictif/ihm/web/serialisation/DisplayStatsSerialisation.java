@@ -31,21 +31,26 @@ public class DisplayStatsSerialisation extends Serialisation {
         
         if (stats != null)
         {
-            JsonObject topJson = new JsonObject();
+            JsonArray topJson = new JsonArray();
             List<Medium>  top5 = stats.getTop5();
-            int i=1;
-            for (Medium m : top5)
+            for (int p=0; p<top5.size(); p++)
             {
-                topJson.addProperty("medium"+i, m.getDenomination());
-                i++;
+                JsonObject rank = new JsonObject();
+                rank.addProperty("rang",p+1 );
+                rank.addProperty("denom",top5.get(p).getDenomination());
+                topJson.add(rank);
+                
             }
             container.add("topfive", topJson);
             
             JsonArray perEmp = new JsonArray();
             for (Integer j : stats.getClientsParEmploye().keySet())
             {
-                JsonObject jsonPerEmp = new JsonObject();
-                jsonPerEmp.addProperty(stats.getClientsParEmploye().get(j).getPrenom(),""+j);
+                JsonArray jsonPerEmp = new JsonArray();
+                JsonObject emp = new JsonObject();
+                emp.addProperty("prenom",stats.getClientsParEmploye().get(j).getPrenom());
+                emp.addProperty("nb",""+j);
+                jsonPerEmp.add(emp);
                 perEmp.add(jsonPerEmp);
             }
             container.add("perEmployee",perEmp);
@@ -53,8 +58,11 @@ public class DisplayStatsSerialisation extends Serialisation {
             JsonArray perMed = new JsonArray();
             for (Integer k : stats.getConsultationsParMedium().keySet())
             {
-                JsonObject jsonPerMed = new JsonObject();
-                jsonPerMed.addProperty(stats.getConsultationsParMedium().get(k).getDenomination(),""+k);
+                JsonArray jsonPerMed = new JsonArray();
+                JsonObject med = new JsonObject();
+                med.addProperty("denom", stats.getConsultationsParMedium().get(k).getDenomination());
+                med.addProperty("nb",""+k);
+                jsonPerMed.add(med);
                 perMed.add(jsonPerMed);
             }
             container.add("perMed",perMed);

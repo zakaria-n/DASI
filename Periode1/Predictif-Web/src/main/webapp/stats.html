@@ -5,11 +5,58 @@
     <title>Activité de l'agence</title>
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
     <script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
+    <style> 
+        table { 
+            margin: 25px 0; 
+            width: 200px; 
+        } 
+  
+        table th, table td { 
+            padding: 10px; 
+            text-align: center; 
+        } 
+  
+        table, th, td { 
+            border: 1px solid; 
+        } 
+    </style> 
 </head>
 
 <body>
     <p><a href="index.html">Retour à la page d'Accueil</a></p>
-    <p id="stats"></p>
+    <p>Top 5 des médiums demandés par les clients:</p>
+    <div id="stats">
+         <table style="width:100%">
+            <tr>
+                <th>Rang</th>
+                <th>Medium</th>                 
+            </tr>
+            <tr id="top">
+            </tr>             
+        </table>
+    </div>
+    <p>Nombre de consultations par employé:</p>
+    <div id="stats">
+         <table style="width:100%">
+            <tr>
+                <th>Employé</th>
+                <th>Nombre de consultations</th>                 
+            </tr>
+            <tr id="emp">
+            </tr>             
+        </table>
+    </div>
+    <p>Nombre de consultations par Médium:</p>
+    <div id="stats">
+         <table  style="width:100%">
+            <tr>
+                <th>Medium</th>
+                <th>Nombre de consultations</th>                 
+            </tr>
+            <tr id="med">
+            </tr>             
+        </table>
+    </div>
     <script>
         $(document).ready(function() {
 
@@ -24,17 +71,41 @@
                     })
                     .done(function(response) { // Fonction appelée en cas d'appel AJAX réussi
                         console.log('Response', response); // LOG dans Console Javascript
+                        if (response.perEmployee) {
+                            var i =1;
+                            var perEmployee = response.perEmployee;
+                            $('#emp').not(':first').not(':last').remove();
+                            var html = '';
+                            for(var i = 0; i < perEmployee.length; i++)
+                                        html += '<tr><td>' + perEmployee[i][0].prenom+ 
+                                                '</td><td>' + perEmployee[i][0].nb + '</td></tr>';
+                            $('#emp').first().after(html);
+
+                        }
+                        if (response.perMed) {
+                            var i =1;
+                            var perMed = response.perMed;
+                            $('#med').not(':first').not(':last').remove();
+                            var html = '';
+                            for(var i = 0; i < perMed.length; i++)
+                                        html += '<tr><td>' + perMed[i][0].denom+ 
+                                                '</td><td>' + perMed[i][0].nb + '</td></tr>';
+                            $('#med').first().after(html);
+
+                        }
                         if (response.topfive) {
-                            //$('#notification').html("Connexion OK");  // Message pour le paragraphe de notification
-                            // TODO: afficher les informations du client dans la notification
-                            // Exemple: Connexion de Ada Lovelace (ID 1)
-                            var top5 = response.topfive;
-                            var output = "";
-                            for (var i = 0; i < topfive.length; i++) {
-                                output += "<br/>" + topfive[i];
-                            }
-                            $('#stats').html("Top 5 des mediums choisis par les clients" + output); // Message pour le paragraphe de notification
-                        } else {
+                            var i =1;
+                            var topfive = response.topfive;
+                            $('#top').not(':first').not(':last').remove();
+                            var html = '';
+                            for(var i = 0; i < topfive.length; i++)
+                                        html += '<tr><td>' + topfive[i].rang+ 
+                                                '</td><td>' + topfive[i].denom + '</td></tr>';
+                            $('#top').first().after(html);
+
+                        }
+                        
+                        else {
                             $('#stats').html("Erreur d'affichage"); // Message pour le paragraphe de notification
                         }
                     })
