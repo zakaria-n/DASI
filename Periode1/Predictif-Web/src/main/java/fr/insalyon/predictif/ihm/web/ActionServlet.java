@@ -91,6 +91,10 @@ public class ActionServlet extends HttpServlet {
                     action = new AddCommentAction();
                     serialisation = new AddCommentSerialisation();
                     break;
+                case "showStats":
+                    action = new DisplayStatsAction();
+                    serialisation = new DisplayStatsSerialisation();
+                    break;
                     
             }
         }

@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>Activité de l'agence</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    <script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
+</head>
+
+<body>
+    <p><a href="index.html">Retour à la page d'Accueil</a></p>
+    <p id="stats"></p>
+    <script>
+        $(document).ready(function() {
+
+                // Appel AJAX
+                $.ajax({
+                        url: './ActionServlet',
+                        method: 'POST',
+                        data: {
+                            todo: 'showStats',
+                        },
+                        dataType: 'json'
+                    })
+                    .done(function(response) { // Fonction appelée en cas d'appel AJAX réussi
+                        console.log('Response', response); // LOG dans Console Javascript
+                        if (response.topfive) {
+                            //$('#notification').html("Connexion OK");  // Message pour le paragraphe de notification
+                            // TODO: afficher les informations du client dans la notification
+                            // Exemple: Connexion de Ada Lovelace (ID 1)
+                            var top5 = response.topfive;
+                            var output = "";
+                            for (var i = 0; i < topfive.length; i++) {
+                                output += "<br/>" + topfive[i];
+                            }
+                            $('#stats').html("Top 5 des mediums choisis par les clients" + output); // Message pour le paragraphe de notification
+                        } else {
+                            $('#stats').html("Erreur d'affichage"); // Message pour le paragraphe de notification
+                        }
+                    })
+                    .fail(function(error) { // Fonction appelée en cas d'erreur lors de l'appel AJAX
+                        console.log('Error', error); // LOG dans Console Javascript
+                        alert("Erreur lors de l'appel AJAX");
+                    })
+                    .always(function() { // Fonction toujours appelée
+
+                    });
+        });
+    </script>
+</body>
+
+</html>

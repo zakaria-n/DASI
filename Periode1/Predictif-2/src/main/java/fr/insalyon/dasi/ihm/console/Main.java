@@ -43,12 +43,12 @@ public class Main {
         //testerProfilAstral();
         //testerConsultation();
         //testerEmployeServices();
-        //testerMediumServices();
+        testerMediumServices();
         //TestingPrediction();
         //testerDemanderConsultation();
         //testerConfirmerConsultation();
         //testerTerminerConsultation();
-        testerAddComment();
+        //testerAddComment();
         
        /* Service service = new Service();
         long id = 2;
