@@ -7,6 +7,7 @@ package fr.insalyon.dasi.techniques.service;
 
 import fr.insalyon.dasi.metier.modele.Employe;
 import fr.insalyon.dasi.metier.modele.Medium;
+import java.util.HashMap;
 import java.util.List;
 import java.util.SortedMap;
 
@@ -17,13 +18,13 @@ import java.util.SortedMap;
 public class Statistics {
 
     private List<Medium> top5;
-    private SortedMap<Integer, Medium> consultationsParMedium;
-    private SortedMap<Integer, Employe> clientsParEmploye;
+    private HashMap<Medium, Integer> consultationsParMedium;
+    private HashMap<Employe, Integer> clientsParEmploye;
 
     public Statistics() {
     }
 
-    public Statistics(List<Medium> top5, SortedMap<Integer, Medium> consultationsParMedium, SortedMap<Integer, Employe> clientsParEmploye) {
+    public Statistics(List<Medium> top5, HashMap<Medium, Integer>consultationsParMedium, HashMap<Employe, Integer> clientsParEmploye) {
         this.top5 = top5;
         this.consultationsParMedium = consultationsParMedium;
         this.clientsParEmploye = clientsParEmploye;
@@ -33,11 +34,11 @@ public class Statistics {
         return top5;
     }
 
-    public SortedMap<Integer, Medium> getConsultationsParMedium() {
+    public HashMap<Medium, Integer> getConsultationsParMedium() {
         return consultationsParMedium;
     }
 
-    public SortedMap<Integer, Employe> getClientsParEmploye() {
+    public HashMap<Employe, Integer> getClientsParEmploye() {
         return clientsParEmploye;
     }
 
@@ -45,11 +46,11 @@ public class Statistics {
         this.top5 = top5;
     }
 
-    public void setConsultationsParMedium(SortedMap<Integer, Medium> consultationsParMedium) {
+    public void setConsultationsParMedium(HashMap<Medium, Integer>consultationsParMedium) {
         this.consultationsParMedium = consultationsParMedium;
     }
 
-    public void setClientsParEmploye(SortedMap<Integer, Employe> clientsParEmploye) {
+    public void setClientsParEmploye(HashMap<Employe, Integer> clientsParEmploye) {
         this.clientsParEmploye = clientsParEmploye;
     }
 

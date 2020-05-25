@@ -20,6 +20,7 @@ import java.text.SimpleDateFormat;
 import java.time.LocalDateTime;
 import java.util.Calendar;
 import java.util.Date;
+import java.util.HashMap;
 import java.util.List;
 import java.util.SortedMap;
 import java.util.TimeZone;
@@ -378,16 +379,16 @@ public class Service {
         }
         
         stats.setTop5(top5);
-        SortedMap<Integer, Employe> clientsParEmploye = new TreeMap<>();
-        SortedMap<Integer, Medium> consultationsParMedium = new TreeMap<>();
+        HashMap<Employe, Integer> clientsParEmploye = new HashMap();
+        HashMap<Medium, Integer> consultationsParMedium = new HashMap();
         for (Employe e : employeList)
         {
-            clientsParEmploye.put(e.getNbConsultations(), e);
+            clientsParEmploye.put(e, e.getNbConsultations());
         }
         stats.setClientsParEmploye(clientsParEmploye);
         for (Medium m : mediumList)
         {
-            consultationsParMedium.put(m.getNbConsultations(), m);
+            consultationsParMedium.put(m, m.getNbConsultations());
         }
         stats.setConsultationsParMedium(consultationsParMedium);
     } 

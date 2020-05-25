@@ -9,6 +9,7 @@ import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.google.gson.JsonArray;
 import com.google.gson.JsonObject;
+import fr.insalyon.dasi.metier.modele.Employe;
 import fr.insalyon.dasi.metier.modele.Medium;
 import fr.insalyon.dasi.techniques.service.Statistics;
 import java.io.IOException;
@@ -44,24 +45,24 @@ public class DisplayStatsSerialisation extends Serialisation {
             container.add("topfive", topJson);
             
             JsonArray perEmp = new JsonArray();
-            for (Integer j : stats.getClientsParEmploye().keySet())
+            for (Employe e : stats.getClientsParEmploye().keySet())
             {
                 JsonArray jsonPerEmp = new JsonArray();
                 JsonObject emp = new JsonObject();
-                emp.addProperty("prenom",stats.getClientsParEmploye().get(j).getPrenom());
-                emp.addProperty("nb",""+j);
+                emp.addProperty("prenom",e.getPrenom());
+                emp.addProperty("nb",""+stats.getClientsParEmploye().get(e));
                 jsonPerEmp.add(emp);
                 perEmp.add(jsonPerEmp);
             }
             container.add("perEmployee",perEmp);
             
             JsonArray perMed = new JsonArray();
-            for (Integer k : stats.getConsultationsParMedium().keySet())
+            for (Medium m : stats.getConsultationsParMedium().keySet())
             {
                 JsonArray jsonPerMed = new JsonArray();
                 JsonObject med = new JsonObject();
-                med.addProperty("denom", stats.getConsultationsParMedium().get(k).getDenomination());
-                med.addProperty("nb",""+k);
+                med.addProperty("denom", m.getDenomination());
+                med.addProperty("nb",""+stats.getConsultationsParMedium().get(m));
                 jsonPerMed.add(med);
                 perMed.add(jsonPerMed);
             }

@@ -682,16 +682,16 @@ public class Main {
         }
         System.out.println();
         System.out.println("***Nb de client par emp***");
-        for (Integer i : stats.getClientsParEmploye().keySet())
+        for (Employe e : stats.getClientsParEmploye().keySet())
         {
-            System.out.println(stats.getClientsParEmploye().get(i).getPrenom()
-            + " | Nb de clients:"+ i);
+            System.out.println( e.getPrenom() +
+            " | Nb de clients:" + stats.getClientsParEmploye().get(e) );
         }
         System.out.println("***Nb de consultations par médium***");
-        for (Integer i : stats.getConsultationsParMedium().keySet())
+        for (Medium m: stats.getConsultationsParMedium().keySet())
         {
-            System.out.println(stats.getConsultationsParMedium().get(i).getDenomination()
-            + " | Nb de consultation:"+ i);
+            System.out.println(m.getDenomination()
+            + " | Nb de consultations:"+ stats.getConsultationsParMedium().get(m));
         }
     }
     
