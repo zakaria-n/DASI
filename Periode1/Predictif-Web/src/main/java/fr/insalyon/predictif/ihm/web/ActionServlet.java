@@ -103,6 +103,10 @@ public class ActionServlet extends HttpServlet {
                     action = new CheckStaffAction();
                     serialisation = new CheckAuthSerialisation();
                     break;
+                case "checkAny":
+                    action = new CheckAnyAction();
+                    serialisation = new CheckAuthSerialisation();
+                    break;
                     
             }
         }
