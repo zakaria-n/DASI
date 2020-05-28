@@ -22,10 +22,10 @@ public class TerminerConsultationAction extends Action {
         boolean success = false;
         Service service = new Service();
         Long id = (Long) session.getAttribute("idEmploye");
-        System.out.println("Employe "+ id);
+        System.out.println("Employe -- "+ id);
         if(id!=null) {
             Employe e = service.rechercherEmployeParId(id);
-            Consultation consul = service.getCurrentConsultation(e);
+            Consultation consul = e.getConsultations().get(0);
             if (consul != null)
             {
                 success = service.terminerConsultation(consul);
