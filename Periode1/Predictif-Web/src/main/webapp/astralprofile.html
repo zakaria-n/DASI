@@ -68,6 +68,11 @@ and open the template in the editor.
                                  $('#couleur').html(profile.couleurBonheur);
                                  $('#animal').html(profile.animalTotem);                               
                             }
+                            else {
+                                 $('#profile').empty();
+                                 var node = document.createTextNode("Aucun client")
+                                 $('#profile').append(node)
+                            }
                             if(response.usertype!=="client")
                             {
                                 $("#dash").attr("href", "./employe-dashboard.html"); 
