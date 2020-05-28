@@ -496,7 +496,7 @@ public class Service {
     
     public Consultation consultationWithoutComment(List<Consultation> consuls) {
         String empty = " ";
-        for(int i=0; i < consuls.size(); i++) {
+        for(int i=consuls.size()-1; i > 0; i--) {
             if(consuls.get(i).getCommentaire()==null || consuls.get(i).getCommentaire().equals(empty)) {
                 return consuls.get(i);
             }
