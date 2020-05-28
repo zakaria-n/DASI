@@ -58,8 +58,31 @@
         </table>
     </div>
     <script>
+        function OnInit ()
+        {
+                $.ajax({
+                            url: './ActionServlet',
+                            method: 'POST',
+                            data: {
+                                todo: 'checkStaff'
+                            }
+                        })
+                        .done(function(response) { // Fonction appelée en cas d'appel AJAX réussi
+                            console.log('Response', response); // LOG dans Console Javascript
+                            if(response.notLoggedIn) {
+                                alert("ERROR 405: MUST AUTHENTICATE");
+                                window.location.href = "./login.html";
+                            }
+                            })
+                        .fail(function(error) { // Fonction appelée en cas d'erreur lors de l'appel AJAX
+                            console.log('Error', error); // LOG dans Console Javascript
+                            alert("Erreur lors de l'appel AJAX");
+                        })
+                        .always(function() { // Fonction toujours appelée
+                        });
+        }
         $(document).ready(function() {
-
+                OnInit();
                 // Appel AJAX
                 $.ajax({
                         url: './ActionServlet',

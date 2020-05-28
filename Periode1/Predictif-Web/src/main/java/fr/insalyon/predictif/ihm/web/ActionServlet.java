@@ -95,6 +95,14 @@ public class ActionServlet extends HttpServlet {
                     action = new DisplayStatsAction();
                     serialisation = new DisplayStatsSerialisation();
                     break;
+                case "checkClient":
+                    action = new CheckClientAction();
+                    serialisation = new CheckAuthSerialisation();
+                    break;
+                case "checkStaff":
+                    action = new CheckStaffAction();
+                    serialisation = new CheckAuthSerialisation();
+                    break;
                     
             }
         }

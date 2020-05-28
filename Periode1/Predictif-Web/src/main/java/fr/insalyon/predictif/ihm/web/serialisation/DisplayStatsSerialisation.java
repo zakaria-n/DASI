@@ -69,6 +69,10 @@ public class DisplayStatsSerialisation extends Serialisation {
             container.add("perMed",perMed);
             
         }
+        
+        if(request.getAttribute("notLoggedIn")!=null) {
+            container.addProperty("notLoggedIn", (Boolean) request.getAttribute("notLoggedIn"));
+        }
         response.setContentType("application/json;charset=UTF-8");
         PrintWriter out = response.getWriter();
         Gson gson = new GsonBuilder().setPrettyPrinting().serializeNulls().create();

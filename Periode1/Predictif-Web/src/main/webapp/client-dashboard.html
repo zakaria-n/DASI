@@ -29,7 +29,31 @@ and open the template in the editor.
             </div>            
         </div>
             <script>
+            function OnInit ()
+            {
+                $.ajax({
+                            url: './ActionServlet',
+                            method: 'POST',
+                            data: {
+                                todo: 'checkClient'
+                            }
+                        })
+                        .done(function(response) { // Fonction appelée en cas d'appel AJAX réussi
+                            console.log('Response', response); // LOG dans Console Javascript
+                            if(response.notLoggedIn) {
+                                alert("ERROR 405: MUST AUTHENTICATE");
+                                window.location.href = "./login.html";
+                            }
+                            })
+                        .fail(function(error) { // Fonction appelée en cas d'erreur lors de l'appel AJAX
+                            console.log('Error', error); // LOG dans Console Javascript
+                            alert("Erreur lors de l'appel AJAX");
+                        })
+                        .always(function() { // Fonction toujours appelée
+                        });
+            }
             $(document).ready(function() {
+                OnInit();
                 $('#logout').on('click', function() { // Fonction appelée lors du clic sur le bouton
 
                     console.log("clic sur le bouton d'affichage"); // LOG dans Console Javascript

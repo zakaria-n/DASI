@@ -64,6 +64,30 @@ and open the template in the editor.
         </style>
         
         <script type="text/javascript">
+            function OnInit ()
+            {
+                $.ajax({
+                            url: './ActionServlet',
+                            method: 'POST',
+                            data: {
+                                todo: 'checkClient'
+                            }
+                        })
+                        .done(function(response) { // Fonction appelée en cas d'appel AJAX réussi
+                            console.log('Response', response); // LOG dans Console Javascript
+                            if(response.notLoggedIn) {
+                                alert("ERROR 405: MUST AUTHENTICATE");
+                                window.location.href = "./login.html";
+                            }
+                            })
+                        .fail(function(error) { // Fonction appelée en cas d'erreur lors de l'appel AJAX
+                            console.log('Error', error); // LOG dans Console Javascript
+                            alert("Erreur lors de l'appel AJAX");
+                        })
+                        .always(function() { // Fonction toujours appelée
+                        });
+            }
+                            
             var MediumName;
             function afficherLuiMeme(i,j)
             {
@@ -202,6 +226,7 @@ and open the template in the editor.
         
         <script>
         $(document).ready(function() {
+            OnInit ();
             AfficherMediums();
             
             $('#logout').on('click', function() { // Fonction appelée lors du clic sur le bouton
