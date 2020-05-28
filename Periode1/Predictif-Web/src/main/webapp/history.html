@@ -70,7 +70,7 @@ and open the template in the editor.
                                       '<div id="collapse_'+index+'" class="collapse panel-collapse" \n\
                                         role="tabpanel" aria-labelledby="heading_' +index+'">'+
                                         '<div class="panel-body" id="body'+index+'">'+ "<p> Heure Début: " + item.heureDebut + "</p>" + "<p> Heure Fin: " + 
-                                         item.heureFin+ "</p>"
+                                         item.heureFin+ "</p>" + "<p> Medium: " + item.mediumName + "</p>"
                                   );
                             if(response.user==="employe") {
                                 $('#body' + index).append("<p> Commentaire: " + item.commentaire + "</p>");                                
