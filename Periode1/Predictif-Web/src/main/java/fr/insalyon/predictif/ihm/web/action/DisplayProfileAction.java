@@ -25,14 +25,11 @@ public class DisplayProfileAction extends Action {
         ProfilAstral profile = null;
         String name;
         String gender;
+        Client client = null;
         Long id = (Long) session.getAttribute("idClient");
         if(id!=null) {
-            Client client = service.rechercherClientParId(id);
+            client = service.rechercherClientParId(id);
             profile = service.showProfilAstral(client);
-            name = client.getPrenom() + " " + client.getNom();
-            gender = client.getGenre();
-            request.setAttribute("name", name);
-            request.setAttribute("gender", gender);
         }else {
             id = (Long) session.getAttribute("idEmploye");
             if(id!=null) {
@@ -40,7 +37,7 @@ public class DisplayProfileAction extends Action {
                 long clientid = service.getCurrentConsultationClient(e);
                 if (clientid != -1)
                 {
-                    Client client = service.rechercherClientParId(clientid);
+                    client = service.rechercherClientParId(clientid);
                     profile = service.showProfilAstral(client); 
                 }                
             }
@@ -48,7 +45,10 @@ public class DisplayProfileAction extends Action {
                 request.setAttribute("notLoggedIn", true);
             }
         }
-        
+            name = client.getPrenom() + " " + client.getNom();
+            gender = client.getGenre();
+            request.setAttribute("name", name);
+            request.setAttribute("gender", gender);
         
         request.setAttribute("profile", profile);
         

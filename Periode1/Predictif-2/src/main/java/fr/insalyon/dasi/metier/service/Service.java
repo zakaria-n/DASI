@@ -302,7 +302,7 @@ public class Service {
             }
             Message.envoyerMail("Predictif", result.getMail() , "Nouvelle consultation",
                    "Vous avez une nouvelle consultation où vous devez incarner:"
-            + choice.getDenomination() + "\nVotre client est joignable au" +
+            + choice.getDenomination() + "\nVotre client est joignable au " +
                            client.getTel());
             
         }else

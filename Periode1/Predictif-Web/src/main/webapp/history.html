@@ -69,11 +69,11 @@ and open the template in the editor.
                                       '</div>'+
                                       '<div id="collapse_'+index+'" class="collapse panel-collapse" \n\
                                         role="tabpanel" aria-labelledby="heading_' +index+'">'+
-                                        '<div class="panel-body">'+ "<p> Heure Début: " + item.heureDebut + "</p>" + "<p> Heure Fin: " + 
+                                        '<div class="panel-body" id="body'+index+'">'+ "<p> Heure Début: " + item.heureDebut + "</p>" + "<p> Heure Fin: " + 
                                          item.heureFin+ "</p>"
                                   );
                             if(response.user==="employe") {
-                                $('.panel-body').append("<p> Commentaire: " + item.commentaire + "</p>");                                
+                                $('#body' + index).append("<p> Commentaire: " + item.commentaire + "</p>");                                
                             }
                             $('.showConsultations').append(
                                         '</div>'+
