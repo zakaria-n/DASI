@@ -39,7 +39,41 @@ and open the template in the editor.
         <p><a href="index.html">Retour à la page d'Accueil</a></p>
         
          <script>
+            function OnInit ()
+            {
+                $.ajax({
+                            url: './ActionServlet',
+                            method: 'POST',
+                            data: {
+                                todo: 'checkAny'
+                            }
+                        })
+                        .done(function(response) { // Fonction appelée en cas d'appel AJAX réussi
+                            console.log('Response', response); // LOG dans Console Javascript
+                            if(!response.notLoggedIn) {
+                                if(response.userType==='client')
+                                {
+                                    console.log("redirecting..");
+                                    alert("LOGGED IN: REDIRECTING TO DASH");
+                                    window.location.href = "./client-dashboard.html";
+                                }
+                                if(response.userType==='employe'){
+                                    console.log("redirecting..");
+                                    alert("LOGGED IN: REDIRECTING TO DASH");
+                                    window.location.href = "./employe-dashboard.html";
+                                }
+                                    
+                            }
+                            })
+                        .fail(function(error) { // Fonction appelée en cas d'erreur lors de l'appel AJAX
+                            console.log('Error', error); // LOG dans Console Javascript
+                            alert("Erreur lors de l'appel AJAX");
+                        })
+                        .always(function() { // Fonction toujours appelée
+                        });
+            }
             $(document).ready( function () {
+                OnInit();
                 $('#bouton-inscription').on( 'click', function () { // Fonction appelée lors du clic sur le bouton
 
                     console.log("clic sur le bouton d'inscription"); // LOG dans Console Javascript
