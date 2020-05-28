@@ -27,7 +27,7 @@ public class AddCommentAction extends Action {
         if(id!=null) {
             Employe e = service.rechercherEmployeParId(id);
             Consultation consul = e.getConsultations().get(0);
-            if (consul != null)
+            if (consul != null && consul.getCommentaire()!=null)
             {
                 success = service.ajouterCommentaire(consul, comment);
             }

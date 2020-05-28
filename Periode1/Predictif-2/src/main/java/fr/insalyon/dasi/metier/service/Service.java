@@ -14,17 +14,13 @@ import fr.insalyon.dasi.techniques.service.AstroTest;
 import fr.insalyon.dasi.techniques.service.Message;
 import fr.insalyon.dasi.techniques.service.Statistics;
 import java.io.IOException;
-import java.sql.Timestamp;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
-import java.time.LocalDateTime;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
-import java.util.SortedMap;
 import java.util.TimeZone;
-import java.util.TreeMap;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -393,6 +389,7 @@ public class Service {
         stats.setConsultationsParMedium(consultationsParMedium);
     } 
     
+    
     public boolean confirmConsultation(Consultation c) {
         // send text to client, need client and medium for this
         boolean success = true;
@@ -472,7 +469,7 @@ public class Service {
         Consultation c = null;
         List<Consultation> consultations = e.getConsultations();
         for(int i=0; i < consultations.size(); i++) {
-            if(consultations.get(i).getHeureDebut()==null) {
+            if(consultations.get(i).getHeureDebut() == null) {
                 c = consultations.get(i);
                 break;
             }
