@@ -12,6 +12,7 @@ import com.google.gson.JsonObject;
 import fr.insalyon.dasi.metier.modele.Consultation;
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.util.Date;
 import java.util.List;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -41,8 +42,11 @@ public class ConsultationsSerialisation extends Serialisation {
             for (Consultation c : consultations)
             {
                 if(c.getHeureDebut()!=null) {
+                    String date = c.getDate().toLocaleString();
+                    int index = date.indexOf(',');
+                    date = date.substring(0, index);
                     JsonObject jsonConsultation = new JsonObject();
-                    jsonConsultation.addProperty("date", c.getDate().toString());
+                    jsonConsultation.addProperty("date", date);
                     jsonConsultation.addProperty("heureDebut", c.getHeureDebut());
                     jsonConsultation.addProperty("heureFin", c.getHeureFin());
                     jsonConsultation.addProperty("mediumName", c.getMedium().getDenomination());
