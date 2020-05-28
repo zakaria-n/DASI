@@ -13,6 +13,8 @@ and open the template in the editor.
     </head>
     <body>
         <button id="logout">Déconnexion</button>
+        <p id='nom'></p>
+        <p id='genre'></p>
         <table id="profile" style="width:100%">
             <tr>
                 <th>Signe du Zodiaque</th>
@@ -46,6 +48,18 @@ and open the template in the editor.
                             if(response.notLoggedIn) {
                                 alert("You are not logged in");
                                 window.location.href = "./login.html";
+                            }
+                            if(response.name){ 
+                                var node = document.createElement('b');
+                                var textToAppend = "Client: "
+                                node.innerHTML = textToAppend;
+                                $('#nom').append(node);
+                                $('#nom').append(response.name);
+                                node = document.createElement('b');
+                                var textToAppend = "Genre: "
+                                node.innerHTML = textToAppend;
+                                $('#genre').append(node);
+                                $('#genre').append(response.gender);
                             }
                             if(response.profile){                               
                                  var profile = response.profile;

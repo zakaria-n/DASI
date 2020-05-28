@@ -23,10 +23,16 @@ public class DisplayProfileAction extends Action {
         HttpSession session = request.getSession(); 
         Service service = new Service();
         ProfilAstral profile = null;
+        String name;
+        String gender;
         Long id = (Long) session.getAttribute("idClient");
         if(id!=null) {
             Client client = service.rechercherClientParId(id);
             profile = service.showProfilAstral(client);
+            name = client.getPrenom() + " " + client.getNom();
+            gender = client.getGenre();
+            request.setAttribute("name", name);
+            request.setAttribute("gender", gender);
         }else {
             id = (Long) session.getAttribute("idEmploye");
             if(id!=null) {

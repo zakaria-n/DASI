@@ -51,6 +51,12 @@ public class DisplayProfileSerialisation extends Serialisation {
         if(request.getAttribute("notLoggedIn")!=null) {
             container.addProperty("notLoggedIn", (Boolean) request.getAttribute("notLoggedIn"));
         }
+        if(request.getAttribute("name")!=null) {
+            container.addProperty("name", (String) request.getAttribute("name"));
+        }
+        if(request.getAttribute("gender")!=null) {
+            container.addProperty("gender", (String) request.getAttribute("gender"));
+        }
         response.setContentType("application/json;charset=UTF-8");
         PrintWriter out = response.getWriter();
         Gson gson = new GsonBuilder().setPrettyPrinting().serializeNulls().create();
