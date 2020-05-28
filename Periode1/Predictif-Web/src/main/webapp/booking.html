@@ -173,7 +173,7 @@ and open the template in the editor.
         }
         </script>
     </head>
-    <body>
+    <body onload="if (document.referrer == '') self.location='mustauthenticate.html';">
         <div id="header">
             <span id="logo">PrédictIF</span>
             <button id="logout">Déconnexion</button>
