@@ -14,7 +14,7 @@ and open the template in the editor.
 </head>
     <body>
         <h2>Consultations</h2>
-        <p id="name">Consultations de: </p>
+        <p id="name"></p>
         <p id="medium"></p>
         <div class="showConsultations panel-group" id="accordion" role="tablist" aria-multiselectable="true">
         </div>
@@ -40,10 +40,11 @@ and open the template in the editor.
                         }
                         
                         var name = document.getElementById("name");
-                        var prenom = document.createTextNode(response.prenomClient+" ");
-                        name.appendChild(prenom);  
-                        var nom = document.createTextNode(response.nomClient);
-                        name.appendChild(nom);
+                        var clientDisplay = document.createTextNode("Aucun client actuel");
+                        if(response.prenomClient) {
+                            clientDisplay = document.createTextNode("Consultations de: " + response.prenomClient + " " + response.nomClient);
+                        }
+                        name.appendChild(clientDisplay);
                        
                         if(response.mostRecentMedium) {
                         var medium = document.getElementById("medium");
