@@ -44,6 +44,8 @@ public class AfficherConsultations extends Action {
                 if(clientId!=-1) {
                     Client c = service.rechercherClientParId(clientId);
                     consultations = service.showClientConsultations(c);
+                    request.setAttribute("prenomClient", c.getPrenom());
+                    request.setAttribute("nomClient", c.getNom());
                 }
             }
             else {

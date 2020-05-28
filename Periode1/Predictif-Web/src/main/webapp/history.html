@@ -40,9 +40,12 @@ and open the template in the editor.
                         }
                         
                         var name = document.getElementById("name");
-                        var clientDisplay = document.createTextNode("Aucun client actuel");
+                        var clientDisplay;
                         if(response.prenomClient) {
                             clientDisplay = document.createTextNode("Consultations de: " + response.prenomClient + " " + response.nomClient);
+                        }
+                        else {
+                            clientDisplay = document.createTextNode("Aucun client actuel");
                         }
                         name.appendChild(clientDisplay);
                        
