@@ -59,7 +59,10 @@ public class MediumSerialisation extends Serialisation {
 
             container.add("mediums", ja);
         }
-
+        if(request.getAttribute("user")!=null) {
+        container.addProperty("user", (String) request.getAttribute("user"));            
+        }
+        
         response.setContentType("application/json;charset=UTF-8");
         PrintWriter out = response.getWriter();
         Gson gson = new GsonBuilder().setPrettyPrinting().serializeNulls().create();

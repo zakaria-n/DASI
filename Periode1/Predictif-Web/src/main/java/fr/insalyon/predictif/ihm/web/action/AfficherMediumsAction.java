@@ -9,6 +9,7 @@ import fr.insalyon.dasi.metier.modele.Medium;
 import fr.insalyon.dasi.metier.service.Service;
 import java.util.List;
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpSession;
 
 /**
  *
@@ -27,9 +28,16 @@ public class AfficherMediumsAction extends Action {
         else {
             mediums = service.filterMediums(mediumType);
         }
-
+        
         request.setAttribute("mediums", mediums);
-        
-        
+        HttpSession session = request.getSession(); 
+        Long clientId = (Long) session.getAttribute("idClient");
+        Long employeId = (Long) session.getAttribute("idEmploye");
+        if(clientId!=null) {
+            request.setAttribute("user", "client");
+        }
+        else if (employeId!=null) {
+            request.setAttribute("user", "employe");
+        } 
     }
 }

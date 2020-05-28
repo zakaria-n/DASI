@@ -9,7 +9,7 @@
 
 <body>
     <h1>Mediums</h1>
-    <p><a href="index.html">Retour à la page d'Accueil</a></p>
+    <p ><a id='home' href="index.html">Retour à la page d'Accueil</a></p>
     <select id="mediumType" size="4">
             <option>Astrologue</option>
             <option>Cartomancien</option>
@@ -50,6 +50,14 @@
                             $('#showMediums').html("Affichage des mediums" + output); // Message pour le paragraphe de notification
                         } else {
                             $('#showMediums').html("Erreur d'affichage"); // Message pour le paragraphe de notification
+                        }
+                        if(response.user) {
+                            if(response.user==="employe") {
+                                $("#home").prop("href", "employe-dashboard.html");
+                            }
+                            else {
+                                $("#home").prop("href", "client-dashboard.html");  
+                            }
                         }
                     })
                     .fail(function(error) { // Fonction appelée en cas d'erreur lors de l'appel AJAX
