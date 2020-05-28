@@ -54,40 +54,47 @@ and open the template in the editor.
                     var champGenre = $('#champ-genre').val();
                     var champDate= $('#champ-date').val();
                     var champAdresse = $('#champ-adresse').val();
+                    if(champNom.length!==0 && champPrenom.length!==0 && champEmail.length!==0 
+                            && champTel.length!==0 && champGenre.length!==0 && champDate
+                            && champAdresse.length!==0) {
+                        // Appel AJAX
+                        $.ajax({
+                            url: './ActionServlet',
+                            method: 'POST',
+                            data: {
+                                todo: 'signup',
+                                nom: champNom,
+                                prenom: champPrenom,
+                                email: champEmail,
+                                password: champPwd,
+                                phone: champTel,
+                                genre: champGenre,
+                                date: champDate,
+                                adresse: champAdresse
+                            },
+                            dataType: 'json'
+                        })
+                        .done( function (response) { // Fonction appelée en cas d'appel AJAX réussi
+                            console.log('Response',response); // LOG dans Console Javascript
+                            if (response.inscription) {
+                                $('#notification').html("Inscription réussie");
+                            }
+                            else {
+                                $('#notification').html("Erreur d'inscription"); // Message pour le paragraphe de notification
+                            }
+                        })
+                        .fail( function (error) { // Fonction appelée en cas d'erreur lors de l'appel AJAX
+                            console.log('Error',error); // LOG dans Console Javascript
+                            alert("Erreur lors de l'appel AJAX");
+                        })
+                        .always( function () { // Fonction toujours appelée
 
-                    // Appel AJAX
-                    $.ajax({
-                        url: './ActionServlet',
-                        method: 'POST',
-                        data: {
-                            todo: 'signup',
-                            nom: champNom,
-                            prenom: champPrenom,
-                            email: champEmail,
-                            password: champPwd,
-                            phone: champTel,
-                            genre: champGenre,
-                            date: champDate,
-                            adresse: champAdresse
-                        },
-                        dataType: 'json'
-                    })
-                    .done( function (response) { // Fonction appelée en cas d'appel AJAX réussi
-                        console.log('Response',response); // LOG dans Console Javascript
-                        if (response.inscription) {
-                            $('#notification').html("Inscription réussie");
-                        }
-                        else {
-                            $('#notification').html("Erreur d'inscription"); // Message pour le paragraphe de notification
-                        }
-                    })
-                    .fail( function (error) { // Fonction appelée en cas d'erreur lors de l'appel AJAX
-                        console.log('Error',error); // LOG dans Console Javascript
-                        alert("Erreur lors de l'appel AJAX");
-                    })
-                    .always( function () { // Fonction toujours appelée
+                        });
                         
-                    });
+                    }
+                    else {
+                        $('#notification').html("Erreur d'inscription. Veuillez remplir tous les champs.");
+                    }
                 });
             });
         </script>
