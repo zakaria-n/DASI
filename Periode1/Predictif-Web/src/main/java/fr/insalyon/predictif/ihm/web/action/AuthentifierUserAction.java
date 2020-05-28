@@ -19,9 +19,7 @@ public class AuthentifierUserAction extends Action {
         Service service = new Service();
         
         long clientId = service.authentifierClient(login, password);
-        System.out.println(clientId);
         long employeId = service.authentifierEmploye(login, password);
-                System.out.println(employeId);
         if(clientId!=-1) {
             request.setAttribute("client", clientId); 
             request.setAttribute("user", "client"); 
