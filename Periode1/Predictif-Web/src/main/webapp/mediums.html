@@ -5,6 +5,8 @@
     <title>Bienvenue sur PREDICT'IF</title>
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
     <script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
 </head>
 
 <body>
@@ -17,7 +19,8 @@
             <option selected>All</option>
     </select>
     <button id="bouton-affichage">Afficher Mediums</button>
-    <p id="showMediums"></p>
+    <br/>
+    <div class="showMediums panel-group" id="accordion" role="tablist" aria-multiselectable="true"></div>
     <script>
         $(document).ready(function() {
             $('#bouton-affichage').on('click', function() { // Fonction appelée lors du clic sur le bouton
@@ -38,16 +41,37 @@
                     })
                     .done(function(response) { // Fonction appelée en cas d'appel AJAX réussi
                         console.log('Response', response); // LOG dans Console Javascript
+                        $('.showMediums').empty();
                         if (response.mediums) {
                             //$('#notification').html("Connexion OK");  // Message pour le paragraphe de notification
                             // TODO: afficher les informations du client dans la notification
                             // Exemple: Connexion de Ada Lovelace (ID 1)
                             var mediums = response.mediums;
-                            var output = "";
-                            for (var i = 0; i < mediums.length; i++) {
-                                output += "<br/>" + mediums[i].denomination;
+                            if(mediums.length===0){
+                                $('.showMediums').append("<p> No Consultations </p>");
                             }
-                            $('#showMediums').html("Affichage des mediums" + output); // Message pour le paragraphe de notification
+                            else {
+                              mediums.forEach(function(item,index) {
+                                $('.showMediums').append(
+                                    '<div class="panel panel-default">'+
+                                      '<div class="panel-heading" role="tab" id="heading_'+index+'">'+
+                                        '<h4 class="panel-title">'+
+                                          '<a role="button" data-toggle="collapse" data-parent="#accordion" href="#collapse_' 
+                                          +index+'" aria-expanded="true" aria-controls="collapse_'+index+'">'+ item.denomination+
+                                          '</a>'+
+                                        '</h4>'+
+                                      '</div>'+
+                                      '<div id="collapse_'+index+'" class="collapse panel-collapse" \n\
+                                        role="tabpanel" aria-labelledby="heading_' +index+'">'+
+                                        '<div class="panel-body" id="body'+index+'">'+ "<p> Genre: " + item.genre + "</p>" + "<p> Présentation: " + 
+                                         item.presentation+ "</p>" + 
+                                        '</div>'+
+                                      '</div>'+
+                                    '</div>'
+                                    );
+                              });                                
+                            }
+                           // $('#showMediums').html("Affichage des mediums" + output); // Message pour le paragraphe de notification
                         } else {
                             $('#showMediums').html("Erreur d'affichage"); // Message pour le paragraphe de notification
                         }
