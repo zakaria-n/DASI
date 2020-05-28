@@ -127,14 +127,25 @@ and open the template in the editor.
                         dataType: 'json'
                     })
                     .done(function (response) { // Fonction appelée en cas d'appel AJAX réussi
-                        console.log("NIubi");
-                        $("#mainSection").hide();
-                        $(".panel-body").after(
-                            '<div><p id="feedback">Un message vous sera bientôt envoyé vous indiquant si le médium que vous avez demandé est disponible</div>\n\
-                            <button id="B_decouvrirMedium" href="mediums.html" >Découvrir nos médiums</button>\n\
-                            <button id="B_tableau" href="client-dashboard.html">Tableau de bord</button>'
-                        );
-                        $(".panel-body").hide();
+                        if(response.success) {
+                            console.log("NIubi");
+                            $("#mainSection").hide();
+                            $(".panel-body").after(
+                                '<div><p id="feedback">Un message vous sera bientôt envoyé vous indiquant si le médium que vous avez demandé est disponible</div>\n\
+                                <button id="B_decouvrirMedium" href="mediums.html" >Découvrir nos médiums</button>\n\
+                                <button id="B_tableau" href="client-dashboard.html">Tableau de bord</button>'
+                            );
+                            $(".panel-body").hide();
+                        }
+                        else {
+                            $("#mainSection").hide();
+                            $(".panel-body").after(
+                                '<div><p id="feedback">Désolé, il y a eu une erreur en demandant une consultation.</div>\n\
+                                <button id="B_decouvrirMedium" href="mediums.html" >Découvrir nos médiums</button>\n\
+                                <button id="B_tableau" href="client-dashboard.html">Tableau de bord</button>'
+                            );
+                            $(".panel-body").hide();   
+                        }
                     })
                     .fail(function(error) { // Fonction appelée en cas d'erreur lors de l'appel AJAX
                         console.log('Error', error); // LOG dans Console Javascript

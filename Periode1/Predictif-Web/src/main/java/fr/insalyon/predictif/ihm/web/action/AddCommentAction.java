@@ -8,6 +8,7 @@ package fr.insalyon.predictif.ihm.web.action;
 import fr.insalyon.dasi.metier.modele.Consultation;
 import fr.insalyon.dasi.metier.modele.Employe;
 import fr.insalyon.dasi.metier.service.Service;
+import java.util.List;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 
@@ -26,7 +27,8 @@ public class AddCommentAction extends Action {
         System.out.println("Employe "+ id);
         if(id!=null) {
             Employe e = service.rechercherEmployeParId(id);
-            Consultation consul = e.getConsultations().get(0);
+            List<Consultation> c = e.getConsultations();
+            Consultation consul = service.consultationWithoutComment(c);
             if (consul != null)
             {
                 success = service.ajouterCommentaire(consul, comment);

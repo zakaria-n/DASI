@@ -440,6 +440,7 @@ public class Service {
             DateFormat dateFormat = new SimpleDateFormat("HH:mm:ss");
             String formattedDate=dateFormat.format(date);
             c.setHeureFin(formattedDate);
+            c.setCommentaire(" ");
             employe.setDisponible(true);
             JpaUtil.creerContextePersistance();
             try {
@@ -478,6 +479,30 @@ public class Service {
             }
         }
         return c;
+    }
+    
+    public boolean inConsultation(Client c) {
+        List<Consultation> consultations = c.getConsultations();
+        if(consultations.isEmpty()) {
+            return false;
+        }
+        for(int i=0; i < consultations.size(); i++) {
+            if(consultations.get(i).getHeureFin() == null) {
+                return true;
+            }
+        }
+        return false;
+    }
+    
+    public Consultation consultationWithoutComment(List<Consultation> consuls) {
+        String empty = " ";
+        for(int i=0; i < consuls.size(); i++) {
+            if(consuls.get(i).getCommentaire()==null || consuls.get(i).getCommentaire().equals(empty)) {
+                return consuls.get(i);
+            }
+        }
+        return null;
+        
     }
     
     public long getCurrentConsultationClient(Employe e) { 
