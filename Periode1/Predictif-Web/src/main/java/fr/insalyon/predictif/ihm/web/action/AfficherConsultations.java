@@ -27,7 +27,7 @@ public class AfficherConsultations extends Action {
         HttpSession session = request.getSession();
         Object id = session.getAttribute("idClient");
         if(id!=null) {
-            System.out.println("client");
+            request.setAttribute("user", "client");
             Client c = service.rechercherClientParId((long) id);
             consultations = service.showClientConsultations(c);
             homepageLink = "client-dashboard.html";
@@ -37,6 +37,7 @@ public class AfficherConsultations extends Action {
         else {
             id = session.getAttribute("idEmploye");
             if(id!=null) {
+                request.setAttribute("user", "employe");
                 homepageLink = "employe-dashboard.html";
                 Employe e = service.rechercherEmployeParId((long) id);
                 long clientId = service.getCurrentConsultationClient(e);

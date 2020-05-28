@@ -34,6 +34,7 @@ public class Main {
         initialiserClients();            // Question 3
         initialiserEmployes();
         initialiserMediums();
+        initialiserConsultations();
         testerInscriptionClient();       // Question 4 & 5
         testerRechercheClient();         // Question 6
         testerListeClients();            // Question 7
@@ -43,10 +44,10 @@ public class Main {
         testerProfilAstral();
         testerEmployeServices();
         testerMediumServices();
-        testerDemanderConsultation();
-        testerConfirmerConsultation();
-        testerTerminerConsultation();
-        testerConsultation();
+       // testerDemanderConsultation();
+       // testerConfirmerConsultation();
+       // testerTerminerConsultation();
+       // testerConsultation();
         testingPrediction();
         JpaUtil.destroy();
     }
@@ -67,6 +68,71 @@ public class Main {
         System.out.println("-> " + medium.toString());
     }
     
+    public static void initialiserConsultations() {
+        EntityManagerFactory emf = Persistence.createEntityManagerFactory("PU-TP");
+        EntityManager em = emf.createEntityManager();
+        Service service = new Service();
+        
+        long id = 1;
+        Client c = service.rechercherClientParId(id);
+        Medium m = service.chercherMedium("Serena");
+        Employe e = service.demanderConsultation(m,c);
+        Consultation consul = e.getConsultations().get(e.getConsultations().size()-1);
+        service.confirmConsultation(consul);
+        service.terminerConsultation(consul);
+        service.ajouterCommentaire(consul, "finished");
+        
+        m = service.chercherMedium("Mme Elle");
+        e = service.demanderConsultation(m,c);
+        consul = e.getConsultations().get(e.getConsultations().size()-1);
+        service.confirmConsultation(consul);
+        service.terminerConsultation(consul);
+        service.ajouterCommentaire(consul, "finished 2");
+        
+        id = 2;
+        c = service.rechercherClientParId(id);
+        e = service.demanderConsultation(m,c);
+        consul = e.getConsultations().get(e.getConsultations().size()-1);
+        service.confirmConsultation(consul);
+        service.terminerConsultation(consul);
+        service.ajouterCommentaire(consul, "....");
+        
+        id = 3;
+        c = service.rechercherClientParId(id);
+        m = service.chercherMedium("Mme Irma");
+        e = service.demanderConsultation(m,c);
+        consul = e.getConsultations().get(e.getConsultations().size()-1);
+        service.confirmConsultation(consul);
+        service.terminerConsultation(consul);
+        service.ajouterCommentaire(consul, "interesting");
+                
+        id = 4;
+        c = service.rechercherClientParId(id);
+        m = service.chercherMedium("Professeur Tran");
+        e = service.demanderConsultation(m,c);
+        consul = e.getConsultations().get(e.getConsultations().size()-1);
+        service.confirmConsultation(consul);
+        service.terminerConsultation(consul);
+        service.ajouterCommentaire(consul, "hmmm");
+        
+        e = service.demanderConsultation(m,c);
+        consul = e.getConsultations().get(e.getConsultations().size()-1);
+        service.confirmConsultation(consul);
+        service.terminerConsultation(consul);
+        service.ajouterCommentaire(consul, "bonne chance!");
+        
+        id = 4;
+        c = service.rechercherClientParId(id);
+        m = service.chercherMedium("Professeur Tran");
+        e = service.demanderConsultation(m,c);
+        consul = e.getConsultations().get(e.getConsultations().size()-1);
+        service.confirmConsultation(consul);
+        service.terminerConsultation(consul);
+        service.ajouterCommentaire(consul, "hmmm");
+        
+        
+    }
+    
     public static void initialiserClients() {
         
         System.out.println();
@@ -77,9 +143,11 @@ public class Main {
         EntityManager em = emf.createEntityManager();
         
         Date date = new Date(1998, 3, 2);
-        Client ada = new Client("Lovelace", "Ada", "ada.lovelace@insa-lyon.fr", "Ada1012", "123456", "male", date, "1");
-        Client blaise = new Client("Pascal", "Blaise", "blaise.pascal@insa-lyon.fr", "Blaise1906", "987654", "female", date, "2");
-        Client fred = new Client("Fotiadu", "Frédéric", "frederic.fotiadu@insa-lyon.fr", "INSA-Forever", "65738", "nb", date, "3");
+        Client ada = new Client("Lovelace", "Ada", "ada.lovelace@insa-lyon.fr", "Ada1012", "123456", "male", date, "france");
+        Client blaise = new Client("Pascal", "Blaise", "blaise.pascal@insa-lyon.fr", "Blaise1906", "987654", "female", date, "lyon");
+        Client fred = new Client("Fotiadu", "Frédéric", "frederic.fotiadu@insa-lyon.fr", "INSA-Forever", "65738", "nb", date, "london");
+        Client sophie = new Client("Crowley", "Sophie", "sopi@gmail.com", "123", "66573899", "f", date, "raheny");
+        Client nayeon = new Client("Fotiadu", "Frédéric", "ny@insa-lyon.fr", "456", "77573800", "f", date, "seoul");
         
         System.out.println();
         System.out.println("** Clients avant persistance: ");
@@ -88,19 +156,13 @@ public class Main {
         afficherClient(fred);
         System.out.println();
         
-        Consultation a = new Consultation(date, "1", "3", "hmmm");
-        Service service = new Service();
-        ada.getConsultations().add(a);
-        a = new Consultation(date, "4", "5", "pas de problème");
-        blaise.getConsultations().add(a);    
-        a = new Consultation(date, "1", "1:30", "n/a");
-        fred.getConsultations().add(a);
-        
         try {
             em.getTransaction().begin();
             em.persist(ada);
             em.persist(blaise);
             em.persist(fred);
+            em.persist(sophie);
+            em.persist(nayeon);
             em.getTransaction().commit();
         } catch (Exception ex) {
             Logger.getAnonymousLogger().log(Level.WARNING, "Exception lors de l'appel au Service", ex);
@@ -132,13 +194,13 @@ public class Main {
         EntityManager em = emf.createEntityManager();
         
         Date date = new Date(1998, 3, 2);
-        Employe one = new Employe("A", "Zakaria", "azak@insa-lyon.fr", "111", "123456", "H", true, 10);
-        Employe two = new Employe("B", "Zihao", "bzih@insa-lyon.fr", "222", "123457", "H", true, 3);       
-        Employe three = new Employe("C", "Sophie", "csop@insa-lyon.fr", "333", "123458", "F", true, 2);
-        Employe four = new Employe("D", "Howl", "haoru@insa-lyon.fr", "333", "123458", "F", true, 4);
-        Employe five = new Employe("E", "Pikachu", "idk@insa-lyon.fr", "333", "123458", "F", true, 6);
-        Employe six = new Employe("F", "Ushuaia", "what@insa-lyon.fr", "222", "123457", "H", true, 7);
-        Employe seven = new Employe("G", "Vodka", "lol@insa-lyon.fr", "222", "123457", "H", false, 2);
+        Employe one = new Employe("A", "Zakaria", "azak@insa-lyon.fr", "111", "123456", "H", true, 0);
+        Employe two = new Employe("B", "Zihao", "bzih@insa-lyon.fr", "222", "123457", "H", true, 0);       
+        Employe three = new Employe("C", "Sophie", "csop@insa-lyon.fr", "333", "123458", "F", true, 0);
+        Employe four = new Employe("D", "Howl", "haoru@insa-lyon.fr", "333", "123458", "F", true, 0);
+        Employe five = new Employe("E", "Pikachu", "idk@insa-lyon.fr", "333", "123458", "F", true, 0);
+        Employe six = new Employe("F", "Ushuaia", "what@insa-lyon.fr", "222", "123457", "H", true, 0);
+        Employe seven = new Employe("G", "Jihyo", "lol@insa-lyon.fr", "222", "123457", "H", true, 0);
         
         System.out.println();
         System.out.println("** Employes avant persistance: ");
@@ -196,22 +258,22 @@ public class Main {
         
         Medium one = new Spirite("Professeur Tran", "H", "Votre avenir est devant vous : regardons-le ensemble !", 
                 "Marc de café, boule de cristal, oreilles de lapin");
-        one.setNbConsultations(3);
+        one.setNbConsultations(0);
         Medium two = new Astrologue("Serena", "F", 
                 "Basée à Champigny-sur-Marne, Serena vous révèlera votre avenir pour éclairer votre passé.", 
                 "École Normale Supérieure d’Astrologie (ENS-Astro)", 2006);
-        two.setNbConsultations(40);
+        two.setNbConsultations(0);
         Medium three = new Cartomancien("Mme Irma", "F", "Comprenez votre entourage grâce à mes cartes ! Résultats rapides.");
-        three.setNbConsultations(7);
+        three.setNbConsultations(0);
         Medium four = new Spirite("Gwenaëlle", "F", "Spécialiste des grandes conversations au-delà de TOUTES les frontières.", 
                 "Boule de cristal");
-        four.setNbConsultations(10);
+        four.setNbConsultations(0);
         Medium five = new Astrologue("Mr M", "H", 
                 "Avenir, avenir, que nous réserves-tu ? N'attendez plus, demandez à me consulter!", 
                 " Institut des Nouveaux Savoirs Astrologiques", 2010);
-        five.setNbConsultations(12);
+        five.setNbConsultations(0);
         Medium six = new Cartomancien("Mme Elle", "F", "Résultats excellentes !");
-        six.setNbConsultations(9);
+        six.setNbConsultations(0);
       
         System.out.println();
         System.out.println("** Mediums avant persistance: ");
@@ -333,7 +395,7 @@ public class Main {
         }
     }
     
-        public static void testerProfilAstral() {
+    public static void testerProfilAstral() {
         
         System.out.println();
         System.out.println("**** testerProfilAstral() ****");

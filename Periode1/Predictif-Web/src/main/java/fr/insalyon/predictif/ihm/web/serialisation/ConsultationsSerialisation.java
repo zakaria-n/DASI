@@ -33,6 +33,10 @@ public class ConsultationsSerialisation extends Serialisation {
         container.addProperty("prenomClient", prenom);
         container.addProperty("nomClient", nom);
         if (consultations != null) {
+            if(consultations.size()>0) {
+                String mostRecent = consultations.get(consultations.size()-1).getMedium().getDenomination();
+                container.addProperty("mostRecentMedium", mostRecent);            
+            }
             JsonArray ja = new JsonArray();
             for (Consultation c : consultations)
             {
@@ -53,6 +57,9 @@ public class ConsultationsSerialisation extends Serialisation {
             }
 
             container.add("consultations", ja);
+            if(request.getAttribute("user")!=null) {
+                container.addProperty("user", (String) request.getAttribute("user"));
+            }
             if(request.getAttribute("notLoggedIn")!=null) {
                 container.addProperty("notLoggedIn", (Boolean) request.getAttribute("notLoggedIn"));
             }
