@@ -468,8 +468,11 @@ public class Service {
     public Consultation getCurrentConsultation(Employe e) { 
         Consultation c = null;
         List<Consultation> consultations = e.getConsultations();
+        if(consultations.size()==1) {
+            c = consultations.get(0);
+        }
         for(int i=0; i < consultations.size(); i++) {
-            if(consultations.get(i).getHeureDebut() == null) {
+            if(consultations.get(i).getHeureFin() == null) {
                 c = consultations.get(i);
                 break;
             }

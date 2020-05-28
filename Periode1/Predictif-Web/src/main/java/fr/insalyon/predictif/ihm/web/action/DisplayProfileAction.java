@@ -45,10 +45,12 @@ public class DisplayProfileAction extends Action {
                 request.setAttribute("notLoggedIn", true);
             }
         }
+        if(client!=null) {
             name = client.getPrenom() + " " + client.getNom();
             gender = client.getGenre();
             request.setAttribute("name", name);
             request.setAttribute("gender", gender);
+        }
         
         request.setAttribute("profile", profile);
         

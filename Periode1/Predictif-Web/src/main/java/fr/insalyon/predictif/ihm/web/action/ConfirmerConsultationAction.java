@@ -26,7 +26,7 @@ public class ConfirmerConsultationAction extends Action {
         System.out.println("Employe "+ id);
         if(id!=null) {
             Employe e = service.rechercherEmployeParId(id);
-            Consultation consul = e.getConsultations().get(0);
+            Consultation consul = service.getCurrentConsultation(e);//e.getConsultations().get(0);
             if (consul != null)
             {
                 success = service.confirmConsultation(consul);
