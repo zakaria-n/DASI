@@ -75,15 +75,14 @@ and open the template in the editor.
                                 window.location.href = "./login.html";
                             }
                             if(response.state==="unstarted"){
-                                var x = document.getElementById("four");
-                                //x.style.visibility = visible;
+                                $('#four').show();
                                 $('#manage').attr("manage","confirm");
                             }
                             if(response.state==="started"){
                                 $('#four').show();
                                 $('#manage').attr("manage","ongoing");
                                 $('#ongoing').text("Gérer la consultation courante");                                
-                            }                                
+                            }         
                         })
                             
                         .fail(function(error) { // Fonction appelée en cas d'erreur lors de l'appel AJAX
