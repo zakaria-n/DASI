@@ -19,7 +19,7 @@ public class CheckStartedAction extends Action {
     @Override
     public void executer(HttpServletRequest request) {
         HttpSession session = request.getSession();
-        boolean success = false;
+        String state = "";
         Service service = new Service();
         Long id = (Long) session.getAttribute("idEmploye");
         System.out.println("Employe "+ id);
@@ -28,11 +28,20 @@ public class CheckStartedAction extends Action {
             Consultation consul = service.getCurrentConsultation(e);//e.getConsultations().get(0);
             if (consul != null)
             {
-                success = service.confirmConsultation(consul);
+                Consultation temp = service.checkStarted(e);
+                if (temp != null)
+                {
+                    state = "started";
+                }else{
+                    state= "unstarted";
+                }
+            }else{
+                state = "noconsultation";
             }
         }else{
             request.setAttribute("notLoggedIn", true);
         }
-        request.setAttribute("success", success); 
+ 
+        request.setAttribute("state", state); 
     }
 }
