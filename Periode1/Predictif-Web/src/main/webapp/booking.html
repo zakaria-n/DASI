@@ -107,8 +107,9 @@ and open the template in the editor.
         }
 
         function AfficherMediums() { // Fonction appelée lors du clic sur le bouton
-
+            
             $('#notification').html("Affichage en cours"); // Message pour le paragraphe de notification
+            $('#TextField_MediumName').val('');
             var mediumType = $("#medType option:selected").html();
             // Appel AJAX
             $.ajax({
