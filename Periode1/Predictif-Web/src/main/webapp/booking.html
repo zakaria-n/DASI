@@ -81,8 +81,8 @@ and open the template in the editor.
                     if (response.success) {
                         $(".showMediums").after(
                             '<div><p id="feedback">Un message vous sera bientôt envoyé vous indiquant si le médium que vous avez demandé est disponible</div>\n\
-                                <p><a href="./mediums.html">Mediums</a></p>\n\
-                                <p><a href="./client-dashboard.html">Retour Accueil</a></p>'
+                                <button><a href="./mediums.html">Mediums</a></button>\n\
+                                <button><a href="./client-dashboard.html">Retour Accueil</a></button>'
                         );
                         $(".showMediums").hide();
                     } else {
@@ -90,8 +90,8 @@ and open the template in the editor.
                         var mdm = './mediums.html'
                         $(".showMediums").after(
                             '<div><p id="feedback">Désolé, il y a eu une erreur en demandant une consultation.</div>\n\
-                                 <p><a href="./mediums.html">Mediums</a></p>\n\
-                                 <p><a href="./client-dashboard.html">Retour Accueil</a></p>'
+                                 <button><a href="./mediums.html">Mediums</a></button>\n\
+                                 <button><a href="./client-dashboard.html">Retour Accueil</a></button>'
                         );
                         $(".showMediums").hide();
                     }
@@ -205,9 +205,9 @@ and open the template in the editor.
         <button id="B_recherche1" onclick="rechercherParNom()">Recherche</button>
         <button id="B_valider" onclick="valider()">Valider</button>
     </div>
-
+    <div style="width: 40%;display:inline-block; text-align:center">  
     <div class="showMediums panel-group" id="accordion" role="tablist" aria-multiselectable="true"></div>
-
+    </div>
 
 
     <script>
