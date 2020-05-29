@@ -74,7 +74,8 @@ and open the template in the editor.
                                 window.location.href = "./login.html";
                             }
                             
-                            if(response.user==="employe") {
+                            if(response.usertype==="employe") {
+                                console.log(response.userType);
                                 $("#home").prop("href", "employe-dashboard.html");
                             }
                             else {
@@ -104,11 +105,6 @@ and open the template in the editor.
                                  $('#profile').empty();
                                  var node = document.createTextNode("Aucun client")
                                  $('#profile').append(node)
-                            }
-                            if(response.usertype==="employe")
-                            {
-                                //$("#dash").attr("href", "./employe-dashboard.html"); 
-                                document.getElementById("dash").href='./employe-dashboard.html'; 
                             }
                         })
                         .fail(function(error) { // Fonction appelée en cas d'erreur lors de l'appel AJAX

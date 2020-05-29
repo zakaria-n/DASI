@@ -60,6 +60,13 @@ and open the template in the editor.
                             alert("You are not logged in");
                             window.location.href = "./login.html";
                         }
+                        if(response.user==="employe") {
+                           console.log(response.userType);
+                           $("#home").prop("href", "employe-dashboard.html");
+                       }
+                       else {
+                           $("#home").prop("href", "client-dashboard.html");  
+                       }
                         
                         var name = document.getElementById("name");
                         var clientDisplay;
