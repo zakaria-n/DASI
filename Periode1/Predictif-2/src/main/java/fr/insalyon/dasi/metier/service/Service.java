@@ -470,7 +470,9 @@ public class Service {
         Consultation c = null;
         List<Consultation> consultations = e.getConsultations();
         if(consultations.size()==1) {
-            c = consultations.get(0);
+            if(consultations.get(0).getHeureFin() == null) {
+                c = consultations.get(0);    
+            }
         }
         for(int i=0; i < consultations.size(); i++) {
             if(consultations.get(i).getHeureFin() == null) {
