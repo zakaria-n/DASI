@@ -40,7 +40,9 @@ public class CheckAuthSerialisation extends Serialisation {
             container.addProperty("notLoggedIn", (Boolean) request.getAttribute("notLoggedIn"));
         }
         container.addProperty("userType", userType);
-        
+        if("employe".equals(userType)){
+            container.addProperty("inConsultation", (Boolean) request.getAttribute("inConsultation"));
+        }
         response.setContentType("application/json;charset=UTF-8");
         PrintWriter out = response.getWriter();
         Gson gson = new GsonBuilder().setPrettyPrinting().serializeNulls().create();

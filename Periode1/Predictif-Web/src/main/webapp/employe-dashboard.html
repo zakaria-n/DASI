@@ -50,7 +50,7 @@ and open the template in the editor.
         </div>
         <div>
              <p>[picture here]</p>
-             <button id="manage" style="visibility: hidden;">Confirmer la consultation</button>
+             <button id="confirm" style="visibility: hidden;">Confirmer la consultation</button>
              <p id="rejection"> </p>
         </div>
 
@@ -70,6 +70,10 @@ and open the template in the editor.
                                 alert("ERROR 405: MUST AUTHENTICATE");
                                 window.location.href = "./login.html";
                             }
+                            if(response.inConsultation) {
+                                console.log("inConsultation");
+                                $('#confirm').css('visibility','visible');
+                            }
                             })
                         .fail(function(error) { // Fonction appelée en cas d'erreur lors de l'appel AJAX
                             console.log('Error', error); // LOG dans Console Javascript
@@ -80,6 +84,9 @@ and open the template in the editor.
             }
             $(document).ready(function() {
                 OnInit();
+                
+                
+                
                 $('#logout').on('click', function() { // Fonction appelée lors du clic sur le bouton
 
                     console.log("clic sur le bouton de déconnexion"); // LOG dans Console Javascript

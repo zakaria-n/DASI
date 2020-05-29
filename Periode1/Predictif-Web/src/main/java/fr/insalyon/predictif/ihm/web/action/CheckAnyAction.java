@@ -5,6 +5,7 @@
  */
 package fr.insalyon.predictif.ihm.web.action;
 
+import fr.insalyon.dasi.metier.service.Service;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 
