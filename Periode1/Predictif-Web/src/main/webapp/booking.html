@@ -8,60 +8,10 @@ and open the template in the editor.
     <head>
         <title>Demander une consultation</title>
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+        <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
         <script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
+        <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
         
-        <style type="text/css"> 
-            *:not(p.info){
-             margin: 10px 0 10px 0;
-             padding: 0;
-            }
-            
-            div#menu p{  
-                width: 80%;
-                border-style: solid;
-                margin: 0 auto 0 auto;
-            }
-            
-            p.info{
-                padding: 8px 0 10px 0; 
-            }
-            
-            span.infos{
-                padding: 1px 0 1px 2em;
-            }
-            
-            #feedback{
-                align-self: center;
-                align-content: center;
-            }
-            
-            #logo{
-                height: 30%;
-                width: 80%;
-                border-style: dotted;
-            }
-            #deconnexion{
-                height: 40px;
-                width: 200px;
-            }
-            div.search{
-             height: 40px;
-             width: 500px;  
-            }
-            div.search form{
-             width: 100%;
-             height: 100%;
-            }
-            
-            div.search form img{
-             position: absolute;
-             left: 50vw;
-             transform: translateX(-250px);
-             margin-top: 10px;
-             margin-left: 10px;
-             height: 20px;
-            }
-        </style>
         
         <script type="text/javascript">
             function OnInit ()
@@ -127,7 +77,7 @@ and open the template in the editor.
                         dataType: 'json'
                     })
                     .done(function (response) { // Fonction appelée en cas d'appel AJAX réussi
-                        console.log("NIubi");
+                        
                         $("#mainSection").hide();
                         $(".panel-body").after(
                             '<div><p id="feedback">Un message vous sera bientôt envoyé vous indiquant si le médium que vous avez demandé est disponible</div>\n\
@@ -168,8 +118,12 @@ and open the template in the editor.
                         var mediums = response.mediums;
                         var output = "";
                         for (var i = 0; i < mediums.length; i++) {
-                            output += '<p class="nom" onclick="afficherLuiMeme('+ i +","+ mediums.length +')">' + mediums[i].denomination + "</p>";
-                            output += '<p class="info" ' + 'id="' + i + '"' + 'style="display:none"> \n\
+                            output += '<div class="panel panel-default">';
+                            output += '<div class="nom panel-heading" onclick="afficherLuiMeme('+ i +","+ mediums.length +')">' 
+                                    + '<h4 class="panel-title">'+ mediums[i].denomination +"</h4></div>";
+                            
+                            output += '<div class="info panel-collapse" role="tabpanel" ' + 'id="' + i + '"' + 'style="display:none"> \n\
+                                       <div class="panel-body"> \n\
                                        <span class="infos"> Genre:' + mediums[i].genre + "</span><br/>"
                                    +  '<span class="infos"> Presentation:' + mediums[i].presentation + "</span><br/>"; 
                             if(mediums[i].type==="Astrologue"){
@@ -179,12 +133,12 @@ and open the template in the editor.
                             if(mediums[i].type==="Spirite"){
                                 output += '<span class="infos"> Support:' + mediums[i].support + "</span><br/>";
                             }
-                            output += "</p>";
+                            output += "</div></div></div>";
                             //Charger toutes les infos en mode invisible puis les Afficher lorsqu'on clique le bloc <p>
                         }
-                        $('#menu').html(output); // Message pour le paragraphe de notification
+                        $('.showMediums').html(output); // Message pour le paragraphe de notification
                     } else {
-                        $('#menu').html("Erreur d'affichage"); // Message pour le paragraphe de notification
+                        $('.showMediums').html("Erreur d'affichage"); // Message pour le paragraphe de notification
                     }
                 })
                 .fail(function(error) { // Fonction appelée en cas d'erreur lors de l'appel AJAX
@@ -198,10 +152,29 @@ and open the template in the editor.
         </script>
     </head>
     <body>
-        <div id="header">
-            <span id="logo">PrédictIF</span>
-            <button id="logout">Déconnexion</button>
-        </div>
+        <nav class="navbar navbar-inverse navbar-static-top">
+            <div class="container-fluid"> 
+        <!-- Brand and toggle get grouped for better mobile display -->
+                <div class="navbar-header">
+                <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1" aria-expanded="false">
+                    <span class="sr-only">Toggle navigation</span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                </button>
+                <a class="navbar-brand" href="#">PREDICT'IF</a>
+                </div>
+
+                <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+                    <ul class="nav navbar-nav">
+                        <li class="active"><a id = "home" href="client-dashboard.html">Home <span class="sr-only">(current)</span></a></li>
+                    </ul>
+                    <ul class="nav navbar-nav navbar-right">
+                        <li><a id="logout">Déconnexion</a></li>
+                    </ul>
+                </div><!-- /.navbar-collapse -->
+            </div><!-- /.container-fluid -->
+        </nav>
         
         <h1>Demander une consultation</h1>
         <div id="mainSection">
@@ -217,6 +190,8 @@ and open the template in the editor.
             <button id="B_recherche1" onclick="rechercherParNom()">Recherche</button>
             <button id="B_valider" onclick="valider()">Valider</button>
         </div>
+        
+        <div class="showMediums panel-group" id="accordion" role="tablist" aria-multiselectable="true"></div>
         
         <div class="panel-body" style="height: 400px; overflow-y:scroll; margin-top: 30px;">
             <div style="border: 1px  #000000; width: 90%; margin: 0 auto;" id="menu">
