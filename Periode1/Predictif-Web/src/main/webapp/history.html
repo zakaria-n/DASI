@@ -105,7 +105,8 @@ and open the template in the editor.
                                          item.heureFin+ "</p>" + "<p> Medium: " + item.mediumName + "</p>"
                                   );
                             if(response.user==="employe") {
-                                $('#body' + index).append("<p> Commentaire: " + item.commentaire + "</p>");                                
+                                $('#body' + index).append("<p> Commentaire: " + item.commentaire + "</p>");  
+                                $("#home").prop("href", "employe-dashboard.html");
                             }
                             $('.showConsultations').append(
                                         '</div>'+
