@@ -132,17 +132,19 @@ and open the template in the editor.
                             $("#mainSection").hide();
                             $(".panel-body").after(
                                 '<div><p id="feedback">Un message vous sera bientôt envoyé vous indiquant si le médium que vous avez demandé est disponible</div>\n\
-                                <button id="B_decouvrirMedium" href="mediums.html" >Découvrir nos médiums</button>\n\
-                                <button id="B_tableau" href="client-dashboard.html">Tableau de bord</button>'
+                                <p><a href="./mediums.html">Mediums</a></p>\n\
+                                <p><a href="./client-dashboard.html">Retour Accueil</a></p>'
                             );
                             $(".panel-body").hide();
                         }
                         else {
                             $("#mainSection").hide();
+                            var dsh = './client-dashboard.html'
+                            var mdm = './mediums.html'
                             $(".panel-body").after(
                                 '<div><p id="feedback">Désolé, il y a eu une erreur en demandant une consultation.</div>\n\
-                                <button onclick="window.location.href="./mediums.html";">Découvrir nos médiums</button>\n\
-                                <button onclick="window.location.href="client-dashboard.html";">Tableau de bord</button>'
+                                 <p><a href="./mediums.html">Mediums</a></p>\n\
+                                 <p><a href="./client-dashboard.html">Retour Accueil</a></p>'
                             );
                             $(".panel-body").hide();   
                         }
@@ -266,7 +268,5 @@ and open the template in the editor.
         });
 
         </script>
-         <!-- Lien vers l'accueil -->
-        <p><a href="client-dashboard.html">Retour à la page d'Accueil</a></p>
     </body>
 </html>

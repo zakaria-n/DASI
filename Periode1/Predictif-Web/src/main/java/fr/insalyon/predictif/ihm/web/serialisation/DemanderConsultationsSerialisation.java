@@ -23,7 +23,7 @@ public class DemanderConsultationsSerialisation extends Serialisation {
 
         JsonObject container = new JsonObject();
         if(request.getAttribute("success")!=null) {
-        container.addProperty("success", (Boolean) request.getAttribute("success"));
+            container.addProperty("success", (Boolean) request.getAttribute("success"));
         }
         response.setContentType("application/json;charset=UTF-8");
         PrintWriter out = response.getWriter();
