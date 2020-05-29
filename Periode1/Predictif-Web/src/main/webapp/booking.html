@@ -141,8 +141,8 @@ and open the template in the editor.
                             $("#mainSection").hide();
                             $(".panel-body").after(
                                 '<div><p id="feedback">Désolé, il y a eu une erreur en demandant une consultation.</div>\n\
-                                <button id="B_decouvrirMedium" href="mediums.html" >Découvrir nos médiums</button>\n\
-                                <button id="B_tableau" href="client-dashboard.html">Tableau de bord</button>'
+                                <button onclick="window.location.href="./mediums.html";">Découvrir nos médiums</button>\n\
+                                <button onclick="window.location.href="client-dashboard.html";">Tableau de bord</button>'
                             );
                             $(".panel-body").hide();   
                         }

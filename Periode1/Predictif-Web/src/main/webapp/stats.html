@@ -29,7 +29,7 @@
 
 <body>
     <p><a href="employe-dashboard.html">Retour à la page d'Accueil</a></p>
-    <p style="grey;font-size:25px;">Top 5 des médiums demandés par les clients:</p>
+    <p style="color: grey; font-size:25px;">Top 5 des médiums demandés par les clients:</p>
     <div id="stats">
          <table style="width:100%">
             <tr>
@@ -80,7 +80,7 @@
                         url: './ActionServlet',
                         method: 'POST',
                         data: {
-                            todo: 'showStats',
+                            todo: 'showStats'
                         },
                         dataType: 'json'
                     })
