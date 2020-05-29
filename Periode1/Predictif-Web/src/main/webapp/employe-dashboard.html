@@ -58,6 +58,36 @@ and open the template in the editor.
         </div>
 
             <script>
+            
+            function manage()
+            {
+                 $.ajax({
+                            url: './ActionServlet',
+                            method: 'POST',
+                            data: {
+                                todo: 'checkStarted'
+                            }
+                        })
+                        .done(function(response) { // Fonction appelée en cas d'appel AJAX réussi
+                            console.log('Response', response); // LOG dans Console Javascript
+                            if(response.notLoggedIn) {
+                                alert("ERROR 405: MUST AUTHENTICATE");
+                                window.location.href = "./login.html";
+                            }
+                            if(response.state==="unstarted"){
+                                $('four').show();
+                            }
+                            if(response.state==="started"){
+                                $('four').show();
+                            }                                
+                            })
+                        .fail(function(error) { // Fonction appelée en cas d'erreur lors de l'appel AJAX
+                            console.log('Error', error); // LOG dans Console Javascript
+                            alert("Erreur lors de l'appel AJAX");
+                        })
+                        .always(function() { // Fonction toujours appelée
+                        });
+            }
             function OnInit ()
             {
                 $.ajax({
