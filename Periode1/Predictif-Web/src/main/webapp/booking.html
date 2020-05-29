@@ -45,7 +45,7 @@ and open the template in the editor.
                     document.getElementById(m).style.display="none";
                 }
                 document.getElementById(i).style.display="";
-                MediumName=document.getElementById(i).previousElementSibling.innerHTML;
+                MediumName=document.getElementById(i).previousElementSibling.firstChild.innerHTML;
             }
             
             function rechercherParNom()
@@ -77,19 +77,9 @@ and open the template in the editor.
                         dataType: 'json'
                     })
                     .done(function (response) { // Fonction appelée en cas d'appel AJAX réussi
-
-                        
+                        console.log('Response', response);
                         $("#mainSection").hide();
-                        $(".showMediums").after(
-                            '<div><p id="feedback">Un message vous sera bientôt envoyé vous indiquant si le médium que vous avez demandé est disponible</div>\n\
-                            <button id="B_decouvrirMedium" href="mediums.html" >Découvrir nos médiums</button>\n\
-                            <button id="B_tableau" href="client-dashboard.html">Tableau de bord</button>'
-                        );
-                        $(".showMediums").hide();
-
                         if(response.success) {
-                            console.log("NIubi");
-                            $("#mainSection").hide();
                             $(".showMediums").after(
                                 '<div><p id="feedback">Un message vous sera bientôt envoyé vous indiquant si le médium que vous avez demandé est disponible</div>\n\
                                 <p><a href="./mediums.html">Mediums</a></p>\n\
@@ -98,7 +88,6 @@ and open the template in the editor.
                             $(".showMediums").hide();
                         }
                         else {
-                            $("#mainSection").hide();
                             var dsh = './client-dashboard.html'
                             var mdm = './mediums.html'
                             $(".showMediums").after(
