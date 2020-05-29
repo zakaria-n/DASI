@@ -73,7 +73,7 @@ public class ActionServlet extends HttpServlet {
                     break;
                 case "requestConsultation":
                     action = new DemanderConsultationsAction();
-                    serialisation = new ConsultationsSerialisation();
+                    serialisation = new DemanderConsultationsSerialisation();
                     break;
                 case "confirmConsultation":
                     action = new ConfirmerConsultationAction();
@@ -101,6 +101,10 @@ public class ActionServlet extends HttpServlet {
                     break;
                 case "checkStaff":
                     action = new CheckStaffAction();
+                    serialisation = new CheckAuthSerialisation();
+                    break;
+                case "checkAny":
+                    action = new CheckAnyAction();
                     serialisation = new CheckAuthSerialisation();
                     break;
                     

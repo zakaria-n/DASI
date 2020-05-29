@@ -440,6 +440,7 @@ public class Service {
             DateFormat dateFormat = new SimpleDateFormat("HH:mm:ss");
             String formattedDate=dateFormat.format(date);
             c.setHeureFin(formattedDate);
+            c.setCommentaire(" ");
             employe.setDisponible(true);
             JpaUtil.creerContextePersistance();
             try {
@@ -469,7 +470,9 @@ public class Service {
         Consultation c = null;
         List<Consultation> consultations = e.getConsultations();
         if(consultations.size()==1) {
-            c = consultations.get(0);
+            if(consultations.get(0).getHeureFin() == null) {
+                c = consultations.get(0);    
+            }
         }
         for(int i=0; i < consultations.size(); i++) {
             if(consultations.get(i).getHeureFin() == null) {
@@ -478,6 +481,42 @@ public class Service {
             }
         }
         return c;
+    }
+    
+    public Consultation checkStarted(Employe e) { 
+        Consultation c = null;
+        List<Consultation> consultations = e.getConsultations();
+        for(int i=0; i < consultations.size(); i++) {
+            if(consultations.get(i).getHeureDebut()!=null && consultations.get(i).getHeureFin() == null) {
+                c = consultations.get(i);
+                break;
+            }
+        }
+        return c;
+    }
+    
+    public boolean inConsultation(Client c) {
+        List<Consultation> consultations = c.getConsultations();
+        if(consultations.isEmpty()) {
+            return false;
+        }
+        for(int i=0; i < consultations.size(); i++) {
+            if(consultations.get(i).getHeureFin() == null) {
+                return true;
+            }
+        }
+        return false;
+    }
+    
+    public Consultation consultationWithoutComment(List<Consultation> consuls) {
+        String empty = " ";
+        for(int i=consuls.size()-1; i > 0; i--) {
+            if(consuls.get(i).getCommentaire()==null || consuls.get(i).getCommentaire().equals(empty)) {
+                return consuls.get(i);
+            }
+        }
+        return null;
+        
     }
     
     public long getCurrentConsultationClient(Employe e) { 

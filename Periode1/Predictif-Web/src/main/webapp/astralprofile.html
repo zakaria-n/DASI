@@ -6,7 +6,7 @@ and open the template in the editor.
 -->
 <html>
     <head>
-        <title>TODO supply a title</title>
+        <title>Profil Astral</title>
         <meta charset="UTF-8">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
         <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
@@ -55,8 +55,8 @@ and open the template in the editor.
             </tr>             
         </table>
         <!-- Lien vers l'accueil -->
-        <p><a href="./client-dashboard.html" id="dash">Retour à la page d'Accueil</a></p>
-        
+        <p><a id="dash" href="./client-dashboard.html">Retour à la page d'Accueil</a></p>
+      
         <script>
             function OnInit ()
             {
@@ -98,9 +98,10 @@ and open the template in the editor.
                                  var node = document.createTextNode("Aucun client")
                                  $('#profile').append(node)
                             }
-                            if(response.usertype!=="client")
+                            if(response.usertype==="employe")
                             {
-                                $("#dash").attr("href", "./employe-dashboard.html"); 
+                                //$("#dash").attr("href", "./employe-dashboard.html"); 
+                                document.getElementById("dash").href='./employe-dashboard.html'; 
                             }
                         })
                         .fail(function(error) { // Fonction appelée en cas d'erreur lors de l'appel AJAX

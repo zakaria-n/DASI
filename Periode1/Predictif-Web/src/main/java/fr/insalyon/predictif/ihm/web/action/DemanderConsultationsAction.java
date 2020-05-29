@@ -27,11 +27,17 @@ public class DemanderConsultationsAction extends Action {
         String mediumName = request.getParameter("medium");
         if(id!=null) {
             //System.out.println("client");
-            c = service.rechercherClientParId((long) id);
+            c = service.rechercherClientParId(id);
+            if(!service.inConsultation(c)) {
+                if(mediumName!=null) {
+                    m = service.chercherMedium(mediumName);
+                    Employe e = service.demanderConsultation(m, c);// try catch?
+                    if(e!=null) {
+                        request.setAttribute("success", true);
+                    }
+
+                }               
+            }
         }
-        if(mediumName!=null) {
-            m = service.chercherMedium(mediumName);
-        }
-        Employe e = service.demanderConsultation(m, c);// try catch?
     }
 }

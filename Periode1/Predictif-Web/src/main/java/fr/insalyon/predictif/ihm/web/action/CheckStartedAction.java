@@ -8,7 +8,6 @@ package fr.insalyon.predictif.ihm.web.action;
 import fr.insalyon.dasi.metier.modele.Consultation;
 import fr.insalyon.dasi.metier.modele.Employe;
 import fr.insalyon.dasi.metier.service.Service;
-import java.util.List;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 
@@ -16,10 +15,9 @@ import javax.servlet.http.HttpSession;
  *
  * @author zakaria
  */
-public class AddCommentAction extends Action {
+public class CheckStartedAction extends Action {
     @Override
     public void executer(HttpServletRequest request) {
-        String comment = request.getParameter("comment");
         HttpSession session = request.getSession();
         boolean success = false;
         Service service = new Service();
@@ -27,11 +25,10 @@ public class AddCommentAction extends Action {
         System.out.println("Employe "+ id);
         if(id!=null) {
             Employe e = service.rechercherEmployeParId(id);
-            List<Consultation> c = e.getConsultations();
-            Consultation consul = service.consultationWithoutComment(c);
+            Consultation consul = service.getCurrentConsultation(e);//e.getConsultations().get(0);
             if (consul != null)
             {
-                success = service.ajouterCommentaire(consul, comment);
+                success = service.confirmConsultation(consul);
             }
         }else{
             request.setAttribute("notLoggedIn", true);
