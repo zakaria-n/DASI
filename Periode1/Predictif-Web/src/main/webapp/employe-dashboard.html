@@ -50,7 +50,7 @@ and open the template in the editor.
             <p><img alt='phone' src="https://png2.cleanpng.com/sh/c9fa0e7e3e725225eb79499f6ebf0e0f/L0KzQYm3UsA3N5hvfZH0aYP2gLBuTfJiel5ogNN7dD3mfLr3TfFzfF5neeQ2Z4LkgLm0ifNwdl46eakENka1cbK9U8U6QF81TKY8NEC3QYK8Ucc6OGY5TaIBOEC7PsH1h5==/kisspng-bar-chart-clip-art-bar-graph-icon-5a79662aa63598.0443404115179054506808.png" style="width:200px;height:200px"/></p>
             <p><a href="./stats.html">Activité de l'agence</a></p>         
             </div>
-            <div id="four">
+            <div  id="four">
                  <p><img alt='phone' src="https://cdn.clipart.email/9b1832e76a327d6eec14aa70a5d8d28e_best-photos-of-telephone-directory-book-telephone-directory-clip-_335-285.jpeg" style="width:200px;height:200px"/></p>
                  <button id="manage">Confirmer la consultation</button>
                  <p id="rejection"> </p>
@@ -75,12 +75,17 @@ and open the template in the editor.
                                 window.location.href = "./login.html";
                             }
                             if(response.state==="unstarted"){
-                                $('four').show();
+                                var x = document.getElementById("four");
+                                //x.style.visibility = visible;
+                                $('#manage').attr("manage","confirm");
                             }
                             if(response.state==="started"){
-                                $('four').show();
+                                $('#four').show();
+                                $('#manage').attr("manage","ongoing");
+                                $('#ongoing').text("Gérer la consultation courante");                                
                             }                                
-                            })
+                        })
+                            
                         .fail(function(error) { // Fonction appelée en cas d'erreur lors de l'appel AJAX
                             console.log('Error', error); // LOG dans Console Javascript
                             alert("Erreur lors de l'appel AJAX");
@@ -90,6 +95,7 @@ and open the template in the editor.
             }
             function OnInit ()
             {
+                manage();
                 $.ajax({
                             url: './ActionServlet',
                             method: 'POST',
@@ -162,6 +168,10 @@ and open the template in the editor.
                         .always(function() { // Fonction toujours appelée
                         });
                         return false;
+                });
+                
+                $('#ongoing').on('click', function() {
+                    window.location.href="./ongoing"
                 });
             });
         </script>
