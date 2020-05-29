@@ -73,6 +73,14 @@ and open the template in the editor.
                                 alert("You are not logged in");
                                 window.location.href = "./login.html";
                             }
+                            
+                            if(response.user==="employe") {
+                                $("#home").prop("href", "employe-dashboard.html");
+                            }
+                            else {
+                                $("#home").prop("href", "client-dashboard.html");  
+                            }
+                            
                             if(response.name){ 
                                 var node = document.createElement('b');
                                 var textToAppend = "Client: "
