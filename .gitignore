@@ -45,3 +45,5 @@ app/Backend/target/generated-sources/annotations/fr/insalyon/dasi/metier/modele/
 app/Backend/target/maven-archiver/pom.properties
 app/Frontend/target/Frontend-1.0-SNAPSHOT.war
 app/Frontend/target/maven-archiver/pom.properties
+*.jar
+*.java
