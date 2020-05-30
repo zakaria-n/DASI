@@ -16,3 +16,5 @@ app/Backend/target/
 /Periode1/Predictif-Web/target/
 /Periode1/Frontend/target/
 
+app/Backend/target/*
+app/Frontend/target/*
