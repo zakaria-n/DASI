@@ -47,3 +47,15 @@ app/Frontend/target/Frontend-1.0-SNAPSHOT.war
 app/Frontend/target/maven-archiver/pom.properties
 *.jar
 *.java
+*.properties
+*.jar
+app/Backend/target/Backend-1.0.jar
+app/Backend/target/generated-sources/annotations/fr/insalyon/dasi/metier/modele/Astrologue_.java
+app/Backend/target/generated-sources/annotations/fr/insalyon/dasi/metier/modele/Cartomancien_.java
+app/Backend/target/generated-sources/annotations/fr/insalyon/dasi/metier/modele/Client_.java
+app/Backend/target/generated-sources/annotations/fr/insalyon/dasi/metier/modele/Consultation_.java
+app/Backend/target/generated-sources/annotations/fr/insalyon/dasi/metier/modele/Employe_.java
+app/Backend/target/generated-sources/annotations/fr/insalyon/dasi/metier/modele/Medium_.java
+app/Backend/target/generated-sources/annotations/fr/insalyon/dasi/metier/modele/ProfilAstral_.java
+app/Backend/target/generated-sources/annotations/fr/insalyon/dasi/metier/modele/Spirite_.java
+app/Backend/target/maven-archiver/pom.properties
