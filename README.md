@@ -6,6 +6,8 @@ Create a local database and set the persistence.xml in Backend/src/main/resource
 
 ![alt text](https://github.com/zakaria-n/DASI/blob/master/Screenshots/index.png?raw=true)
 ![alt text](https://github.com/zakaria-n/DASI/blob/master/Screenshots/mediums.png?raw=true)
+![alt text](https://github.com/zakaria-n/DASI/blob/master/Screenshots/dashboard.png?raw=true)
+![alt text](https://github.com/zakaria-n/DASI/blob/master/Screenshots/profile.png?raw=true)
 ![alt text](https://github.com/zakaria-n/DASI/blob/master/Screenshots/booking.png?raw=true)
 ![alt text](https://github.com/zakaria-n/DASI/blob/master/Screenshots/history.png?raw=true)
 ![alt text](https://github.com/zakaria-n/DASI/blob/master/Screenshots/stats.png?raw=true)
