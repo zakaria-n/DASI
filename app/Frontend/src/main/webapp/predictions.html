@@ -1,0 +1,175 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>Bienvenue sur PREDICT'IF</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
+    <script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
+</head>
+
+<body>
+    <nav class="navbar navbar-inverse navbar-static-top">
+            <div class="container-fluid"> 
+        <!-- Brand and toggle get grouped for better mobile display -->
+                <div class="navbar-header">
+                <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1" aria-expanded="false">
+                    <span class="sr-only">Toggle navigation</span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                </button>
+                <a class="navbar-brand" href="#">PREDICT'IF</a>
+                </div>
+
+                <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+                    <ul class="nav navbar-nav">
+                        <li class="active"><a id = "home" href="employe-dashboard.html">Home <span class="sr-only">(current)</span></a></li>
+                    </ul>
+                    <ul class="nav navbar-nav navbar-right">
+                        <li><a id="logout">Déconnexion</a></li>
+                    </ul>
+                </div><!-- /.navbar-collapse -->
+            </div><!-- /.container-fluid -->
+        </nav>
+    <div style="text-align:center">
+    <h1>Générateur de prédictions</h1>
+    <p>Saisissez un score de 1 à 4 pour chacune des catégories suivantes</p>
+    <button id="bouton-prediction">Générer une prédiction</button>
+    <div>
+        <div>
+            <div>
+                Amour
+                  <select id="love">
+                  <option selected>1</option>
+                  <option>2</option>
+                  <option>3</option>
+                  <option>4</option>
+                  </select>
+            </div>
+            <textarea id="love-output" cols="30" rows = "6"></textarea>
+        </div>
+
+        <div>
+            <div>
+                Santé
+                <select id="health">
+                  <option selected>1</option>
+                  <option>2</option>
+                  <option>3</option>
+                  <option>4</option>
+                </select>
+            </div>
+            <textarea id="health-output" cols="30" rows = "6"></textarea>      
+        </div>
+
+        <div>
+            <div>
+                Travail
+                  <select id="work">
+                  <option selected>1</option>
+                  <option>2</option>
+                  <option>3</option>
+                  <option>4</option>
+                  </select>
+            </div>
+            <textarea id="work-output" cols="30" rows = "6"></textarea>
+        </div>
+    </div>
+    <button><a href="ongoing.html">Retour à la consultation</a></button>
+    </div>
+    <script>
+        function OnInit ()
+            {
+                $.ajax({
+                            url: './ActionServlet',
+                            method: 'POST',
+                            data: {
+                                todo: 'checkStaff'
+                            }
+                        })
+                        .done(function(response) { // Fonction appelée en cas d'appel AJAX réussi
+                            console.log('Response', response); // LOG dans Console Javascript
+                            if(response.notLoggedIn) {
+                                alert("ERROR 405: MUST AUTHENTICATE");
+                                window.location.href = "./login.html";
+                            }
+                            })
+                        .fail(function(error) { // Fonction appelée en cas d'erreur lors de l'appel AJAX
+                            console.log('Error', error); // LOG dans Console Javascript
+                            alert("Erreur lors de l'appel AJAX");
+                        })
+                        .always(function() { // Fonction toujours appelée
+                        });
+            }
+        $(document).ready(function() {
+            OnInit();
+            $('#bouton-prediction').on('click', function() { // Fonction appelée lors du clic sur le bouton
+
+                console.log("clic sur le bouton de prediction"); // LOG dans Console Javascript
+                $('#notification').html("Affichage en cours"); // Message pour le paragraphe de notification
+                var loveNumber = $("#love option:selected").html();
+                var healthNumber = $("#health option:selected").html();
+                var workNumber = $("#work option:selected").html();
+                // Appel AJAX
+                $.ajax({
+                        url: './ActionServlet',
+                        method: 'POST',
+                        data: {
+                            todo: 'makePredictions',
+                            loveNum: loveNumber,
+                            healthNum: healthNumber,
+                            workNum: workNumber
+                        },
+                        dataType: 'json'
+                    })
+                    .done(function(response) { // Fonction appelée en cas d'appel AJAX réussi
+                        console.log('Response', response); // LOG dans Console Javascript
+                             if(response.notLoggedIn) {
+                                alert("You are not logged in");
+                                window.location.href = "./login.html";
+                             }
+                        if(response.predictions) {
+                             $('#love-output').val(response.predictions.love);
+                             $('#health-output').val(response.predictions.health);
+                             $('#work-output').val(response.predictions.work);
+                        }
+                    })
+                    .fail(function(error) { // Fonction appelée en cas d'erreur lors de l'appel AJAX
+                        console.log('Error', error); // LOG dans Console Javascript
+                        alert("Erreur lors de l'appel AJAX");
+                    })
+                    .always(function() { // Fonction toujours appelée
+
+                    });
+                });
+            
+                $('#logout').on('click', function() { // Fonction appelée lors du clic sur le bouton
+
+                    console.log("clic sur le bouton de déconnexion"); // LOG dans Console Javascript
+                    //
+                    // Appel AJAX
+                    $.ajax({
+                            url: './ActionServlet',
+                            method: 'POST',
+                            data: {
+                                todo: 'Deconnecter'
+                            }
+                        })
+                        .done(function(response) { // Fonction appelée en cas d'appel AJAX réussi
+                             window.location.href = "./logged-out.html";
+                             console.log('Response', response.succes); // LOG dans Console Javascript
+                        })
+                        .fail(function(error) { // Fonction appelée en cas d'erreur lors de l'appel AJAX
+                            console.log('Error', error); // LOG dans Console Javascript
+                            alert("Erreur lors de l'appel AJAX");
+                        })
+                        .always(function() { // Fonction toujours appelée
+                        });
+                });
+        });
+    </script>
+</body>
+
+</html>

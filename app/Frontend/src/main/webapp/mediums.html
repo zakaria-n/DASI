@@ -1,0 +1,157 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>Bienvenue sur PREDICT'IF</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
+    <script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
+</head>
+
+<body>
+    <nav class="navbar navbar-inverse navbar-static-top">
+      <div class="container-fluid">
+        <!-- Brand and toggle get grouped for better mobile display -->
+        <div class="navbar-header">
+          <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1" aria-expanded="false">
+            <span class="sr-only">Toggle navigation</span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+          </button>
+          <a class="navbar-brand" href="#">PREDICT'IF</a>
+        </div>
+
+        <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+          <ul class="nav navbar-nav">
+            <li class="active"><a id = "home" href="index.html">Home <span class="sr-only">(current)</span></a></li>
+          </ul>
+          <ul class="nav navbar-nav navbar-right">
+            <li><a id="state" href="login.html">Connexion</a></li>
+          </ul>
+        </div><!-- /.navbar-collapse -->
+      </div><!-- /.container-fluid -->
+    </nav>
+     <div style="text-align:center;">  
+    <h1>Mediums</h1>
+    <select id="mediumType" size="4">
+            <option>Astrologue</option>
+            <option>Cartomancien</option>
+            <option>Spirite</option>
+            <option selected>All</option>
+    </select>
+    <p><button id="bouton-affichage">Afficher Mediums</button></p>
+    <br/>
+    <div style="width: 40%;display:inline-block">  
+    <div class="showMediums panel-group" id="accordion" role="tablist" aria-multiselectable="true"></div>
+    </div>
+    </div>
+    <script>
+        $(document).ready(function() {
+            $('.showMediums').hide();
+            getMediums();
+            function getMediums() {
+                console.log("clic sur le bouton d'affichage"); // LOG dans Console Javascript
+                $('#notification').html("Affichage en cours"); // Message pour le paragraphe de notification
+                var mediumType = $("#mediumType option:selected").html();
+
+                // Appel AJAX
+                $.ajax({
+                        url: './ActionServlet',
+                        method: 'POST',
+                        data: {
+                            todo: 'showMediums',
+                            type: mediumType
+                        },
+                        dataType: 'json'
+                    })
+                    .done(function(response) { // Fonction appelée en cas d'appel AJAX réussi
+                        console.log('Response', response); // LOG dans Console Javascript
+                        $('.showMediums').empty();
+                        if (response.mediums) {
+                            //$('#notification').html("Connexion OK");  // Message pour le paragraphe de notification
+                            // TODO: afficher les informations du client dans la notification
+                            // Exemple: Connexion de Ada Lovelace (ID 1)
+                            var mediums = response.mediums;
+                            if(mediums.length===0){
+                                $('.showMediums').append("<p> No Consultations </p>");
+                            }
+                            else {
+                              mediums.forEach(function(item,index) {
+                                $('.showMediums').append(
+                                    '<div class="panel panel-default">'+
+                                      '<div class="panel-heading" role="tab" id="heading_'+index+'">'+
+                                        '<h4 class="panel-title">'+
+                                          '<a role="button" data-toggle="collapse" data-parent="#accordion" href="#collapse_' 
+                                          +index+'" aria-expanded="true" aria-controls="collapse_'+index+'">'+ item.denomination+
+                                          '</a>'+
+                                        '</h4>'+
+                                      '</div>'+
+                                      '<div id="collapse_'+index+'" class="collapse panel-collapse" \n\
+                                        role="tabpanel" aria-labelledby="heading_' +index+'">'+
+                                        '<div class="panel-body" id="body'+index+'">'+ "<p> Genre: " + item.genre + "</p>" + "<p> Présentation: " + 
+                                         item.presentation+ "</p>" + 
+                                        '</div>'+
+                                      '</div>'+
+                                    '</div>'
+                                    );
+                              });                                
+                            }
+                           // $('#showMediums').html("Affichage des mediums" + output); // Message pour le paragraphe de notification
+                        } else {
+                            $('#showMediums').html("Erreur d'affichage"); // Message pour le paragraphe de notification
+                        }
+                        if(response.user) {
+                            $("#home").html("Dashboard");
+                            $("#state").html("Deconnexion");
+                            $("#state").prop("href", "#");
+                            $("#state").click(function() {
+                                LogOut();
+                            });
+                            if(response.user==="employe") {
+                                $("#home").prop("href", "employe-dashboard.html");
+                            }
+                            else {
+                                $("#home").prop("href", "client-dashboard.html");  
+                            }
+                        }
+                    })
+                    .fail(function(error) { // Fonction appelée en cas d'erreur lors de l'appel AJAX
+                        console.log('Error', error); // LOG dans Console Javascript
+                        alert("Erreur lors de l'appel AJAX");
+                    })
+                    .always(function() { // Fonction toujours appelée
+
+                    });
+            }
+            function LogOut() { // Fonction appelée lors du clic sur le bouton
+                //
+                // Appel AJAX
+                $.ajax({
+                        url: './ActionServlet',
+                        method: 'POST',
+                        data: {
+                            todo: 'Deconnecter'
+                        }
+                    })
+                    .done(function(response) { // Fonction appelée en cas d'appel AJAX réussi
+                         window.location.href = "./logged-out.html";
+                         console.log('Response', response.succes); // LOG dans Console Javascript
+                    })
+                    .fail(function(error) { // Fonction appelée en cas d'erreur lors de l'appel AJAX
+                        console.log('Error', error); // LOG dans Console Javascript
+                        alert("Erreur lors de l'appel AJAX");
+                    })
+                    .always(function() { // Fonction toujours appelée
+                    });
+            }
+            $('#bouton-affichage').on('click', function() { // Fonction appelée lors du clic sur le bouton
+                getMediums();
+                $('.showMediums').show();
+            });
+        });
+    </script>
+</body>
+
+</html>

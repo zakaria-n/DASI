@@ -1,0 +1,171 @@
+<!DOCTYPE html>
+<!--
+To change this license header, choose License Headers in Project Properties.
+To change this template file, choose Tools | Templates
+and open the template in the editor.
+-->
+<html>
+    <head>
+        <title>Inscription</title>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
+        <script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
+        <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
+        <style>
+        .center {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+        </style>
+    </head>
+    <body>
+        <nav class="navbar navbar-inverse navbar-static-top">
+            <div class="container-fluid"> 
+        <!-- Brand and toggle get grouped for better mobile display -->
+                <div class="navbar-header">
+                <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1" aria-expanded="false">
+                    <span class="sr-only">Toggle navigation</span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                </button>
+                <a class="navbar-brand" href="#">PREDICT'IF</a>
+                </div>
+
+                <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+                    <ul class="nav navbar-nav">
+                        <li class="active"><a id = "home" href="index.html">Home <span class="sr-only">(current)</span></a></li>
+                    </ul>
+                </div><!-- /.navbar-collapse -->
+            </div><!-- /.container-fluid -->
+        </nav>
+        <div style="text-align:center">
+            <h1>INSCRIPTION</h1>
+
+            <p id="notification">Veuillez remplir les champs suivants.</p>
+             <!-- Champs et Bouton de Formulaire -->
+             <div style="display:inline-block;text-align:left"> 
+               Nom: <input type="text" id="champ-nom" size="43" />
+               <br/>
+               Prénom: <input type="text" id="champ-prenom" size="40" />
+               <br/>
+               E-mail: <input type="text" id="champ-email" size="41" />
+               <br/>
+               Mot de passe: <input type="password" id="champ-password" size="35"/>
+               <br/>
+               Téléphone <input type="text" id="champ-tel" size="38" />
+               <br/>
+               Genre: <input type="text" id="champ-genre" size="42" />
+               <br/>
+               Date de naissance: <input type="date" id="champ-date" />
+               <br/>        
+               Adresse postale <input type="text" id="champ-adresse" size="33" />
+               <br/>       
+               <br/>
+               <br/>
+               <div class="center">
+                    <button id="bouton-inscription">M'inscrire</button>
+               </div>
+            </div>
+        </div>
+        
+         <script>
+            function OnInit ()
+            {
+                $.ajax({
+                            url: './ActionServlet',
+                            method: 'POST',
+                            data: {
+                                todo: 'checkAny'
+                            }
+                        })
+                        .done(function(response) { // Fonction appelée en cas d'appel AJAX réussi
+                            console.log('Response', response); // LOG dans Console Javascript
+                            if(!response.notLoggedIn) {
+                                if(response.userType==='client')
+                                {
+                                    console.log("redirecting..");
+                                    alert("LOGGED IN: REDIRECTING TO DASH");
+                                    window.location.href = "./client-dashboard.html";
+                                }
+                                if(response.userType==='employe'){
+                                    console.log("redirecting..");
+                                    alert("LOGGED IN: REDIRECTING TO DASH");
+                                    window.location.href = "./employe-dashboard.html";
+                                }
+                                    
+                            }
+                            })
+                        .fail(function(error) { // Fonction appelée en cas d'erreur lors de l'appel AJAX
+                            console.log('Error', error); // LOG dans Console Javascript
+                            alert("Erreur lors de l'appel AJAX");
+                        })
+                        .always(function() { // Fonction toujours appelée
+                        });
+            }
+            $(document).ready( function () {
+                OnInit();
+                $('#bouton-inscription').on( 'click', function () { // Fonction appelée lors du clic sur le bouton
+
+                    console.log("clic sur le bouton d'inscription"); // LOG dans Console Javascript
+                    $('#notification').html("Inscription en cours..."); // Message pour le paragraphe de notification
+
+                    // Récupération de la valeur des champs du formulaire
+                    var champNom = $('#champ-nom').val();
+                    var champPrenom = $('#champ-prenom').val();
+                    var champEmail = $('#champ-email').val();
+                    var champPwd = $('#champ-password').val();
+                    var champTel = $('#champ-tel').val();
+                    var champGenre = $('#champ-genre').val();
+                    var champDate= $('#champ-date').val();
+                    var champAdresse = $('#champ-adresse').val();
+                    if(champNom.length!==0 && champPrenom.length!==0 && champEmail.length!==0 
+                            && champTel.length!==0 && champGenre.length!==0 && champDate
+                            && champAdresse.length!==0) {
+                        // Appel AJAX
+                        $.ajax({
+                            url: './ActionServlet',
+                            method: 'POST',
+                            data: {
+                                todo: 'signup',
+                                nom: champNom,
+                                prenom: champPrenom,
+                                email: champEmail,
+                                password: champPwd,
+                                phone: champTel,
+                                genre: champGenre,
+                                date: champDate,
+                                adresse: champAdresse
+                            },
+                            dataType: 'json'
+                        })
+                        .done( function (response) { // Fonction appelée en cas d'appel AJAX réussi
+                            console.log('Response',response); // LOG dans Console Javascript
+                            if (response.inscription) {
+                                $('#notification').html("Inscription réussie");
+                                $('#notification').css('font-weight','bold');
+                                setTimeout(function(){window.location.href='index.html';},3000);
+                            }
+                            else {
+                                $('#notification').html("Erreur d'inscription"); // Message pour le paragraphe de notification
+                            }
+                        })
+                        .fail( function (error) { // Fonction appelée en cas d'erreur lors de l'appel AJAX
+                            console.log('Error',error); // LOG dans Console Javascript
+                            alert("Erreur lors de l'appel AJAX");
+                        })
+                        .always( function () { // Fonction toujours appelée
+
+                        });
+                        
+                    }
+                    else {
+                        $('#notification').html("Erreur d'inscription. Veuillez remplir tous les champs.");
+                    }
+                });
+            });
+        </script>
+    </body>
+</html>

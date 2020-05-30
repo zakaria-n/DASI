@@ -1,0 +1,301 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>Activité de l'agence</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
+    <script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
+
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.6.0/Chart.min.js"></script>
+
+    <link rel="stylesheet" href="styles.css" type="text/css"/>
+
+    <style>
+        p {text-align: center;}
+        table {
+            margin: 25px 0;
+            width: 200px;
+        }
+
+        table th, table td {
+            padding: 10px;
+            text-align: center;
+        }
+
+        table, th, td {
+            border: 1px solid;
+        }
+    </style>
+</head>
+
+<body>
+    <nav class="navbar navbar-inverse navbar-static-top">
+            <div class="container-fluid">
+        <!-- Brand and toggle get grouped for better mobile display -->
+                <div class="navbar-header">
+                <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1" aria-expanded="false">
+                    <span class="sr-only">Toggle navigation</span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                </button>
+                <a class="navbar-brand" href="#">PREDICT'IF</a>
+                </div>
+
+                <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+                    <ul class="nav navbar-nav">
+                        <li class="active"><a id = "home" href="employe-dashboard.html">Home <span class="sr-only">(current)</span></a></li>
+                    </ul>
+                    <ul class="nav navbar-nav navbar-right">
+                        <li><a id="logout">Déconnexion</a></li>
+                    </ul>
+                </div><!-- /.navbar-collapse -->
+            </div><!-- /.container-fluid -->
+        </nav>
+
+    <p style="color: grey; font-size:25px;">Top 5 des médiums demandés par les clients</p>
+    <div id="stats">
+         <table style="width:100%">
+            <tr>
+                <th>Rang</th>
+                <th>Medium</th>
+            </tr>
+            <tr id="top">
+            </tr>
+        </table>
+    </div>
+
+    <div class="container">
+    <canvas id="perEmpChart" height="150"></canvas>
+    </div>
+
+    <div class="container">
+    <canvas id="perMedChart" height="150"></canvas>
+    </div>
+
+    <script>
+        function OnInit ()
+        {
+                $.ajax({
+                            url: './ActionServlet',
+                            method: 'POST',
+                            data: {
+                                todo: 'checkStaff'
+                            }
+                        })
+                        .done(function(response) { // Fonction appelée en cas d'appel AJAX réussi
+                            console.log('Response', response); // LOG dans Console Javascript
+                            if(response.notLoggedIn) {
+                                alert("ERROR 405: MUST AUTHENTICATE");
+                                window.location.href = "./login.html";
+                            }
+                            })
+                        .fail(function(error) { // Fonction appelée en cas d'erreur lors de l'appel AJAX
+                            console.log('Error', error); // LOG dans Console Javascript
+                            alert("Erreur lors de l'appel AJAX");
+                        })
+                        .always(function() { // Fonction toujours appelée
+                        });
+        }
+        $(document).ready(function() {
+                OnInit();
+                
+                $('#logout').on('click', function() { // Fonction appelée lors du clic sur le bouton
+
+                    console.log("clic sur le bouton de déconnexion"); // LOG dans Console Javascript
+                    //
+                    // Appel AJAX
+                    $.ajax({
+                            url: './ActionServlet',
+                            method: 'POST',
+                            data: {
+                                todo: 'Deconnecter'
+                            }
+                        })
+                        .done(function(response) { // Fonction appelée en cas d'appel AJAX réussi
+                             window.location.href = "./logged-out.html";
+                             console.log('Response', response.succes); // LOG dans Console Javascript
+                        })
+                        .fail(function(error) { // Fonction appelée en cas d'erreur lors de l'appel AJAX
+                            console.log('Error', error); // LOG dans Console Javascript
+                            alert("Erreur lors de l'appel AJAX");
+                        })
+                        .always(function() { // Fonction toujours appelée
+                        });
+                });
+                
+                // Appel AJAX
+                $.ajax({
+                        url: './ActionServlet',
+                        method: 'POST',
+                        data: {
+                            todo: 'showStats'
+                        },
+                        dataType: 'json'
+                    })
+                    .done(function(response) { // Fonction appelée en cas d'appel AJAX réussi
+                        console.log('Response', response); // LOG dans Console Javascript
+
+                        if (response.topfive) {
+                            var i =1;
+                            var topfive = response.topfive;
+                            $('#top').not(':first').not(':last').remove();
+                            var html = '';
+                            for(var i = 0; i < topfive.length; i++)
+                                        html += '<tr><td>' + topfive[i].rang+
+                                                '</td><td>' + topfive[i].denom + '</td></tr>';
+                            $('#top').first().after(html);
+
+                        }
+
+                        Chart.defaults.global.defaultFontFamily = 'Lato';
+                        Chart.defaults.global.defaultFontSize = 18;
+                        Chart.defaults.global.defaultFontColor = '#777';
+
+                        var colourArray = ['#FF6633', '#FFB399', '#FF33FF', '#FFFF99', '#00B3E6',
+                                            '#E6B333', '#3366E6', '#999966', '#99FF99', '#B34D4D',
+                                            '#80B300', '#809900', '#E6B3B3', '#6680B3', '#66991A',
+                                            '#FF99E6', '#CCFF1A', '#FF1A66', '#E6331A', '#33FFCC',
+                                            '#66994D', '#B366CC', '#4D8000', '#B33300', '#CC80CC',
+                                            '#66664D', '#991AFF', '#E666FF', '#4DB3FF', '#1AB399',
+                                            '#E666B3', '#33991A', '#CC9999', '#B3B31A', '#00E680',
+                                            '#4D8066', '#809980', '#E6FF80', '#1AFF33', '#999933',
+                                            '#FF3380', '#CCCC00', '#66E64D', '#4D80CC', '#9900B3',
+                                            '#E64D66', '#4DB380', '#FF4D4D', '#99E6E6', '#6666FF'];
+
+                        if (response.perEmployee)
+                        {
+                            let myChart = document.getElementById('perEmpChart').getContext('2d');
+                            var perEmployee = response.perEmployee;
+                            var prenoms = [];
+                            for (var i=0; i<perEmployee.length; i++)
+                            {
+                                prenoms.push(perEmployee[i][0].prenom);
+                            }
+                            var nombre = [];
+                            for (var i=0; i<perEmployee.length; i++)
+                            {
+                                nombre.push(perEmployee[i][0].nb);
+                            }
+
+                            let staffChart = new Chart(myChart, {
+                            type:'pie',
+                            data:{
+                            labels: prenoms,
+                            datasets:[{
+                              label:'Nb d\'employé',
+                              data: nombre,
+                              backgroundColor:colourArray,
+                              borderWidth:1,
+                              borderColor:'#777',
+                              hoverBorderWidth:3,
+                              hoverBorderColor:'#000'
+                            }]
+                          },
+                          options:{
+                            title:{
+                              display:true,
+                              text:'Répartition du nombre de clients par employé',
+                              fontSize:25
+                            },
+                            legend:{
+                              display:true,
+                              position:'right',
+                              labels:{
+                                fontColor:'#000'
+                              }
+                            },
+                            layout:{
+                              padding:{
+                                left:50,
+                                right:0,
+                                bottom:0,
+                                top:0
+                              }
+                            },
+                            tooltips:{
+                              enabled:true
+                            }
+                          }
+                        });
+                        }
+
+                        if (response.perMed) {
+                            let emp = document.getElementById('perMedChart').getContext('2d');
+                            var perMed = response.perMed;
+                            var denoms = [];
+
+                            for (var i=0; i<perMed.length; i++)
+                            {
+                                denoms.push(perMed[i][0].denom);
+                            }
+                            var nombreM = [];
+                            for (var i=0; i<perMed.length; i++)
+                            {
+                                nombreM.push(perMed[i][0].nb);
+                            }
+
+                            let staffChart = new Chart(emp, {
+                            type:'pie',
+                            data:{
+                            labels: denoms,
+                            datasets:[{
+                              label:'Nb de consultations',
+                              data: nombreM,
+                              backgroundColor:colourArray,
+                              borderWidth:1,
+                              borderColor:'#777',
+                              hoverBorderWidth:3,
+                              hoverBorderColor:'#000'
+                            }]
+                          },
+                          options:{
+                            title:{
+                              display:true,
+                              text:'Répartition du nombre de clients par medium',
+                              fontSize:25
+                            },
+                            legend:{
+                              display:true,
+                              position:'right',
+                              labels:{
+                                fontColor:'#000'
+                              }
+                            },
+                            layout:{
+                              padding:{
+                                left:50,
+                                right:0,
+                                bottom:0,
+                                top:0
+                              }
+                            },
+                            tooltips:{
+                              enabled:true
+                            }
+                          }
+                        });
+
+                        }
+
+                        else {
+                            $('#stats').html("Erreur d'affichage"); // Message pour le paragraphe de notification
+                        }
+
+
+                    })
+                    .fail(function(error) { // Fonction appelée en cas d'erreur lors de l'appel AJAX
+                        console.log('Error', error); // LOG dans Console Javascript
+                        alert("Erreur lors de l'appel AJAX");
+                    })
+                    .always(function() { // Fonction toujours appelée
+
+                    });
+        });
+    </script>
+</body>
+
+</html>

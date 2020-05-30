@@ -1,0 +1,245 @@
+<!DOCTYPE html>
+<!--
+To change this license header, choose License Headers in Project Properties.
+To change this template file, choose Tools | Templates
+and open the template in the editor.
+-->
+<html>
+
+<head>
+    <title>Demander une consultation</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
+    <script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
+
+
+    <script type="text/javascript">
+        function OnInit() {
+            $.ajax({
+                    url: './ActionServlet',
+                    method: 'POST',
+                    data: {
+                        todo: 'checkClient'
+                    }
+                })
+                .done(function(response) { // Fonction appelée en cas d'appel AJAX réussi
+                    console.log('Response', response); // LOG dans Console Javascript
+                    if (response.notLoggedIn) {
+                        alert("ERROR 405: MUST AUTHENTICATE");
+                        window.location.href = "./login.html";
+                    }
+                })
+                .fail(function(error) { // Fonction appelée en cas d'erreur lors de l'appel AJAX
+                    console.log('Error', error); // LOG dans Console Javascript
+                    alert("Erreur lors de l'appel AJAX");
+                })
+                .always(function() { // Fonction toujours appelée
+                });
+        }
+
+        var MediumName;
+
+        function afficherLuiMeme(i, j) {
+            for (var m = 0; m < j; m++) {
+                document.getElementById(m).style.display = "none";
+            }
+            document.getElementById(i).style.display = "";
+            MediumName = document.getElementById(i).previousElementSibling.firstChild.innerHTML;
+        }
+
+        function rechercherParNom() {
+            var nom = document.getElementById("TextField_MediumName").value;
+            var lesNoms = document.getElementsByClassName("nom");
+            var lesInfos = document.getElementsByClassName("info");
+            for (var i = 0; i < lesNoms.length; i++) {
+                if (lesNoms[i].innerHTML.indexOf(nom) === -1) {
+                    lesNoms[i].style.display = "none";
+                } else {
+                    lesNoms[i].style.display = "";
+                }
+                lesInfos[i].style.display = "none";
+            }
+
+        }
+
+        function valider() {
+            console.log(MediumName);
+            // Appel AJAX
+            $.ajax({
+                    url: './ActionServlet',
+                    method: 'POST',
+                    data: {
+                        todo: 'requestConsultation',
+                        medium: MediumName
+                    },
+                    dataType: 'json'
+                })
+                .done(function(response) { // Fonction appelée en cas d'appel AJAX réussi
+                    console.log('Response', response);
+                    $("#mainSection").hide();
+                    if (response.success) {
+                        $(".showMediums").after(
+                            '<div><p id="feedback">Un message vous sera bientôt envoyé vous indiquant si le médium que vous avez demandé est disponible</div>\n\
+                                <button><a href="./mediums.html">Mediums</a></button>\n\
+                                <button><a href="./client-dashboard.html">Retour Accueil</a></button>'
+                        );
+                        $(".showMediums").hide();
+                    } else {
+                        var dsh = './client-dashboard.html'
+                        var mdm = './mediums.html'
+                        $(".showMediums").after(
+                            '<div><p id="feedback">Désolé, il y a eu une erreur en demandant une consultation.</div>\n\
+                                 <button><a href="./mediums.html">Mediums</a></button>\n\
+                                 <button><a href="./client-dashboard.html">Retour Accueil</a></button>'
+                        );
+                        $(".showMediums").hide();
+                    }
+
+                })
+                .fail(function(error) { // Fonction appelée en cas d'erreur lors de l'appel AJAX
+                    console.log('Error', error); // LOG dans Console Javascript
+                    alert("Erreur lors de l'appel AJAX");
+                })
+                .always(function() { // Fonction toujours appelée
+
+                });
+        }
+
+        function AfficherMediums() { // Fonction appelée lors du clic sur le bouton
+            
+            $('#notification').html("Affichage en cours"); // Message pour le paragraphe de notification
+            $('#TextField_MediumName').val('');
+            var mediumType = $("#medType option:selected").html();
+            // Appel AJAX
+            $.ajax({
+                    url: './ActionServlet',
+                    method: 'POST',
+                    data: {
+                        todo: 'showMediums',
+                        type: mediumType
+                    },
+                    dataType: 'json'
+                })
+                .done(function(response) { // Fonction appelée en cas d'appel AJAX réussi
+                    console.log('Response', response); // LOG dans Console Javascript
+                    if (response.mediums) {
+                        //$('#notification').html("Connexion OK");  // Message pour le paragraphe de notification
+                        // TODO: afficher les informations du client dans la notification
+                        // Exemple: Connexion de Ada Lovelace (ID 1)
+                        var mediums = response.mediums;
+                        var output = "";
+                        for (var i = 0; i < mediums.length; i++) {
+                            output += '<div class="panel panel-default">';
+                            output += '<div class="nom panel-heading" onclick="afficherLuiMeme(' + i + "," + mediums.length + ')">' +
+                                '<h4 class="panel-title">' + mediums[i].denomination + "</h4></div>";
+
+                            output += '<div class="info panel-collapse" role="tabpanel" ' + 'id="' + i + '"' + 'style="display:none"> \n\
+                                       <div class="panel-body"> \n\
+                                       <span class="infos"> Genre:' + mediums[i].genre + "</span><br/>" +
+                                '<span class="infos"> Presentation:' + mediums[i].presentation + "</span><br/>";
+                            if (mediums[i].type === "Astrologue") {
+                                output += '<span class="infos"> Promotion:' + mediums[i].promotion + "</span><br/>" +
+                                    '<span class="infos"> Formation:' + mediums[i].formation + "</span><br/>";
+                            }
+                            if (mediums[i].type === "Spirite") {
+                                output += '<span class="infos"> Support:' + mediums[i].support + "</span><br/>";
+                            }
+                            output += "</div></div></div>";
+                            //Charger toutes les infos en mode invisible puis les Afficher lorsqu'on clique le bloc <p>
+                        }
+                        $('.showMediums').html(output); // Message pour le paragraphe de notification
+                    } else {
+                        $('.showMediums').html("Erreur d'affichage"); // Message pour le paragraphe de notification
+                    }
+                })
+                .fail(function(error) { // Fonction appelée en cas d'erreur lors de l'appel AJAX
+                    console.log('Error', error); // LOG dans Console Javascript
+                    alert("Erreur lors de l'appel AJAX");
+                })
+                .always(function() { // Fonction toujours appelée
+
+                });
+        }
+    </script>
+</head>
+
+<body>
+    <nav class="navbar navbar-inverse navbar-static-top">
+        <div class="container-fluid">
+            <!-- Brand and toggle get grouped for better mobile display -->
+            <div class="navbar-header">
+                <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1" aria-expanded="false">
+                    <span class="sr-only">Toggle navigation</span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                </button>
+                <a class="navbar-brand" href="#">PREDICT'IF</a>
+            </div>
+
+            <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+                <ul class="nav navbar-nav">
+                    <li class="active"><a id="home" href="client-dashboard.html">Home <span class="sr-only">(current)</span></a></li>
+                </ul>
+                <ul class="nav navbar-nav navbar-right">
+                    <li><a id="logout">Déconnexion</a></li>
+                </ul>
+            </div>
+            <!-- /.navbar-collapse -->
+        </div>
+        <!-- /.container-fluid -->
+    </nav>
+
+    <h1>Demander une consultation</h1>
+    <div id="mainSection">
+        <span>Choisir un médium</span>
+        <select id="medType" onchange="AfficherMediums()">
+                <option>All</option>
+                <option>Astrologue</option>
+                <option>Cartomancien</option>
+                <option>Spirite</option>
+            </select>
+        <input type="text" id="TextField_MediumName" name="condition" placeholder="Chercher par nom">
+
+        <button id="B_recherche1" onclick="rechercherParNom()">Recherche</button>
+        <button id="B_valider" onclick="valider()">Valider</button>
+    </div>
+    <div style="width: 40%;display:inline-block; text-align:center">  
+    <div class="showMediums panel-group" id="accordion" role="tablist" aria-multiselectable="true"></div>
+    </div>
+
+
+    <script>
+        $(document).ready(function() {
+            OnInit();
+            AfficherMediums();
+
+            $('#logout').on('click', function() { // Fonction appelée lors du clic sur le bouton
+
+                console.log("clic sur le bouton d'affichage"); // LOG dans Console Javascript
+                //
+                // Appel AJAX
+                $.ajax({
+                        url: './ActionServlet',
+                        method: 'POST',
+                        data: {
+                            todo: 'Deconnecter'
+                        }
+                    })
+                    .done(function(response) { // Fonction appelée en cas d'appel AJAX réussi
+                        window.location.href = "./logged-out.html";
+                        console.log('Response', response.succes); // LOG dans Console Javascript
+                    })
+                    .fail(function(error) { // Fonction appelée en cas d'erreur lors de l'appel AJAX
+                        console.log('Error', error); // LOG dans Console Javascript
+                        alert("Erreur lors de l'appel AJAX");
+                    })
+                    .always(function() { // Fonction toujours appelée
+                    });
+            });
+        });
+    </script>
+</body>
+
+</html>

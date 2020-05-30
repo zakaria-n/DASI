@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<!--
+To change this license header, choose License Headers in Project Properties.
+To change this template file, choose Tools | Templates
+and open the template in the editor.
+-->
+<html>
+    <head>
+        <title>Client</title>
+        <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+        <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
+        <script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
+        <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
+        <link rel="stylesheet" type="text/css" href="styles.css"/>
+    </head>
+    <body>
+        <nav class="navbar navbar-inverse navbar-static-top">
+            <div class="container-fluid"> 
+        <!-- Brand and toggle get grouped for better mobile display -->
+                <div class="navbar-header">
+                <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1" aria-expanded="false">
+                    <span class="sr-only">Toggle navigation</span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                </button>
+                <a class="navbar-brand" href="#">PREDICT'IF</a>
+                </div>
+
+                <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+                    <ul class="nav navbar-nav">
+                        <li class="active"><a id = "home" href="client-dashboard.html">Home <span class="sr-only">(current)</span></a></li>
+                    </ul>
+                    <ul class="nav navbar-nav navbar-right">
+                        <li><a id="logout">Déconnexion</a></li>
+                    </ul>
+                </div><!-- /.navbar-collapse -->
+            </div><!-- /.container-fluid -->
+        </nav>
+        <div class='wrap'>
+            <div id='dleft'>
+                <p><img alt='orb' src="https://www.dummies.com/wp-content/uploads/astrology-signs-sun.jpg" style="width:200px;height:200px"/></p>
+                <p><a href=./astralprofile.html> Mon profil Astral</a> </p>
+            </div>
+            <div id='dmiddle'>
+                <p><img alt='phone' src="https://www.how-to-draw-funny-cartoons.com/image-files/cartoon-telephone-6.gif" style="width:200px;height:200px"/></p>
+                <p><a href="./booking.html"> Demander une consultation</a></p>
+            </div>
+            <div id='dright'>
+               <p><img alt='phone' src="https://cdn.clipart.email/9b1832e76a327d6eec14aa70a5d8d28e_best-photos-of-telephone-directory-book-telephone-directory-clip-_335-285.jpeg" style="width:200px;height:200px"/></p>
+                <p><a href="./history.html">Mes consultations</a></p>
+            </div>            
+        </div>
+            <script>
+            function OnInit ()
+            {
+                $.ajax({
+                            url: './ActionServlet',
+                            method: 'POST',
+                            data: {
+                                todo: 'checkClient'
+                            }
+                        })
+                        .done(function(response) { // Fonction appelée en cas d'appel AJAX réussi
+                            console.log('Response', response); // LOG dans Console Javascript
+                            if(response.notLoggedIn) {
+                                alert("ERROR 405: MUST AUTHENTICATE");
+                                window.location.href = "./login.html";
+                            }
+                            })
+                        .fail(function(error) { // Fonction appelée en cas d'erreur lors de l'appel AJAX
+                            console.log('Error', error); // LOG dans Console Javascript
+                            alert("Erreur lors de l'appel AJAX");
+                        })
+                        .always(function() { // Fonction toujours appelée
+                        });
+            }
+            $(document).ready(function() {
+                OnInit();
+                $('#logout').on('click', function() { // Fonction appelée lors du clic sur le bouton
+
+                    console.log("clic sur le bouton d'affichage"); // LOG dans Console Javascript
+                    //
+                    // Appel AJAX
+                    $.ajax({
+                            url: './ActionServlet',
+                            method: 'POST',
+                            data: {
+                                todo: 'Deconnecter'
+                            }
+                        })
+                        .done(function(response) { // Fonction appelée en cas d'appel AJAX réussi
+                             window.location.href = "./logged-out.html";
+                             console.log('Response', response.succes); // LOG dans Console Javascript
+                        })
+                        .fail(function(error) { // Fonction appelée en cas d'erreur lors de l'appel AJAX
+                            console.log('Error', error); // LOG dans Console Javascript
+                            alert("Erreur lors de l'appel AJAX");
+                        })
+                        .always(function() { // Fonction toujours appelée
+                        });
+                });
+            });
+        </script>
+    </body>
+</html>
