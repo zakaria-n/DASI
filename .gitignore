@@ -1,6 +1,11 @@
 /app/Frontend/target/
 /app/Backend/target/
 /app/BD
+app/Frontend/target/
+app/Backend/target/
+/app/Frontend/target/*
+/app/Backend/target/*
+/app/BD
 /Periode1/Backend/target/
 /Periode1/Predictif-2/target/
 /Periode1/BD
@@ -10,3 +15,4 @@
 /Periode1/Predictif-3/target/
 /Periode1/Predictif-Web/target/
 /Periode1/Frontend/target/
+
