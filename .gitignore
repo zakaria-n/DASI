@@ -37,3 +37,17 @@ app/Backend/target/generated-sources/annotations/fr/insalyon/dasi/metier/modele/
 app/Backend/target/generated-sources/annotations/fr/insalyon/dasi/metier/modele/ProfilAstral_.java
 app/Backend/target/generated-sources/annotations/fr/insalyon/dasi/metier/modele/Spirite_.java
 app/Backend/target/maven-archiver/pom.properties
+app/Backend/target/Backend-1.0.jar
+app/Backend/target/classes/fr/insalyon/dasi/ihm/console/Main.class
+app/Backend/target/classes/fr/insalyon/dasi/metier/service/Service.class
+app/Backend/target/classes/fr/insalyon/dasi/techniques/service/AstroTest.class
+app/Backend/target/generated-sources/annotations/fr/insalyon/dasi/metier/modele/Astrologue_.java
+app/Backend/target/generated-sources/annotations/fr/insalyon/dasi/metier/modele/Cartomancien_.java
+app/Backend/target/generated-sources/annotations/fr/insalyon/dasi/metier/modele/Client_.java
+app/Backend/target/generated-sources/annotations/fr/insalyon/dasi/metier/modele/Consultation_.java
+app/Backend/target/generated-sources/annotations/fr/insalyon/dasi/metier/modele/Employe_.java
+app/Backend/target/generated-sources/annotations/fr/insalyon/dasi/metier/modele/Medium_.java
+app/Backend/target/generated-sources/annotations/fr/insalyon/dasi/metier/modele/ProfilAstral_.java
+app/Backend/target/generated-sources/annotations/fr/insalyon/dasi/metier/modele/Spirite_.java
+app/Backend/target/maven-archiver/pom.properties
+app/Backend/target/maven-status/maven-compiler-plugin/compile/default-compile/inputFiles.lst
