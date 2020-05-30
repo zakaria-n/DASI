@@ -17,4 +17,6 @@ app/Backend/target/
 /Periode1/Frontend/target/
 
 app/Backend/target/*
-app/Frontend/target/*
+app/Frontend/target/*/*
+app/Frontend/target/**
+app/Backend/target/classes/fr/insalyon/dasi/metier/service/Service.class
