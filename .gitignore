@@ -17,3 +17,7 @@ app/Backend/target/
 /Periode1/Frontend/target/
 /app/Frontend/src/main/resources/META-INF/persistence.xml
 
+app/Backend/target/*
+app/Frontend/target/*/*
+app/Frontend/target/**
+app/Backend/target/classes/fr/insalyon/dasi/metier/service/Service.class
